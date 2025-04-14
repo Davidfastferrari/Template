@@ -1,0 +1,21 @@
+[profile.default]
+src = "src"
+out = "out"
+libs = ["lib"]
+remappings = [
+    "@openzeppelin/=lib/openzeppelin-contracts/", 
+    "@uniswap/v2-core/=lib/v2-core/", 
+    "@uniswap/v2-periphery/=lib/v2-periphery/",
+    "@uniswap/v3-core/=lib/v3-core/",
+    "@uniswap/v3-periphery/=lib/v3-periphery/",
+    "@aave/core-v3/=lib/aave-v3-core/",
+    "@balancer-labs/v2-core/=lib/balancer-v2-monorepo/pkg",
+    "@balancer-labs/v2-vault/=lib/balancer-v2-monorepo/pkg",
+    '@aave/core-v3/=lib/aave-v3-core/',
+    '@aave=lib/aave-v3-core/'
+]
+
+# See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
+
+[rpc_endpoints]
+mainnet = "https://eth.merkle.io"
