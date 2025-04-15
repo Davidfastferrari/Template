@@ -2,6 +2,29 @@
 pragma solidity ^0.8.0;
 import "@aave/core-v3/contracts/flashloan/base/FlashLoanSimpleReceiverBase.sol";
 
+interface IVault {
+    function executeFlashLoan(uint256 amount) external;
+
+    function flashLoan(
+        IFlashLoanRecipient recipient,
+        IERC20[] memory tokens,
+        uint256[] memory amounts,
+        bytes memory userData
+    ) external;
+    function settle(address token, uint256 Amount) external;
+ }
+
+interface IFlashLoanRecipient {
+   
+    function receiveFlashLoan(
+        IERC20[] memory tokens,
+        uint256[] memory amounts,
+        uint256[] memory feeAmounts,
+        bytes memory userData
+    ) external;
+
+ }
+
 interface IERC20 {
     function transfer(address, uint256) external returns (bool);
     function transferFrom(address, address, uint256) external returns (bool);
@@ -24,10 +47,8 @@ interface IUniswapV3Pool {
     function swap(address, bool, int256, uint160, bytes calldata) external returns (int256, int256);
 }
 
-address constant AAVE_ADDRESS_PROVIDER = 0xe20fCBdBfFC4Dd138cE8b2E6FBb6CB49777ad64D;
-error InsufficientFundsToRepayFlashLoan(uint256 finalBalance);
 
-contract FlashSwap is FlashLoanSimpleReceiverBase {
+contract FlashSwap is IFlashLoanRecipient {
 
     struct SwapParams {
         address[] pools;        // Array of pool addresses in swap order
@@ -35,6 +56,10 @@ contract FlashSwap is FlashLoanSimpleReceiverBase {
         uint256 amountIn;
     }
 
+    IVault private constant vault =
+    IVault(0xBA12222222228d8Ba445958a75a0704d566BF2C8);
+
+ error InsufficientFundsToRepayFlashLoan(uint256 finalBalance);
     // Mapping from a factory to its fee
     mapping(address => uint16) private factoryFees;
     address private immutable WETH;
@@ -51,7 +76,7 @@ contract FlashSwap is FlashLoanSimpleReceiverBase {
         address weth, 
         address[] memory factories,
         uint16[] memory fees
-    ) FlashLoanSimpleReceiverBase(IPoolAddressesProvider(AAVE_ADDRESS_PROVIDER)) {
+    ) {
         WETH = weth;
         unchecked {
             // assign all the factories and their fees
@@ -67,24 +92,25 @@ contract FlashSwap is FlashLoanSimpleReceiverBase {
     function executeArbitrage(SwapParams calldata arb) external {
         // Encode the params of the swap
         bytes memory params = abi.encode(arb, msg.sender);
-        POOL.flashLoanSimple(address(this), WETH, arb.amountIn, params, 0);
+
+        vault.flashLoan(IFlashLoanRecipient(address(this)), WETH, arb.amountIn, 0, params);
     }
 
     // Callback from the flashswap
-    function executeOperation(
+    function receiveFlashLoan(
         address asset,
         uint256 amount,
         uint256 premium,
-        address,
         bytes calldata params
+
     ) external returns (bool) {
-        require(msg.sender == address(POOL), "Caller must be lending pool");
+        require(msg.sender == address(vault), "Caller must be lending vault");
 
         (SwapParams memory arb, address caller) = abi.decode(params, (SwapParams, address));
 
         uint256[] memory amounts = new uint256[](arb.pools.length + 1);
         amounts[0] = arb.amountIn;
-
+               
          // Track the input token for each swap
         address currentTokenIn = WETH;
 
@@ -126,8 +152,8 @@ contract FlashSwap is FlashLoanSimpleReceiverBase {
             revert();
         }
 
-        IERC20(asset).approve(address(POOL), amountToRepay);
-        IERC20(asset).transfer(caller, finalBalance - amountToRepay);
+        IERC20(asset).approve(address(vault)), amountToRepay);
+       IERC20(asset).transfer(address(vault), amountToRepay);
 
         return true;
     }
