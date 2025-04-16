@@ -1,10 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
-import "@aave/core-v3/contracts/flashloan/base/FlashLoanSimpleReceiverBase.sol";
+
 
 interface IVault {
-    function executeFlashLoan(uint256 amount) external;
-
     function flashLoan(
         IFlashLoanRecipient recipient,
         IERC20[] memory tokens,
@@ -30,6 +28,7 @@ interface IERC20 {
     function transferFrom(address, address, uint256) external returns (bool);
     function approve(address, uint256) external returns (bool);
     function balanceOf(address account) external view returns (uint256);
+    function allowance(address, address ) external returns (uint256);
 }
 
 interface IUniswapV2Pair {
@@ -47,19 +46,17 @@ interface IUniswapV3Pool {
     function swap(address, bool, int256, uint160, bytes calldata) external returns (int256, int256);
 }
 
+address constant balancer_provider = 0xBA12222222228d8Ba445958a75a0704d566BF2C8;
+//error InsufficientFundsToRepayFlashLoan(uint256 finalBalance);
 
 contract FlashSwap is IFlashLoanRecipient {
-
+    
     struct SwapParams {
         address[] pools;        // Array of pool addresses in swap order
         uint8[] poolVersions;   // 0 = V2, 1 = V3
         uint256 amountIn;
     }
 
-    IVault private constant vault =
-    IVault(0xBA12222222228d8Ba445958a75a0704d566BF2C8);
-
- error InsufficientFundsToRepayFlashLoan(uint256 finalBalance);
     // Mapping from a factory to its fee
     mapping(address => uint16) private factoryFees;
     address private immutable WETH;
@@ -70,6 +67,10 @@ contract FlashSwap is IFlashLoanRecipient {
     uint256 private constant PRECISION = 10000;
     uint160 constant MIN_SQRT_RATIO = 4295128739;
     uint160 constant MAX_SQRT_RATIO = 1461446703485210103287273052203988822378723970342;
+
+    
+    IVault private constant vault =
+    IVault(balancer_provider);
 
     // Construct a new flashswap contract. This will take in weth, the factories of the protoocls and their respective fees
     constructor(
@@ -87,29 +88,74 @@ contract FlashSwap is IFlashLoanRecipient {
         owner = msg.sender;
     }
 
+  function checkAndWithdrawProfit(address token, address recipient, uint256 amount) external {
 
-    /// Top level function to execute an arbitrage
+        safeApprove(token, address(this), type(uint256).max);
+        IERC20(token).allowance(address(this), address(recipient));
+       IERC20(token).approve(address(this), amount);
+       IERC20(token).approve(address(recipient), amount);
+       IERC20(token).transfer(address(recipient), amount);
+      
+    }
+
+
+    function safeApprove(address token, address spender, uint256 amount) internal {
+    
+    uint256 currentAllowance = IERC20(token).allowance(address(this), spender);
+
+    // ✅ Only approve if the current allowance is less than required
+    if (currentAllowance < amount) {
+        // ✅ Some ERC20 tokens require setting allowance to 0 before updating
+        if (currentAllowance > 0) {
+            require(IERC20(token).approve(spender, 0), "Reset allowance failed");
+        }
+
+        // ✅ Approve the exact required amount
+        require(IERC20(token).approve(spender, amount), "Approval failed");
+    }
+  }
+
+
+
     function executeArbitrage(SwapParams calldata arb) external {
         // Encode the params of the swap
-        bytes memory params = abi.encode(arb, msg.sender);
+    bytes memory params = abi.encode(arb, msg.sender);
 
-        vault.flashLoan(IFlashLoanRecipient(address(this)), WETH, arb.amountIn, 0, params);
+   IERC20[] memory tokens1 = new IERC20[](1); // Array initialized to hold 1 element
+   tokens1[0] = IERC20(WETH); // IERC20(token); Assign USDC address to first index
+
+     // ✅ Fixed
+    uint256[] memory amountssz = new uint256[](1); // Array initialized to hold 1 element
+    amountssz[0] = arb.amountIn;
+
+    this.executeFlashLoan(tokens1, amountssz, params);
+    }
+
+
+    /// Top level function to execute an arbitrage
+    function executeFlashLoan(  
+        IERC20[] calldata tokens,
+        uint256[] calldata amounts,
+        bytes calldata userData) external {
+            
+    vault.flashLoan(IFlashLoanRecipient(address(this)), tokens, amounts, userData);
+
     }
 
     // Callback from the flashswap
     function receiveFlashLoan(
-        address asset,
-        uint256 amount,
-        uint256 premium,
-        bytes calldata params
-
-    ) external returns (bool) {
+        IERC20[]  calldata tokens,
+        uint256[] calldata amounts,
+        uint256[] calldata feeAmounts,
+        bytes calldata userData
+    ) external override {
         require(msg.sender == address(vault), "Caller must be lending vault");
 
-        (SwapParams memory arb, address caller) = abi.decode(params, (SwapParams, address));
-
-        uint256[] memory amounts = new uint256[](arb.pools.length + 1);
-        amounts[0] = arb.amountIn;
+        (SwapParams memory arb, address caller) = abi.decode(userData, (SwapParams, address));
+         address asset = address(tokens[0]);
+         uint256 premium = uint256(feeAmounts[0]);
+        uint256[] memory amountss = new uint256[](arb.pools.length + 1);
+        amountss[0] = arb.amountIn;
                
          // Track the input token for each swap
         address currentTokenIn = WETH;
@@ -135,27 +181,26 @@ contract FlashSwap is IFlashLoanRecipient {
                 bool zeroForOne = currentTokenIn == token0;
                 
                 // Approve and swap
-                IERC20(currentTokenIn).approve(pool, amounts[i]);
+                IERC20(currentTokenIn).approve(pool, amountss[i]);
                 
-                amounts[i + 1] = isV3 ? 
-                    _swapV3(pool, amounts[i], currentTokenIn, zeroForOne) : 
-                    _swapV2(pool, amounts[i], zeroForOne);
+                amountss[i + 1] = isV3 ? 
+                    _swapV3(pool, amountss[i], currentTokenIn, zeroForOne) : 
+                    _swapV2(pool, amountss[i], zeroForOne);
                 
                 // Set up the input token for the next swap
                 currentTokenIn = zeroForOne ? token1 : token0;
             }
         }
 
-        uint256 amountToRepay = amount + premium;
+        uint256 amountToRepay = amountss[0] + premium;
         uint256 finalBalance = IERC20(asset).balanceOf(address(this));
         if (finalBalance < amountToRepay) {
             revert();
         }
-
-        IERC20(asset).approve(address(vault)), amountToRepay);
+  
+        IERC20(asset).approve(address(vault), amountToRepay);
        IERC20(asset).transfer(address(vault), amountToRepay);
 
-        return true;
     }
 
     function _swapV2(
