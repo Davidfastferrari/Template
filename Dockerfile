@@ -15,8 +15,13 @@ RUN cargo build --release || true
 # Copy your entire project source (excluding unneeded files)
 COPY . .
 
-# Final optimized build
+# ✅ Copy local dependencies
+COPY ../NodeDB /app/NodeDB
+COPY ../PoolSync /app/PoolSync
+
+# Final build
 RUN cargo build --release
+
 
 # -------- STAGE 2: RUN --------
 FROM debian:bookworm-slim
