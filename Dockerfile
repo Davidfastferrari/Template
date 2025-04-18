@@ -1,39 +1,42 @@
-# ------------ STAGE 1: BUILD ------------
+# -------- STAGE 1: BUILD --------
 FROM rust:1.77 as builder
 
+# Set working directory inside container
 WORKDIR /app
 
-# Copy manifests first to cache dependencies
+# Copy manifest files first (for build caching)
 COPY Cargo.toml .
 COPY Cargo.lock .
 
-# Dummy main for caching
-RUN mkdir src && echo "fn main() {}" > src/main.rs
+# Warm up build cache with dummy main.rs
+RUN mkdir -p src && echo "fn main() {}" > src/main.rs
 RUN cargo build --release || true
 
-# Now copy the full project
+# Copy your entire project source (excluding unneeded files)
 COPY . .
 
-# Build full release
+# Final optimized build
 RUN cargo build --release
 
-# ------------ STAGE 2: RUNTIME ------------
+# -------- STAGE 2: RUN --------
 FROM debian:bookworm-slim
 
-# Required system libraries (e.g., OpenSSL)
+# Install runtime dependencies for compiled binary
 RUN apt-get update && apt-get install -y \
     libssl3 \
     ca-certificates \
  && rm -rf /var/lib/apt/lists/*
 
+# Create app directory
 WORKDIR /app
 
-# Copy the compiled binary and contract files
+# Copy the built binary and any required runtime assets
 COPY --from=builder /app/target/release/BaseBuster ./BaseBuster
 COPY --from=builder /app/contract ./contract
 
-# Set runtime environment vars
+# Enable better error messages and logging
 ENV RUST_BACKTRACE=1
+ENV RUST_LOG=info
 
-# Run the compiled binary
+# Start your app
 CMD ["./BaseBuster"]
