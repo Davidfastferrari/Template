@@ -18,10 +18,10 @@ COPY . .
 # ✅ Copy local dependencies
 COPY ../NodeDB /app/NodeDB
 COPY ../PoolSync /app/PoolSync
+COPY ../revm/crates/database ./revm/crates/database
 
 # Final build
 RUN cargo build --release
-
 
 # -------- STAGE 2: RUN --------
 FROM debian:bookworm-slim
