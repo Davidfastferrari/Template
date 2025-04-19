@@ -32,8 +32,6 @@ RUN apt-get update && apt-get install -y \
     ca-certificates \
  && rm -rf /var/lib/apt/lists/*
 
-# Create app directory
-WORKDIR /app
 
 # Copy the built binary and any required runtime assets
 COPY --from=builder /app/target/release/BaseBuster ./BaseBuster
