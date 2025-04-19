@@ -3,13 +3,6 @@ name = "BaseBuster"
 version = "0.1.0"
 edition = "2021"
 
-[workspace]
-members = [
-    "NodeDB",
-    "PoolSync",
-    "revm/crates/database"
-]
-
 [profile.release]
 debug = true
 
@@ -47,11 +40,9 @@ eyre = "0.6.12"
 revm-inspectors = "0.12.0"
 revm = { version = "18.0.0", features = ["alloydb"] }
 pool-sync = { path = "../PoolSync" }
-node-db = { path = "../NodeDB"}
+node-db = { path = "../NodeDB" }
 revm-database = { path = "../revm/crates/database", features = ["alloydb"] }
-reth = {git = "https://github.com/paradigmxyz/reth"}
-reth-db = {git = "https://github.com/paradigmxyz/reth", package = "reth-db"}
-reth-chainspec = {git = "https://github.com/paradigmxyz/reth", package = "reth-chainspec"}
-reth-node-ethereum = {git = "https://github.com/paradigmxyz/reth", package = "reth-node-ethereum"}
-
-
+reth = { git = "https://github.com/paradigmxyz/reth" }
+reth-db = { git = "https://github.com/paradigmxyz/reth", package = "reth-db" }
+reth-chainspec = { git = "https://github.com/paradigmxyz/reth", package = "reth-chainspec" }
+reth-node-ethereum = { git = "https://github.com/paradigmxyz/reth", package = "reth-node-ethereum" }
