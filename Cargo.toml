@@ -3,6 +3,13 @@ name = "BaseBuster"
 version = "0.1.0"
 edition = "2021"
 
+[workspace]
+members = [
+    "NodeDB",
+    "PoolSync",
+    "revm/crates/database"
+]
+
 [profile.release]
 debug = true
 
