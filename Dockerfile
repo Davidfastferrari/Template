@@ -1,47 +1,35 @@
 # -------- STAGE 1: BUILD --------
-# FROM rust:latest AS builder
 FROM rust:1.76 as builder
 
-# Set working directory inside container
+# Set the working directory
 WORKDIR /app
 
-# Copy manifest files first (for build caching)
-COPY Cargo.toml .
-COPY Cargo.lock .
-
-# Warm up build cache with dummy main.rs
-RUN mkdir -p src && echo "fn main() {}" > src/main.rs
-RUN cargo build --release || true
-
-# Copy your entire project source (excluding unneeded files)
+# Copy the entire workspace into container
 COPY . .
 
-# ✅ Copy local dependencies
-COPY ../NodeDB /app/NodeDB
-COPY ../PoolSync /app/PoolSync
-COPY ../revm/crates/database ./revm/crates/database
+# Build the workspace binary crate
+# You MUST specify the binary crate name, since root Cargo.toml is a workspace
+RUN cargo build -p BaseBuster --release
 
-# Final build
-RUN cargo build --release
-
-# -------- STAGE 2: RUN --------
+# -------- STAGE 2: RUNTIME --------
 FROM debian:bookworm-slim
 
-# Install runtime dependencies for compiled binary
+# Install runtime dependencies (OpenSSL, CA certs, etc.)
 RUN apt-get update && apt-get install -y \
     libssl3 \
     ca-certificates \
  && rm -rf /var/lib/apt/lists/*
 
+# Copy the compiled binary
 WORKDIR /app
- 
-# Copy the built binary and any required runtime assets
 COPY --from=builder /app/target/release/BaseBuster ./BaseBuster
+
+# Copy any runtime files needed by the binary
 COPY --from=builder /app/contract ./contract
 
-# Enable better error messages and logging
+# Runtime environment variables
 ENV RUST_BACKTRACE=1
 ENV RUST_LOG=info
 
-# Start your app
+# Launch the binary
 CMD ["./BaseBuster"]
