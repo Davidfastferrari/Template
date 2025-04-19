@@ -1,5 +1,5 @@
 # -------- STAGE 1: BUILD --------
-FROM rust:latest AS builder
+FROM rust: 1.85.0 as builder
 
 WORKDIR /app
 COPY . .
