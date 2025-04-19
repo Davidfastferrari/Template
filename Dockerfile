@@ -1,5 +1,6 @@
 # -------- STAGE 1: BUILD --------
-FROM rust:latest AS builder
+# FROM rust:latest AS builder
+FROM rust:1.76 as builder
 
 # Set working directory inside container
 WORKDIR /app
