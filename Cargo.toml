@@ -39,9 +39,9 @@ foldhash = "0.1.3"
 eyre = "0.6.12"
 revm-inspectors = "0.12.0"
 revm = { version = "18.0.0", features = ["alloydb"] }
-pool-sync = { path = "../PoolSync" }
-node-db = { path = "../NodeDB" }
-revm-database = { path = "../revm/crates/database", features = ["alloydb"] }
+node-db = { path = "./NodeDB" }
+pool-sync = { path = "./PoolSync" }
+revm-database = { path = "./revm/crates/database", features = ["alloydb"] }
 reth = { git = "https://github.com/paradigmxyz/reth" }
 reth-db = { git = "https://github.com/paradigmxyz/reth", package = "reth-db" }
 reth-chainspec = { git = "https://github.com/paradigmxyz/reth", package = "reth-chainspec" }
