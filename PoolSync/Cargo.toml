@@ -1,4 +1,4 @@
 [package]
 name = "pool-sync"
-version = "0.1.0"
-edition = "2021"
+version = "1.86.0"
+edition = "2025"
