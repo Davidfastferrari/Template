@@ -14,8 +14,6 @@ alloy = { version = "0.6.4", features = ["full", "node-bindings", "providers", "
 anyhow = "1.0.89"
 env_logger = "0.11.5"
 futures = { version = "0.3.31", features = ["executor"] }
-pool-sync = { path = "../PoolSync" }
-node-db = { path = "../NodeDB"}
 log = "0.4.22"
 petgraph = "0.6.5"
 rayon = "1.10.0"
