@@ -42,7 +42,7 @@ revm = { version = "22.0.0", features = ["alloydb"] }
 node-db = { path = "./NodeDB" }
 pool-sync = { path = "./PoolSync" }
 revm-database = { path = "./revm/crates/database", features = ["alloydb"] }
-revm-precompile = { git = "https://github.com/bluealloy/revm" }
+revm-precompile = { git = "https://github.com/bluealloy/revm", package = "c-kzg" }
 reth = { git = "https://github.com/paradigmxyz/reth" }
 reth-db = { git = "https://github.com/paradigmxyz/reth", package = "reth-db" }
 reth-chainspec = { git = "https://github.com/paradigmxyz/reth", package = "reth-chainspec" }
