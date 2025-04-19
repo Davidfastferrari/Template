@@ -1,7 +1,7 @@
 [package]
 name = "revm-database"
-version = "0.1.0"
-edition = "2021"
+version = "1.85.0"
+edition = "2024"
 
 [features]
 alloydb = []
