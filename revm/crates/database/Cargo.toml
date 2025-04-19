@@ -2,3 +2,6 @@
 name = "revm-database"
 version = "1.86.0"
 edition = "2021"
+
+[features]
+alloydb = []
