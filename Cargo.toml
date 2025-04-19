@@ -9,6 +9,9 @@ debug = true
 [features]
 verification = []
 
+[patch.crates-io]
+c-kzg = { version = "2.1.0" }
+
 [dependencies]
 alloy = { version = "0.6.4", features = ["full", "node-bindings", "providers", "rpc-client", "rpc-client-ipc", "rpc-types-debug", "rpc-types-trace", "eips"] }
 anyhow = "1.0.89"
@@ -42,7 +45,7 @@ revm = { version = "22.0.0", features = ["alloydb"] }
 node-db = { path = "./NodeDB" }
 pool-sync = { path = "./PoolSync" }
 revm-database = { path = "./revm/crates/database", features = ["alloydb"] }
-revm-precompile = { git = "https://github.com/bluealloy/revm", package = "c-kzg" }
+revm-precompile = "19.0.0"
 reth = { git = "https://github.com/paradigmxyz/reth" }
 reth-db = { git = "https://github.com/paradigmxyz/reth", package = "reth-db" }
 reth-chainspec = { git = "https://github.com/paradigmxyz/reth", package = "reth-chainspec" }
