@@ -1,4 +1,4 @@
 [package]
 name = "revm-database"
-version = "0.1.0"
+version = "22.0.1"
 edition = "2021"
