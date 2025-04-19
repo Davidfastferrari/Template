@@ -2,17 +2,15 @@
 FROM rust:latest AS builder
 
 WORKDIR /app
-
-# Copy everything — make sure Cargo.toml from root is included!
 COPY . .
 
-# DEBUG (optional sanity check)
+# Debug info
 RUN ls -l /app && ls -l /app/src && cat /app/Cargo.toml
 
-# Build the binary crate inside the workspace
-RUN cargo build -p BaseBuster --release
+# Build the binary from the root crate
+RUN cargo build --release
 
-# Runtime image
+# -------- STAGE 2: RUNTIME --------
 FROM debian:bookworm-slim
 
 RUN apt-get update && apt-get install -y \
