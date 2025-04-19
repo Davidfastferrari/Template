@@ -8,7 +8,7 @@ COPY . .
 RUN ls -l /app && ls -l /app/src && cat /app/Cargo.toml
 
 # Build the binary from the root crate
-RUN cargo build --release
+RUN cargo build 
 
 # -------- STAGE 2: RUNTIME --------
 FROM debian:bookworm-slim
