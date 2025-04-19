@@ -18,7 +18,7 @@ futures = { version = "0.3.31", features = ["executor"] }
 log = "0.4.22"
 petgraph = "0.6.5"
 rayon = "1.10.0"
-c-kzg = "2.1.0"
+c-kzg = ["dep:c-kzg"]
 serde = { version = "1.0.210", features = ["derive"] }
 serde_json = "1.0.129"
 sha2 = "0.10.8"
