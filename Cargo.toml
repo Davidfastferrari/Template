@@ -10,7 +10,7 @@ debug = true
 verification = []
 
 [dependencies]
-alloy = { version = "0.6.4", features = ["full", "node-bindings", "providers", "rpc-client", "rpc-client-ipc", "rpc-types-debug", "rpc-types-trace", "eips"] }
+alloy = { version = "0.14.0", features = ["full", "node-bindings", "providers", "rpc-client", "rpc-client-ipc", "rpc-types-debug", "rpc-types-trace", "eips"] }
 anyhow = "1.0.89"
 env_logger = "0.11.5"
 futures = { version = "0.3.31", features = ["executor"] }
