@@ -1,4 +1,4 @@
 [package]
 name = "node-db"
 version = " 1.86.0"
-edition = "2025"
+edition = "2021"
