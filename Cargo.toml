@@ -3,6 +3,9 @@ name = "BaseBuster"
 version = "0.1.0"
 edition = "2021"
 
+[patch.crates-io]
+c-kzg = "=2.1.0"
+
 [profile.release]
 debug = true
 
