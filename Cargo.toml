@@ -28,7 +28,6 @@ dotenv = "0.15.0"
 reqwest = "0.12.8"
 zerocopy = "0.8.6"
 rustc-hash = "2.0.0"
-alloy-eips = "0.14.0"
 chrono = "0.4.38"
 hyper = { version = "1.5.0", features = ["client"] }
 hyper-tls = { version = "0.6.0", features = ["alpn"] }
