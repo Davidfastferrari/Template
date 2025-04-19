@@ -18,7 +18,6 @@ futures = { version = "0.3.31", features = ["executor"] }
 log = "0.4.22"
 petgraph = "0.6.5"
 rayon = "1.10.0"
-c-kzg = ["dep:c-kzg"]
 serde = { version = "1.0.210", features = ["derive"] }
 serde_json = "1.0.129"
 sha2 = "0.10.8"
@@ -45,7 +44,7 @@ node-db = { path = "./NodeDB" }
 pool-sync = { path = "./PoolSync" }
 revm-database = { path = "./revm/crates/database", features = ["alloydb"] }
 revm-precompile = "19.0.0"
-reth = { git = "https://github.com/paradigmxyz/reth" }
+reth = { git = "https://github.com/paradigmxyz/reth/pkgs/container/reth-reproducible" }
 reth-db = { git = "https://github.com/paradigmxyz/reth", package = "reth-db" }
 reth-chainspec = { git = "https://github.com/paradigmxyz/reth", package = "reth-chainspec" }
 reth-node-ethereum = { git = "https://github.com/paradigmxyz/reth", package = "reth-node-ethereum" }
