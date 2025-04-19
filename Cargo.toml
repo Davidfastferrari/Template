@@ -10,7 +10,7 @@ debug = true
 verification = []
 
 [dependencies]
-alloy = { version = "0.14.0", features = ["full", "node-bindings", "providers", "rpc-client", "rpc-client-ipc", "rpc-types-debug", "rpc-types-trace", "eips"] }
+alloy = { version = "0.6.4", features = ["full", "node-bindings", "providers", "rpc-client", "rpc-client-ipc", "rpc-types-debug", "rpc-types-trace", "eips"] }
 anyhow = "1.0.89"
 env_logger = "0.11.5"
 futures = { version = "0.3.31", features = ["executor"] }
@@ -38,7 +38,7 @@ bytes = "1.8.0"
 foldhash = "0.1.3"
 eyre = "0.6.12"
 revm-inspectors = "0.12.0"
-revm = { version = "22.0.1", features = ["alloydb"] }
+revm = { version = "18.0.0", features = ["alloydb"] }
 node-db = { path = "./NodeDB" }
 pool-sync = { path = "./PoolSync" }
 revm-database = { path = "./revm/crates/database", features = ["alloydb"] }
