@@ -9,8 +9,6 @@ debug = true
 [features]
 verification = []
 
-[patch.crates-io]
-c-kzg = { version = "2.1.0" }
 
 [dependencies]
 alloy = { version = "0.6.4", features = ["full", "node-bindings", "providers", "rpc-client", "rpc-client-ipc", "rpc-types-debug", "rpc-types-trace", "eips"] }
@@ -20,6 +18,7 @@ futures = { version = "0.3.31", features = ["executor"] }
 log = "0.4.22"
 petgraph = "0.6.5"
 rayon = "1.10.0"
+c-kzg = "2.1.0"
 serde = { version = "1.0.210", features = ["derive"] }
 serde_json = "1.0.129"
 sha2 = "0.10.8"
