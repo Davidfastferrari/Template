@@ -37,11 +37,14 @@ http-body-util = "0.1.2"
 bytes = "1.8.0"
 foldhash = "0.1.3"
 eyre = "0.6.12"
+c-kzg = "2.1"
+alloy-consensus = "0.14.0"
 revm-inspectors = "0.12.0"
 revm = { version = "22.0.0", features = ["alloydb"] }
 node-db = { path = "./NodeDB" }
 pool-sync = { path = "./PoolSync" }
 revm-database = { path = "./revm/crates/database", features = ["alloydb"] }
+revm-precompile = "15.0.0"
 reth = { git = "https://github.com/paradigmxyz/reth" }
 reth-db = { git = "https://github.com/paradigmxyz/reth", package = "reth-db" }
 reth-chainspec = { git = "https://github.com/paradigmxyz/reth", package = "reth-chainspec" }
