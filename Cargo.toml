@@ -9,6 +9,9 @@ debug = true
 [features]
 verification = []
 
+[patch.crates-io]
+c-kzg = "=1.0.3"
+
 [dependencies]
 # Core
 anyhow = "1.0.79"
@@ -42,13 +45,13 @@ uniswap_v3_math = "0.5.2"
 chrono = "0.4.38"
 
 # Smart contract / Ethereum stack
-alloy = { version = "0.12.0", features = ["full"] }
-alloy-consensus = "0.14.0"
+alloy = { version = "0.9.0", features = ["full"] }
+alloy-consensus = "0.11.0"
 
 # REVM stack
 revm = { version = "22.0.0", features = ["alloydb"] }
 revm-inspectors = "0.12.0"
-revm-precompile = "19.0.0"
+revm-precompile = "15.0.0"
 revm-database = "3.0.0"
 
 
