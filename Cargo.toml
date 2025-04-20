@@ -54,7 +54,7 @@ revm-database = { version = "3.0.0" }
 # Reth
 reth = { git = "https://github.com/paradigmxyz/reth", rev = "b2b2cbe" }
 reth-db = { git = "https://github.com/paradigmxyz/reth", package = "reth-db", rev = "b2b2cbe" }
-reth-chainspec = { git = "https://github.com/paradigmxyz/reth", package = "reth-chainspec", rev = "reth-chainspec" }
+reth-chainspec = { git = "https://github.com/paradigmxyz/reth", package = "reth-chainspec", rev = "b2b2cbe" }
 reth-node-ethereum = { git = "https://github.com/paradigmxyz/reth", package = "reth-node-ethereum", rev = "b2b2cbe" }
 
 
