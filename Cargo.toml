@@ -82,7 +82,3 @@ pool-sync = "3.0.0"
 essential-node-db-sql = "0.5.0"
 cargo-version-upgrade = "1.0.6"
 
-[patch.crates-io]
-secp256k1 = { package = "k256", version = "0.13.1" }
-enr = "0.12.1"
-
