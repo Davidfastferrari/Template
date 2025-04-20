@@ -43,6 +43,7 @@ chrono = "0.4.38"
 # Ethereum / Smart contract
 alloy = { version = "0.6.4", features = ["full"] }
 alloy-consensus = "0.4.2"
+enr = "0.12.1"
 
 # REVM stack (uses c-kzg 1.0.3 transitively)
 revm = { version = "11.0.0", features = ["alloydb"] }
@@ -80,3 +81,8 @@ pool-sync = "3.0.0"
 # Optional SQL support
 essential-node-db-sql = "0.5.0"
 cargo-version-upgrade = "1.0.6"
+
+[patch.crates-io]
+secp256k1 = { package = "k256", version = "0.13.1" }
+enr = "0.12.1"
+
