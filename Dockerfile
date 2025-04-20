@@ -6,12 +6,6 @@ WORKDIR /app
 # Preload only metadata to cache dependencies
 #COPY Cargo.toml Cargo.lock ./
 
-# Avoid full rebuild when only src changes
-RUN mkdir -p src && echo "fn main() {}" > src/main.rs
-
-# Fetch dependencies (WITHOUT resolving to newer versions)
-RUN cargo fetch --locked
-
 # Copy the full source code
 COPY . .
 
