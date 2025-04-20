@@ -2,15 +2,23 @@
 FROM rust:1.20.0 as builder
 
 WORKDIR /app
+# Preload only metadata to cache dependencies
+COPY Cargo.toml Cargo.lock ./
+
+# Avoid full rebuild when only src changes
+RUN mkdir -p src && echo "fn main() {}" > src/main.rs
+
+# Fetch dependencies (WITHOUT resolving to newer versions)
+RUN cargo fetch --locked
 
 # Copy the full source code
 COPY . .
 
 # Show file structure and loaded manifest
-#RUN ls -la /app && cat Cargo.toml
+RUN ls -la /app && cat Cargo.toml
 
 # Build with locking to prevent unwanted updates
-RUN cargo run
+RUN cargo build --release --locked
 
 # -------- STAGE 2: RUNTIME --------
 FROM debian:bookworm-slim
