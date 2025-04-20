@@ -1,5 +1,5 @@
 # -------- STAGE 1: BUILD --------
-FROM rust:1.85.0 as builder  # 🔧 Use the most stable & tested version (1.85 not released yet)
+FROM rust:1.9.0 as builder  # 🔧 Use the most stable & tested version (1.85 not released yet)
 
 WORKDIR /app
 
