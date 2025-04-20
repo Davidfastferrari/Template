@@ -41,20 +41,20 @@ uniswap_v3_math = "0.5.2"
 chrono = "0.4.38"
 
 # Ethereum / Smart contract
-alloy = { version = "0.6.4", features = ["full"] }
-alloy-consensus = "0.4.2"
+alloy = { version = "0.12", features = ["full"] }
+alloy-consensus = "0.14.0"
 enr = "0.12.1"
 
-# REVM stack (uses c-kzg 1.0.3 transitively)
-revm = { version = "11.0.0", features = ["alloydb"] }
+# REVM stack (uses c-kzg 1.0.3 transitively) revm = "22.0.1"
+revm = "22.0.1"
 revm-inspectors = "0.12.0"
-revm-precompile = "6.0.0"
+revm-precompile = "15.0.0"
 # revm-database = { version = "3.0.0" }
 revm-database = "1.0.0-alpha.3"
 
 # # Reth
-reth = { git = "https://github.com/paradigmxyz/reth", rev = "573c73f" }
-reth-db = { git = "https://github.com/paradigmxyz/reth", package = "reth-db", rev = "573c73f" }
+reth = { git = "https://github.com/paradigmxyz/reth", rev = "6f8e725" }
+reth-db = { git = "https://github.com/paradigmxyz/reth", package = "reth-db", rev = "6f8e725" }
 # reth-db = { git = "https://github.com/paradigmxyz/reth", package = "reth-db", rev = "7b435e0" }
 # reth-chainspec = { git = "https://github.com/paradigmxyz/reth", package = "reth-chainspec", rev = "7b435e0" }
 # reth-node-ethereum = { git = "https://github.com/paradigmxyz/reth", package = "reth-node-ethereum", rev = "7b435e0" }
