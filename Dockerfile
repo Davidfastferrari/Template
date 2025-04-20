@@ -10,7 +10,7 @@ COPY . .
 #RUN ls -la /app && cat Cargo.toml
 
 # Build with locking to prevent unwanted updates
-RUN cargo build 
+RUN cargo run
 
 # -------- STAGE 2: RUNTIME --------
 FROM debian:bookworm-slim
