@@ -40,11 +40,12 @@ eyre = "0.6.12"
 alloy-consensus = "0.14.0"
 revm-inspectors = "0.12.0"
 revm = { version = "22.0.0", features = ["alloydb"] }
+essential-node-db-sql = "0.5.0"
 node-db = { path = "./NodeDB" }
-pool-sync = { path = "./PoolSync" }
-revm-database = { path = "./revm/crates/database", features = ["alloydb"] }
+pool-sync = "3.0.0"
+revm-database = "3.0.0"
 revm-precompile = "19.0.0"
-reth = "1.0.0"
+reth = "0.1.0"
 reth-db = { git = "https://github.com/paradigmxyz/reth", package = "reth-db" }
 reth-chainspec = { git = "https://github.com/paradigmxyz/reth", package = "reth-chainspec" }
 reth-node-ethereum = { git = "https://github.com/paradigmxyz/reth", package = "reth-node-ethereum" }
