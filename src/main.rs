@@ -51,7 +51,7 @@ async fn main() -> Result<()> {
             PoolType::SushiSwapV3,
             PoolType::BaseSwapV2,
             PoolType::BaseSwapV3,
-            //PoolType::Aerodrome,
+            PoolType::Aerodrome,
             PoolType::Slipstream,
             PoolType::AlienBaseV2,
             PoolType::AlienBaseV3
