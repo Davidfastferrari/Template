@@ -9,9 +9,6 @@ debug = true
 [features]
 verification = []
 
-[patch.crates-io]
-c-kzg = "=1.0.3"
-
 [dependencies]
 # Core
 anyhow = "1.0.79"
