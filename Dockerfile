@@ -7,7 +7,7 @@ WORKDIR /app
 COPY . .
 
 # Show file structure and loaded manifest
-RUN ls -la /app && cat Cargo.toml
+#RUN ls -la /app && cat Cargo.toml
 
 # Build with locking to prevent unwanted updates
 RUN cargo build 
