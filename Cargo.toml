@@ -50,7 +50,7 @@ revm = "22.0.1"
 revm-inspectors = "0.19.1"
 #revm-precompile = "15.0.0"
 # revm-database = { version = "3.0.0" }
-revm-database = "1.0.0-alpha.3"
+revm-database = "3.0.0"
 
 # # Reth
 reth = { git = "https://github.com/paradigmxyz/reth", rev = "6f8e725" }
