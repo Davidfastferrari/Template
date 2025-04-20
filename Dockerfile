@@ -4,7 +4,7 @@ FROM rust:0.1.0 as builder  # 🔧 Use the most stable & tested version (1.85 no
 WORKDIR /app
 
 # Preload only metadata to cache dependencies
-COPY Cargo.toml Cargo.lock ./
+#COPY Cargo.toml Cargo.lock ./
 
 # Avoid full rebuild when only src changes
 RUN mkdir -p src && echo "fn main() {}" > src/main.rs
