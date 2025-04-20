@@ -48,13 +48,13 @@ enr = "0.12.1"
 # REVM stack (uses c-kzg 1.0.3 transitively)
 revm = { version = "11.0.0", features = ["alloydb"] }
 revm-inspectors = "0.12.0"
-revm-precompile = "9.0.0"
+revm-precompile = "6.0.0"
 # revm-database = { version = "3.0.0" }
 revm-database = "1.0.0-alpha.3"
 
 # # Reth
-reth = { git = "https://github.com/paradigmxyz/reth", rev = "7b435e0" }
-reth-db = { git = "https://github.com/paradigmxyz/reth", package = "reth-db", rev = "7b435e0" }
+reth = { git = "https://github.com/paradigmxyz/reth", rev = "a9ac903" }
+reth-db = { git = "https://github.com/paradigmxyz/reth", package = "reth-db", rev = "a9ac903" }
 # reth-db = { git = "https://github.com/paradigmxyz/reth", package = "reth-db", rev = "7b435e0" }
 # reth-chainspec = { git = "https://github.com/paradigmxyz/reth", package = "reth-chainspec", rev = "7b435e0" }
 # reth-node-ethereum = { git = "https://github.com/paradigmxyz/reth", package = "reth-node-ethereum", rev = "7b435e0" }
