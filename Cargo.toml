@@ -52,10 +52,11 @@ revm-precompile = "15.0.0"
 revm-database = { version = "3.0.0" }
 
 # Reth
-reth = { git = "https://github.com/paradigmxyz/reth" }
-reth-db = { git = "https://github.com/paradigmxyz/reth", package = "reth-db" }
-reth-chainspec = { git = "https://github.com/paradigmxyz/reth", package = "reth-chainspec" }
-reth-node-ethereum = { git = "https://github.com/paradigmxyz/reth", package = "reth-node-ethereum" }
+reth = { git = "https://github.com/paradigmxyz/reth", rev = "f3d7988" }
+reth-db = { git = "https://github.com/paradigmxyz/reth", package = "reth-db", rev = "f3d7988" }
+reth-chainspec = { git = "https://github.com/paradigmxyz/reth", package = "reth-chainspec", rev = "f3d7988" }
+reth-node-ethereum = { git = "https://github.com/paradigmxyz/reth", package = "reth-node-ethereum", rev = "f3d7988" }
+
 
 # Utilities
 rayon = "1.10.0"
