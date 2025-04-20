@@ -53,8 +53,8 @@ revm-precompile = "6.0.0"
 revm-database = "1.0.0-alpha.3"
 
 # # Reth
-reth = { git = "https://github.com/paradigmxyz/reth", rev = "a9ac903" }
-reth-db = { git = "https://github.com/paradigmxyz/reth", package = "reth-db", rev = "a9ac903" }
+reth = { git = "https://github.com/paradigmxyz/reth", rev = "5a623a9" }
+reth-db = { git = "https://github.com/paradigmxyz/reth", package = "reth-db", rev = "5a623a9" }
 # reth-db = { git = "https://github.com/paradigmxyz/reth", package = "reth-db", rev = "7b435e0" }
 # reth-chainspec = { git = "https://github.com/paradigmxyz/reth", package = "reth-chainspec", rev = "7b435e0" }
 # reth-node-ethereum = { git = "https://github.com/paradigmxyz/reth", package = "reth-node-ethereum", rev = "7b435e0" }
