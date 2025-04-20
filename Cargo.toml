@@ -72,7 +72,8 @@ foldhash = "0.1.3"
 dotenv = "0.15.0"
 
 # Local
-node-db = { path = "./NodeDB" }
+# node-db = { path = "./NodeDB" }
+node-db = "0.1.0"
 pool-sync = "3.0.0"
 
 # Optional SQL support
