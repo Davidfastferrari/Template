@@ -3,9 +3,6 @@ FROM rust:1.85.0 as builder  # 🔧 Use the most stable & tested version (1.85 n
 
 WORKDIR /app
 
-# Preload only metadata to cache dependencies
-#COPY Cargo.toml Cargo.lock ./
-
 # Copy the full source code
 COPY . .
 
@@ -13,7 +10,7 @@ COPY . .
 RUN ls -la /app && cat Cargo.toml
 
 # Build with locking to prevent unwanted updates
-RUN cargo build --release --locked
+RUN cargo build 
 
 # -------- STAGE 2: RUNTIME --------
 FROM debian:bookworm-slim
