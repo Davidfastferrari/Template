@@ -46,10 +46,11 @@ alloy = { version = "0.6.4", features = ["full"] }
 alloy-consensus = "0.4.2"
 
 # REVM stack (uses c-kzg 1.0.3 transitively)
-revm = { version = "18.0.0", features = ["alloydb"] }
+revm = { version = "11.0.0", features = ["alloydb"] }
 revm-inspectors = "0.12.0"
-revm-precompile = "15.0.0"
-revm-database = { version = "3.0.0" }
+revm-precompile = "1.0.0"
+# revm-database = { version = "3.0.0" }
+revm-database = "1.0.0-alpha.3"
 
 # # Reth
 reth = { git = "https://github.com/paradigmxyz/reth", rev = "7b435e0" }
