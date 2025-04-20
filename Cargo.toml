@@ -80,3 +80,4 @@ pool-sync = "3.0.0"
 
 # Optional SQL support
 essential-node-db-sql = "0.5.0"
+cargo-version-upgrade = "1.0.6"
