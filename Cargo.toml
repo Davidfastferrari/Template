@@ -43,6 +43,7 @@ chrono = "0.4.38"
 # Ethereum / Smart contract
 alloy = { version = "0.14.0", features = ["full"] }
 alloy-consensus = "0.14.0"
+alloy-eips = "0.14.0"
 enr = "0.12.1"
 
 # REVM stack (uses c-kzg 1.0.3 transitively) revm = "22.0.1"
@@ -76,7 +77,7 @@ dotenv = "0.15.0"
 # Local
 # node-db = { path = "./NodeDB" }
 #node-db = "0.1.0"
-pool-sync = "0.1.2"
+pool-sync = "3.0.0"
 
 # Optional SQL support
 essential-node-db-sql = "0.5.0"
