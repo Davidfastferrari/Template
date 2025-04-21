@@ -3,6 +3,7 @@ use anyhow::Result;
 use ignition::start_workers;
 use lazy_static::lazy_static;
 use log::{info, LevelFilter};
+use std::collections::HashMap;
 use pool_sync::{PoolSync, PoolType, Chain, PoolInfo};
 
 mod bytecode;
@@ -28,8 +29,32 @@ mod tx_sender;
 mod history_db;
 
 // initial amount we are trying to arb over
-lazy_static {
+lazy_static! {
     pub static ref AMOUNT: U256 = U256::from(1e15); 
+}
+
+
+
+pub const AMOUNT_USD: u64 = 100_000; // $100,000
+
+// Example token metadata
+lazy_static! {
+    pub static ref TOKEN_DECIMALS: HashMap<&'static str, u8> = {
+        let mut map = HashMap::new();
+        map.insert("USDC", 6);
+        map.insert("WETH", 18);
+        map.insert("DAI", 18);
+        map.insert("USDT", 6);
+        map
+    };
+}
+
+/// Get amount of `token_symbol` equivalent to $100,000 in base units (U256)
+/// Get amount of `token_symbol` equivalent to $100,000 in base units (U256)
+pub fn amount_for_token(token_symbol: &str) -> U256 {
+    let decimals = TOKEN_DECIMALS.get(token_symbol).copied().unwrap_or(18);
+    let multiplier = U256::exp10(decimals as usize); // Safe and correct
+    U256::from(AMOUNT_USD) * multiplier
 }
 
 #[tokio::main]
