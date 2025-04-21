@@ -17,6 +17,7 @@ env_logger = "0.11.3"
 lazy_static = "1.4.0"
 block-db = "0.2.0"
 blockstate = "0.1.0"
+winit = "0.29"
 
 # Async
 tokio = { version = "1.44.2", features = ["full"] }
