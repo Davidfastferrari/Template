@@ -46,7 +46,6 @@ chrono = "0.4.38"
 alloy = { version = "0.14.0", features = ["full"] }
 alloy-consensus = "0.14.0"
 alloy-eips = "0.14.0"
-petgraph = "0.6.4"
 enr = "0.12.1"
 
 # REVM stack (uses c-kzg 1.0.3 transitively) revm = "22.0.1"
