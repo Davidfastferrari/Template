@@ -28,7 +28,7 @@ mod tx_sender;
 mod history_db;
 
 // initial amount we are trying to arb over
-lazy_static! {
+lazy_static {
     pub static ref AMOUNT: U256 = U256::from(1e15); 
 }
 
