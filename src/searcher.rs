@@ -3,7 +3,7 @@ use alloy::primitives::{Address, U256};
 use alloy::providers::Provider;
 use alloy::transports::Transport;
 use log::{debug, info};
-use rayon::prelude::*;
+use rayon::prelude;
 use std::collections::{HashMap, HashSet};
 use std::sync::mpsc::{Receiver, Sender};
 use std::sync::Arc;

@@ -1,7 +1,7 @@
 use crate::swap::{SwapPath, SwapStep};
 use alloy::primitives::Address;
 use petgraph::graph::UnGraph;
-use petgraph::prelude::*;
+use petgraph::prelude;
 use pool_sync::{BalancerV2Pool, CurveTriCryptoPool, Pool, PoolInfo};
 use std::collections::HashSet;
 use std::hash::Hash;

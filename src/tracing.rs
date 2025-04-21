@@ -7,7 +7,7 @@ use alloy::rpc::types::trace::geth::{
     GethDebugBuiltInTracerType::PreStateTracer,
     GethDebugTracerType::BuiltInTracer
 };
-use alloy::rpc::types::trace::geth::*;
+use alloy::rpc::types::trace::geth;
 use alloy::rpc::types::BlockNumberOrTag;
 use alloy::transports::Transport;
 use log::warn;

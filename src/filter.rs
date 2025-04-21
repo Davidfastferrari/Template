@@ -18,7 +18,7 @@ use std::path::Path;
 use std::str::FromStr;
 use std::collections::{HashSet, HashMap};
 use revm_inspectors::access_list::AccessListInspector;
-use rayon::prelude::*;
+use rayon::prelude;
 
 // Blacklisted tokens we dont want to consider
 lazy_static! {
