@@ -15,7 +15,7 @@ use crate::AMOUNT;
 
 // Calculation constants
 const RATE_SCALE: u32 = 18; // 18 decimals for rate precision
-lazy_static! {
+lazy_static {
     pub static ref RATE_SCALE_VALUE: U256 = U256::from(1e18);
 }
 
