@@ -35,7 +35,7 @@ serde_json = "1.0.114"
 # Cryptography & math
 sha2 = "0.10.8"
 rustc-hash = "1.1.0"
-uniswap_v3_math = "0.5.2"
+uniswap_v3_math = "0.6.0"
 
 # Time
 chrono = "0.4.38"
