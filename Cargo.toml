@@ -78,8 +78,7 @@ dotenv = "0.15.0"
 # Local
 # node-db = { path = "./NodeDB" }
 #node-db = "0.1.0"
-pool-sync = "3.0.0"
-
+pool-sync = { git = "https://github.com/Zacholme7/PoolSync" }
 # Optional SQL support
 essential-node-db-sql = "0.5.0"
 cargo-version-upgrade = "1.0.6"
