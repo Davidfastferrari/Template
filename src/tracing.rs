@@ -12,19 +12,11 @@ use alloy::rpc::types::trace::geth::{
     AccountState             // Type used to track storage diffs
 };
 
-use alloy::rpc::types::trace::geth;
 use alloy::rpc::types::BlockNumberOrTag;
 use alloy::transports::Transport;
 use log::warn;
 use std::collections::BTreeMap;
 use std::sync::Arc;
-
-
-#[derive(Debug)]
-pub struct Application {
-    event_loop: EventLoop<()>,
-    window: Window
-}
 
 // Trace the block to get all addresses with storage changes
 pub async fn debug_trace_block<T: Transport + Clone, N: Network, P: Provider<T, N>>(
@@ -36,7 +28,9 @@ pub async fn debug_trace_block<T: Transport + Clone, N: Network, P: Provider<T, 
         config: GethDefaultTracingOptions::default(),
         ..GethDebugTracingOptions::default()
     }
-    .with_tracer(BuiltInTracer(PreStateTracer))
+   .with_tracer(GethDebugTracerType::BuiltInTracer(
+    GethDebugBuiltInTracerType::PreStateTracer,
+  ))
     .with_prestate_config(PreStateConfig {
         diff_mode: Some(diff_mode),
         disable_code: Some(false),
