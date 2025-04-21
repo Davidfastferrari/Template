@@ -2,17 +2,18 @@ use alloy::network::Network;
 use alloy::primitives::Address;
 use alloy::providers::ext::DebugApi;
 use alloy::providers::Provider;
+use alloy::rpc::types::BlockNumberOrTag;
 use alloy::rpc::types::trace::common::TraceResult;
 use alloy::rpc::types::trace::geth::{
-    GethTrace,               // Needed for matching against `GethTrace::PreStateTracer`
-    PreStateConfig,          // Needed for `.with_prestate_config()`
-    GethDebugTracingOptions, // Used to configure the tracing options
+    GethTrace,
+    GethDebugTracerType,
+    GethDebugBuiltInTracerType,
+    PreStateConfig,
+    GethDebugTracingOptions,
     GethDefaultTracingOptions,
-    PreStateFrame,           // To destructure frame type from the trace result
-    AccountState             // Type used to track storage diffs
+    PreStateFrame,
+    AccountState
 };
-
-use alloy::rpc::types::BlockNumberOrTag;
 use alloy::transports::Transport;
 use log::warn;
 use std::collections::BTreeMap;
