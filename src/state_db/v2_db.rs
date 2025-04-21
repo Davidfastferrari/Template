@@ -10,7 +10,7 @@ use revm::DatabaseRef;
 use zerocopy::IntoBytes;
 use crate::state_db::blockstate_db::{InsertionType, BlockStateDBSlot};
 
-lazy_static! {
+lazy_static {
     static ref U112_MASK: U256 = (U256::from(1) << 112) - U256::from(1);
 }
 
