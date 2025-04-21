@@ -2,6 +2,15 @@ use alloy::network::primitives::HeaderResponse;
 use alloy::network::{BlockResponse, Network};
 use alloy::primitives::{Address, BlockNumber, B256, U256};
 use alloy::providers::Provider;
+use alloy::rpc::types::trace::geth::{
+    GethDebugTracingOptions, GethDefaultTracingOptions,
+    GethDebugTracerType::BuiltInTracer,
+    GethDebugBuiltInTracerType::PreStateTracer,
+    GethTrace,
+    PreStateFrame,
+    PreStateConfig
+};
+
 use alloy::rpc::types::trace::geth::AccountState as GethAccountState;
 use alloy::rpc::types::BlockId;
 use alloy::transports::{Transport, TransportError};
@@ -17,6 +26,15 @@ use std::collections::HashSet;
 use std::future::IntoFuture;
 use pool_sync::Pool;
 use tokio::runtime::Handle;
+use winit::event_loop::EventLoop;
+use winit::window::Window;
+
+#[derive(Debug)]
+pub struct Application {
+    event_loop: EventLoop<()>,
+    window: Window,
+}
+
 
 #[derive(Debug)]
 pub enum HandleOrRuntime {
@@ -563,13 +581,23 @@ pub struct BlockStateDBSlot {
 }
 
 #[derive(Default, Debug, Clone)]
+// pub struct BlockStateDBAccount {
+//     pub info: AccountInfo,
+//     pub state: AccountState,
+//     pub storage: HashMap<U256, BlockStateDBSlot>,
+//     #[warn(dead_code)]
+//     pub insertion_type: InsertionType,
+// }
+
+#[allow(dead_code)]
+#[derive(Default, Eq, PartialEq, Copy, Clone, Debug)]
 pub struct BlockStateDBAccount {
     pub info: AccountInfo,
     pub state: AccountState,
     pub storage: HashMap<U256, BlockStateDBSlot>,
-    #[warn(dead_code)]
     pub insertion_type: InsertionType,
 }
+
 
 impl BlockStateDBAccount {
     pub fn new(insertion_type: InsertionType) -> Self {
