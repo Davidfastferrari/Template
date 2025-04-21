@@ -41,7 +41,7 @@ uniswap_v3_math = "0.6.0"
 chrono = "0.4.38"
 
 # Ethereum / Smart contract
-alloy = { version = "0.12", features = ["full"] }
+alloy = { version = "0.14.0", features = ["full"] }
 alloy-consensus = "0.14.0"
 enr = "0.12.1"
 
