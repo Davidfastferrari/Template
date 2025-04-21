@@ -21,7 +21,7 @@ use revm_inspectors::access_list::AccessListInspector;
 use rayon::prelude;
 
 // Blacklisted tokens we dont want to consider
-lazy_static! {
+lazy_static {
     static ref BLACKLIST: Vec<Address> = vec![address!("be5614875952b1683cb0a2c20e6509be46d353a4")];
     static ref WETH_ADDRESS: Address = address!("4200000000000000000000000000000000000006");
 }
