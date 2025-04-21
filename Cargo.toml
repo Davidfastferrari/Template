@@ -49,7 +49,7 @@ enr = "0.12.1"
 
 # REVM stack (uses c-kzg 1.0.3 transitively) revm = "22.0.1"
 revm = "22.0.1"
-revm-inspectors = "0.19.1"
+#revm-inspectors = "0.19.1"
 #revm-precompile = "15.0.0"
 # revm-database = { version = "3.0.0" }
 revm-database = "3.0.0"
