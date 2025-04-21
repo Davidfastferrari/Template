@@ -60,15 +60,10 @@ revm-database = "3.0.0"
 # # Reth
 reth = { git = "https://github.com/paradigmxyz/reth", rev = "6f8e725" }
 reth-db = { git = "https://github.com/paradigmxyz/reth", package = "reth-db", rev = "6f8e725" }
-# reth-db = { git = "https://github.com/paradigmxyz/reth", package = "reth-db", rev = "7b435e0" }
-# reth-chainspec = { git = "https://github.com/paradigmxyz/reth", package = "reth-chainspec", rev = "7b435e0" }
-# reth-node-ethereum = { git = "https://github.com/paradigmxyz/reth", package = "reth-node-ethereum", rev = "7b435e0" }
-
-# reth = { git = "https://github.com/paradigmxyz/reth", tag = "v0.1.0-alpha.11" }
-# reth-db = { git = "https://github.com/paradigmxyz/reth", package = "reth-db", tag = "v0.1.0-alpha.11" }
-# reth-chainspec = { git = "https://github.com/paradigmxyz/reth", package = "reth-chainspec", tag = "v0.1.0-alpha.11" }
-# reth-node-ethereum = { git = "https://github.com/paradigmxyz/reth", package = "reth-node-ethereum", tag = "v0.1.0-alpha.11" }
-
+reth-chainspec = { git = "https://github.com/paradigmxyz/reth", package = "reth-chainspec", rev = "6f8e725" }
+reth-node-ethereum = { git = "https://github.com/paradigmxyz/reth", package = "reth-node-ethereum", rev = "6f8e725" }
+reth-providers = { git = "https://github.com/paradigmxyz/reth", package = "reth-providers", rev = "6f8e725" }
+reth-utils = { git = "https://github.com/paradigmxyz/reth", package = "reth-utils", rev = "6f8e725" }
 
 # Utilities
 rayon = "1.10.0"
