@@ -13,11 +13,11 @@ use std::ops::{BitAnd, Shl, Shr};
 use crate::state_db::blockstate_db::{InsertionType, BlockStateDBSlot};
 
 // Bitmasks for storage insertion
-lazy_static! {
+lazy_static {
     static ref U112_MASK: U256 = (U256::from(1) << 112) - U256::from(1);
 }
 
-lazy_static! {
+lazy_static {
     static ref BITS160MASK: U256 = U256::from(1).shl(160) - U256::from(1);
     static ref BITS128MASK: U256 = U256::from(1).shl(128) - U256::from(1);
     static ref BITS24MASK: U256 = U256::from(1).shl(24) - U256::from(1);
@@ -27,7 +27,7 @@ lazy_static! {
 }
 
 // Function signature for Slot0 call
-sol!(
+sol(
     #[derive(Debug)]
     contract UniswapV3 {
         function slot0() external view returns (
