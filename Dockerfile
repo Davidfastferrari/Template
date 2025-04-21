@@ -2,6 +2,21 @@
 FROM rust:1.86.0 as builder
 
 WORKDIR /app
+
+# Install required libs for bindgen + FFI
+RUN apt-get update && apt-get install -y \
+    clang \
+    llvm-dev \
+    libclang-dev \
+    pkg-config \
+    build-essential \
+    cmake \
+    curl \
+    git \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+
 # Preload only metadata to cache dependencies
 COPY Cargo.toml Cargo.lock ./
 
