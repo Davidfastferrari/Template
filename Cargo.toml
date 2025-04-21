@@ -47,6 +47,7 @@ alloy = { version = "0.14.0", features = ["full"] }
 alloy-consensus = "0.14.0"
 alloy-eips = "0.14.0"
 enr = "0.12.1"
+zerocopy = "0.8.25-alpha.3"
 
 # REVM stack (uses c-kzg 1.0.3 transitively) revm = "22.0.1"
 revm = "22.0.1"
