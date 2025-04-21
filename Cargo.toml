@@ -76,7 +76,7 @@ dotenv = "0.15.0"
 # Local
 # node-db = { path = "./NodeDB" }
 #node-db = "0.1.0"
-pool-sync = "3.0.0"
+pool_sync = "3.0.0"
 
 # Optional SQL support
 essential-node-db-sql = "0.5.0"
