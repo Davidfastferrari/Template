@@ -6,12 +6,14 @@ use revm::primitives::{ExecutionResult, TransactTo};
 use alloy::sol_types::{SolCall, SolValue, SolStruct, SolInterface};
 use revm::Evm;
 
-sol(
+
+sol! {
     #[sol(rpc)]
     contract CurveOut {
-        function get_dy(uint256 i, uint256 j, uint256 dx) external view returs (uint256);
+        function get_dy(uint256 i, uint256 j, uint256 dx) external view returns (uint256);
     }
-);
+}
+
 
 impl Calculator {
     pub fn curve_out(&self, index_in: U256, index_out: U256, amount_in: U256, pool: Address) -> U256 {
