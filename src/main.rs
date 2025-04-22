@@ -33,11 +33,6 @@ mod tx_sender;
 mod history_db;
 
 // initial amount we are trying to arb over
-// lazy_static! {
-//     pub static ref AMOUNT: U256 = U256::from(1e15); 
-// }
-
-
 
 pub const AMOUNT_USD: u64 = 100_000; // $100,000
 
@@ -53,7 +48,6 @@ lazy_static! {
     };
 }
 
-/// Get amount of `token_symbol` equivalent to $100,000 in base units (U256)
 /// Get amount of `token_symbol` equivalent to $100,000 in base units (U256)
 pub fn amount_for_token(token_symbol: &str) -> U256 {
     let decimals = TOKEN_DECIMALS.get(token_symbol).copied().unwrap_or(18);
