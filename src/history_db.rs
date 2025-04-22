@@ -5,12 +5,11 @@ use reth_provider::{
     AccountReader, BlockNumReader, DatabaseProviderFactory, HistoricalStateProvider,
     ProviderFactory, StateProviderBox, StateProviderFactory, StaticFileProvider,
 };
-use reth_utils::open_db_read_only;
-use reth_chainspec::ChainSpecBuilder;
-use reth_db::{mdbx::DatabaseArguments, DatabaseEnv, ClientVersion};
-use reth_node_ethereum::EthereumNode;
-use reth_provider::StateProviderFactory;
-
+use reth::reth_utils::open_db_read_only;
+use reth::reth_chainspec::ChainSpecBuilder;
+use reth::reth_db::{mdbx::DatabaseArguments, DatabaseEnv, ClientVersion};
+use reth::reth_node_ethereum::EthereumNode;
+use reth::reth_provider::StateProviderFactory;
 use revm::db::AccountState;
 use revm::primitives::{Account, AccountInfo, Bytecode, KECCAK_EMPTY};
 use revm::{Database, DatabaseCommit, DatabaseRef};
