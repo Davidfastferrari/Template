@@ -7,7 +7,6 @@ edition = "2024"
 debug = true
 
 [features]
-verification = []
 serde = ["dep:serde"]
 alloy = ["dep:alloy"]
 revm = ["dep:revm"]
