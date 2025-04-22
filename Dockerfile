@@ -38,6 +38,7 @@ WORKDIR /app
 
 COPY --from=builder /app/target/release/BaseBuster ./BaseBuster
 COPY --from=builder /app/contract ./contract
+COPY --from=builder /app/src ./src
 
 ENV RUST_BACKTRACE=1
 ENV RUST_LOG=info
