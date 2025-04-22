@@ -1,7 +1,7 @@
-use alloy::network::primitives::HeaderResponse;
-use alloy::network::{BlockResponse, Network};
-use alloy::primitives::{Address, BlockNumber, B256, U256};
-use alloy::providers::Provider;
+use alloy::alloy-network::alloy-primitives::HeaderResponse;
+use alloy::alloy-network::{BlockResponse, Network};
+use alloy::alloy-primitives::{Address, BlockNumber, B256, U256};
+use alloy::alloy-provider::Provider;
 use alloy::rpc::types::trace::geth::{
     GethDebugTracingOptions, GethDefaultTracingOptions,
     GethDebugTracerType::BuiltInTracer,
@@ -11,8 +11,8 @@ use alloy::rpc::types::trace::geth::{
     PreStateConfig
 };
 use alloy::rpc::types::trace::geth::AccountState as GethAccountState;
-use alloy::rpc::types::BlockId;
-use alloy::transports::{Transport, TransportError};
+use alloy::alloy-rpc-types::BlockId;
+use alloy::alloy-transport::{Transport, TransportError};
 use anyhow::Result;
 use log::{debug, trace, warn};
 use pool_sync::PoolInfo;
