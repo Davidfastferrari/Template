@@ -1,7 +1,7 @@
 use super::Calculator;
-use alloy::primitives::{Address, U256, address};
+use alloy::alloy-primitive::{Address, U256, address};
 use alloy::sol;
-use alloy::sol_types::SolCall;
+use alloy::sol_types::sol;
 use revm::Evm;
 use revm::primitives::{ExecutionResult, TransactTo};
 
@@ -18,8 +18,7 @@ sol! {
     }
 }
 
-
-impl Calculator {
+impl Calculator<T, N, P>{
     pub fn maverick_v2_out(&self, amount_in: U256, pool: Address, zero_for_one: bool, tick_limit: i32) -> U256 {
         let calldata = MaverickOut::calculateSwapCall {
             pool,
