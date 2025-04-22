@@ -1,14 +1,14 @@
 use crate::gen::ERC20Token::{self, approveCall};
 use crate::gen::{V2Aerodrome, V2Swap, V3Swap, V3SwapDeadline, V3SwapDeadlineTick};
 use crate::AMOUNT;
-use alloy::primitives::{address, Address, U160, U256};
+use alloy::alloy-primitives::{address, Address, U160, U256};
 use alloy::sol_types::{SolCall, SolValue};
 use anyhow::Result;
 use lazy_static::lazy_static;
 use log::{info, debug};
 use node_db::{InsertionType, NodeDB};
 use pool_sync::{Chain, Pool, PoolInfo, PoolType};
-use reqwest::header::{HeaderMap, HeaderValue};
+use std::collections::HashMap;
 use revm::primitives::{Bytes, TransactTo, ExecutionResult, FixedBytes};
 use revm::{Inspector, InspectEvm};
 use serde::{Deserialize, Serialize};
