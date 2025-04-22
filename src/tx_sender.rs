@@ -14,7 +14,7 @@ use alloy::sol_types::SolCall;
 use alloy::transports::http::{Client as AlloyClient, Http};
 use log::info;
 use reqwest::Client;
-use serde_json::{Result, Value};
+use serde_json::{Result, Value, json};
 use std::str::FromStr;
 use std::sync::mpsc::Receiver;
 use std::sync::Arc;
