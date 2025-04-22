@@ -49,6 +49,7 @@ alloy = { version = "0.14.0", features = ["full"] }
 alloy-consensus = "0.14.0"
 alloy-eips = "0.14.0"
 alloy-primitives = "1.0.0"
+alloy-network = "0.14.0"
 enr = "0.13.0"
 zerocopy = "0.8.25-alpha.3"
 
