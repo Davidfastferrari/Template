@@ -580,16 +580,6 @@ pub struct BlockStateDBSlot {
     pub insertion_type: InsertionType,
 }
 
-#[derive(Default, Debug, Clone)]
-// pub struct BlockStateDBAccount {
-//     pub info: AccountInfo,
-//     pub state: AccountState,
-//     pub storage: HashMap<U256, BlockStateDBSlot>,
-//     #[warn(dead_code)]
-//     pub insertion_type: InsertionType,
-// }
-
-#[allow(dead_code)]
 #[derive(Default, Eq, PartialEq, Copy, Clone, Debug)]
 pub struct BlockStateDBAccount {
     pub info: AccountInfo,
