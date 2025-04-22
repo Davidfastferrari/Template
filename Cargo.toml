@@ -36,7 +36,6 @@ bytes = "1.6.0"
 # Data formats & serialization
 serde = { version = "1.0.197", features = ["derive"] }
 serde_json = "1.0.114"
-cc = "1.2.19"
 
 # Cryptography & math
 sha2 = "0.10.8"
