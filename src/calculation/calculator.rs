@@ -8,7 +8,7 @@ use std::sync::Arc;
 
 use crate::cache::Cache;
 use crate::market_state::MarketState;
-use crate::swap;
+use crate::swap::SwapPath;
 use crate::AMOUNT;
 
 // Calculator for getting the amount out
