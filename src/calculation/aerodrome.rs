@@ -1,10 +1,10 @@
 use super::Calculator;
 use alloy::sol;
-use alloy::network::Network;
-use alloy::primitives::Address;
-use alloy::primitives::U256;
-use alloy::providers::Provider;
-use alloy::transports::Transport;
+use alloy::alloy-network ::Network;
+use alloy::alloy-primitives::Address;
+use alloy::alloy-primitives::U256;
+use alloy::alloy-provider::Provider;
+use alloy::alloy-transport::Transport;
 
 sol! {
     #[sol(rpc)]
