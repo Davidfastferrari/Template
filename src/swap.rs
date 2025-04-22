@@ -1,11 +1,13 @@
-use crate::gen::FlashQuoter;
-use crate::gen::FlashSwap;
-use crate::AMOUNT;
-use alloy::primitives::Address;
+use alloy::alloy-primitives::Address;
 use pool_sync::PoolType;
 use serde::{Deserialize, Serialize};
 use std::convert::From;
 use std::hash::Hash;
+use alloy::sol_types::sol;
+
+use crate::gen::FlashQuoter;
+use crate::gen::FlashSwap;
+use crate::AMOUNT;
 
 // A full representation of a path that we can swap along with its hash
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Hash)]
