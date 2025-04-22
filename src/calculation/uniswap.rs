@@ -6,7 +6,9 @@ use alloy::providers::Provider;
 use alloy::transports::Transport;
 use anyhow::Result;
 use std::collections::HashMap;
-use uniswap_v3_math::tick_math::{MAX_SQRT_RATIO, MAX_TICK, MIN_SQRT_RATIO, MIN_TICK};
+use uniswap_v3_math::tick_math::{MAX_SQRT_RATIO, MAX_TICK, MIN_SQRT_RATIO, MIN_TICK, get_sqrt_ratio_at_tick};
+use uniswap_v3_math::tick_bitmap;
+use uniswap_v3_math::swap_math::compute_swap_step;
 
 pub const U256_1: U256 = U256::from_limbs([1, 0, 0, 0]);
 
