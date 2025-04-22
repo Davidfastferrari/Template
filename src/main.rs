@@ -7,6 +7,7 @@ use ignition::start_workers;
 use lazy_static::lazy_static;
 use log::{info, LevelFilter};
 use std::collections::HashMap;
+use std::thread::Builder;
 use pool_sync::{PoolSync, PoolType, Chain, PoolInfo};
 
 mod bytecode;
@@ -34,13 +35,6 @@ mod history_db;
 // initial amount we are trying to arb over
 pub const AMOUNT_USD: u64 = 100_000; // $100,000
 
-/// Get amount of `token_symbol` equivalent to $100,000 in base units (U256)
-pub fn amount_for_token(token_symbol: &str) -> U256 {
-    let decimals = TOKEN_DECIMALS.get(token_symbol).copied().unwrap_or(18);
-    let multiplier = U256::exp10(decimals as usize); // Safe and correct
-    U256::from(AMOUNT_USD) * multiplier
-}
-
 // Example token metadata
 lazy_static! {
     pub static ref TOKEN_DECIMALS: HashMap<&'static str, u8> = {
@@ -51,15 +45,21 @@ lazy_static! {
         map.insert("USDT", 6);
         map
     };
-       pub static ref AMOUNT: U256 = TOKEN_DECIMALS; 
+   pub fn amount_for_token(token_symbol: &str) -> U256 {
+    let decimals = TOKEN_DECIMALS.get(token_symbol).copied().unwrap_or(18);
+    let multiplier = U256::exp10(decimals as usize); // Safe and correct
+    U256::from(AMOUNT_USD) * multiplier
+}
+pub static ref AMOUNT: U256 = TOKEN_DECIMALS; 
 }
 
 
 #[tokio::main]
 async fn main() -> Result<()> {
     // init dots and logger
-    dotenv::dotenv().ok();
-    env_logger::Builder::new()
+       dotenv::dotenv().ok();
+       env_logger::Builder::new()
+       Builder::new()
         .filter_module("BaseBuster", LevelFilter::Info)
         .init();
 
