@@ -1,9 +1,9 @@
-use alloy::network::Network;
-use alloy::primitives::Address;
-use alloy::providers::ext::DebugApi;
-use alloy::providers::Provider;
-use alloy::rpc::types::BlockNumberOrTag;
-use alloy::rpc::types::trace::common::TraceResult;
+use alloy::alloy-network::Network;
+use alloy::alloy-primitives::Address;
+use alloy::alloy-provider::ext::DebugApi;
+use alloy::alloy-provider::Provider;
+use alloy::alloy-rpc-types::BlockNumberOrTag;
+use alloy::alloy-rpc-types::common::TraceResult;
 use alloy::rpc::types::trace::geth::{
     GethTrace,
     GethDebugTracerType,
@@ -14,7 +14,7 @@ use alloy::rpc::types::trace::geth::{
     PreStateFrame,
     AccountState
 };
-use alloy::transports::Transport;
+use alloy::alloy-transport::Transport;
 use log::warn;
 use std::collections::BTreeMap;
 use std::sync::Arc;
