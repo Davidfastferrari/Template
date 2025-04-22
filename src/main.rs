@@ -2,7 +2,6 @@ use alloy::{
     eips::{BlockId, BlockNumberOrTag},
     primitives::U256,
 };
-
 use anyhow::Result;
 use ignition::start_workers;
 use lazy_static::lazy_static;
