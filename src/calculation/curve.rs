@@ -1,10 +1,10 @@
 use super::Calculator;
-use alloy::primitives::{Address, address};
+use alloy::alloy-primitives::{Address, address};
 use alloy::sol;
 use alloy::primitives::U256;
-// use revm::primitives::{ExecutionResult, TransactTo};
-// use alloy::sol_types::{SolCall, SolValue, SolStruct, SolInterface};
-// use revm::Evm;
+use revm::primitives::{ExecutionResult, TransactTo};
+use alloy::sol_types::{SolCall, SolValue, SolStruct, SolInterface};
+use revm::Evm;
 
 sol! {
     #[sol(rpc)]
@@ -13,8 +13,7 @@ sol! {
     }
 }
 
-
-impl Calculator {
+impl Calculator<T, N, P>{
     pub fn curve_out(&self, index_in: U256, index_out: U256, amount_in: U256, pool: Address) -> U256 {
         // the function calldata
         let calldata = CurveOut::get_dyCall {
