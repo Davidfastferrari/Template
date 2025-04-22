@@ -10,7 +10,6 @@ use alloy::rpc::types::trace::geth::{
     PreStateFrame,
     PreStateConfig
 };
-
 use alloy::rpc::types::trace::geth::AccountState as GethAccountState;
 use alloy::rpc::types::BlockId;
 use alloy::transports::{Transport, TransportError};
@@ -579,15 +578,6 @@ pub struct BlockStateDBSlot {
     pub value: U256,
     pub insertion_type: InsertionType,
 }
-
-#[derive(Default, Debug, Clone)]
-// pub struct BlockStateDBAccount {
-//     pub info: AccountInfo,
-//     pub state: AccountState,
-//     pub storage: HashMap<U256, BlockStateDBSlot>,
-//     #[warn(dead_code)]
-//     pub insertion_type: InsertionType,
-// }
 
 #[allow(dead_code)]
 #[derive(Default, Eq, PartialEq, Copy, Clone, Debug)]

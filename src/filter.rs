@@ -10,14 +10,13 @@ use node_db::{InsertionType, NodeDB};
 use pool_sync::{Chain, Pool, PoolInfo, PoolType};
 use reqwest::header::{HeaderMap, HeaderValue};
 use revm::primitives::{Bytes, TransactTo, ExecutionResult, FixedBytes};
-use revm::{inspector_handle_register, Evm};
+use revm::{Inspector, InspectEvm};
 use serde::{Deserialize, Serialize};
 use std::fs::{create_dir_all, File};
 use std::io::{BufReader, BufWriter};
 use std::path::Path;
 use std::str::FromStr;
 use std::collections::{HashSet, HashMap};
-use revm_inspectors::access_list::AccessListInspector;
 use rayon::prelude;
 
 // Blacklisted tokens we dont want to consider
@@ -306,7 +305,7 @@ async fn filter_by_swap(pools: Vec<Pool>, slot_map: HashMap<Address, FixedBytes<
             .unwrap();
 
         // construct a new evm instance
-        let mut evm = Evm::builder()
+        let mut evm = InspectEvm::builder()
             .with_db(&mut nodedb)
             .modify_tx_env(|tx| {
                 tx.caller = account;
@@ -521,7 +520,7 @@ fn construct_slot_map(pools: &Vec<Pool>) -> HashMap<Address, FixedBytes<32>> {
         let mut insp = AccessListInspector::default();
 
         // Populate inspector via transact
-        let mut evm = Evm::builder()
+        let mut evm = InspectEvm::builder()
             .with_db(&mut nodedb)
             .with_external_context(&mut insp)
             .modify_tx_env(|tx| {
@@ -529,7 +528,7 @@ fn construct_slot_map(pools: &Vec<Pool>) -> HashMap<Address, FixedBytes<32>> {
                 tx.transact_to = TransactTo::Call(token);
                 tx.data = calldata.clone().into();
             })
-            .append_handler_register(inspector_handle_register)
+            .append_handler_register(Inspector)
             .build();
         let _ = evm.transact();
         drop(evm);

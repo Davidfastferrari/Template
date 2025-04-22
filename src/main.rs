@@ -2,7 +2,6 @@ use alloy::{
     eips::{BlockId, BlockNumberOrTag},
     primitives::U256,
 };
-
 use anyhow::Result;
 use ignition::start_workers;
 use lazy_static::lazy_static;
@@ -33,13 +32,14 @@ mod tx_sender;
 mod history_db;
 
 // initial amount we are trying to arb over
-// lazy_static! {
-//     pub static ref AMOUNT: U256 = U256::from(1e15); 
-// }
-
-
-
 pub const AMOUNT_USD: u64 = 100_000; // $100,000
+
+/// Get amount of `token_symbol` equivalent to $100,000 in base units (U256)
+pub fn amount_for_token(token_symbol: &str) -> U256 {
+    let decimals = TOKEN_DECIMALS.get(token_symbol).copied().unwrap_or(18);
+    let multiplier = U256::exp10(decimals as usize); // Safe and correct
+    U256::from(AMOUNT_USD) * multiplier
+}
 
 // Example token metadata
 lazy_static! {
@@ -51,15 +51,9 @@ lazy_static! {
         map.insert("USDT", 6);
         map
     };
+       pub static ref AMOUNT: U256 = TOKEN_DECIMALS; 
 }
 
-/// Get amount of `token_symbol` equivalent to $100,000 in base units (U256)
-/// Get amount of `token_symbol` equivalent to $100,000 in base units (U256)
-pub fn amount_for_token(token_symbol: &str) -> U256 {
-    let decimals = TOKEN_DECIMALS.get(token_symbol).copied().unwrap_or(18);
-    let multiplier = U256::exp10(decimals as usize); // Safe and correct
-    U256::from(AMOUNT_USD) * multiplier
-}
 
 #[tokio::main]
 async fn main() -> Result<()> {

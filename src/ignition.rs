@@ -1,6 +1,6 @@
 use alloy::providers::ProviderBuilder;
 use log::info;
-use pool_sync::{Chain, Pool};
+use pool_sync::{PoolSync, PoolType, Chain, PoolInfo};
 use std::sync::mpsc;
 use std::thread;
 use std::sync::Arc;
@@ -19,7 +19,7 @@ use crate::gas_station::GasStation;
 use crate::estimator::Estimator;
 
 /// Start all of the workers
-pub async fn start_workers(pools: Vec<Pool>, last_synced_block: u64) {
+pub async fn start_workers(pools: Vec<PoolSync>, last_synced_block: u64) {
     // all of the sender and receiversb
     let (block_sender, block_receiver) = tokio::sync::broadcast::channel::<Event>(100);
     let (address_sender, address_receiver) = mpsc::channel::<Event>();
