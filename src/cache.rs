@@ -1,4 +1,4 @@
-use alloy::primitives::{Address, U256};
+use alloy::alloy-primitives::{Address, U256};
 use dashmap::DashMap;
 use rustc_hash::FxHasher;
 use std::hash::{Hash, Hasher};
