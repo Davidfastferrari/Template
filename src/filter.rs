@@ -6,6 +6,7 @@ use alloy::sol_types::{SolCall, SolValue};
 use anyhow::Result;
 use lazy_static::lazy_static;
 use log::{info, debug};
+use reqwest::header::{HeaderMap, HeaderValue};
 use node_db::{InsertionType, NodeDB};
 use pool_sync::{Chain, Pool, PoolInfo, PoolType};
 use std::collections::HashMap;
