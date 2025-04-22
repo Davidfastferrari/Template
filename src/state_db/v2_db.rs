@@ -1,8 +1,8 @@
 use super::BlockStateDB;
-use alloy::network::Network;
-use alloy::primitives::{Address, U256};
-use alloy::providers::Provider;
-use alloy::transports::Transport;
+use alloy::alloy-network::Network;
+use alloy::alloy-primitives::{Address, U256};
+use alloy::alloy-provider::Provider;
+use alloy::alloy-transport::Transport;
 use lazy_static::lazy_static;
 use log::trace;
 use pool_sync::{Pool, PoolInfo};
