@@ -2,7 +2,7 @@ use crate::swap::{SwapPath, SwapStep};
 use alloy::primitives::Address;
 use petgraph::graph::{NodeIndex, UnGraph};
 use petgraph::prelude;
-use pool_sync::{UniswapV2, UniswapV3, SushiswapV2, SushiswapV3, PancakeswapV2, PancakeswapV3, BaseswapV2, BaseswapV3, MaverickV1, MaverickV2, Aerodrome, Slipstream, AlienBase, CurveTriCryptoPool, Pool, PoolSync, PoolType, Chain, PoolInfo};
+use pool_sync::{UniswapV2, UniswapV3, SushiswapV2, SushiswapV3, PancakeswapV2, PancakeswapV3, BalancerV2Pool, BaseswapV2, BaseswapV3, MaverickV1, MaverickV2, Aerodrome, Slipstream, AlienBase, CurveTriCryptoPool, Pool, PoolSync, PoolType, Chain, PoolInfo};
 use std::collections::HashSet;
 use std::hash::Hash;
 use std::hash::{DefaultHasher, Hasher};
@@ -61,10 +61,24 @@ impl ArbGraph {
                     );
                 }
                 Pool::BalancerV3(balancerv3_pool) => {
-                    Self::add_simple_pool_to_graph(
+                    Self::add_balancer_pool_to_graph(
                         &mut graph,
                         &mut inserted_nodes,
                         balancerv3_pool,
+                    );
+                }
+                Pool::UniswapV2(UniswapV2_pool) => {
+                    Self::add_simple_pool_to_graph(
+                        &mut graph,
+                        &mut inserted_nodes,
+                        UniswapV2_pool,
+                    );
+                }
+                Pool::UniswapV3(UniswapV3_pool) => {
+                    Self::add_simple_pool_to_graph(
+                        &mut graph,
+                        &mut inserted_nodes,
+                        UniswapV3_pool,
                     );
                 }
                Pool::SushiswapV2(SushiswapV2_pool) => {
