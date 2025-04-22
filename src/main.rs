@@ -1,6 +1,6 @@
 use alloy::{
-    eips::{BlockId, BlockNumberOrTag},
-    primitives::U256,
+    alloy-eips::{BlockId, BlockNumberOrTag},
+    alloy-primitives::U256,
 };
 use anyhow::Result;
 use ignition::start_workers;
