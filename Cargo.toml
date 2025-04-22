@@ -12,7 +12,7 @@ alloy = ["dep:alloy"]
 revm = ["dep:revm"]
 reqwest = ["dep:reqwest"]
 reth = ["dep:reth"]
-pool-sync = ["dep:rpool-sync"]
+pool-sync = ["dep:pool-sync"]
 uniswap_v3_math = ["dep:uniswap_v3_math"]
 petgraph = ["dep:petgraph"]
 alloy-primitives = ["dep:alloy-primitives"]
@@ -62,7 +62,7 @@ petgraph = { version = "0.8.1", optional = true}
 dashmap = "6.1.0"
 foldhash = "0.1.3"
 dotenv = "0.15.0"
-pool-sync = { git = "https://github.com/Zacholme7/PoolSync" }
+pool-sync = { git = "https://github.com/Zacholme7/PoolSync", optional = true }
 essential-node-db-sql = "0.5.0"
 
 
