@@ -2,7 +2,7 @@ use crate::swap::{SwapPath, SwapStep};
 use alloy::primitives::Address;
 use petgraph::graph::{NodeIndex, UnGraph};
 use petgraph::prelude;
-use pool_sync::{BalancerV2Pool, CurveTriCryptoPool, Pool, PoolInfo};
+use pool_sync::{UniswapV2, UniswapV3, SushiswapV2, SushiswapV3, PancakeswapV2, PancakeswapV3, BaseswapV2, BaseswapV3, MaverickV1, MaverickV2, Aerodrome, Slipstream, AlienBase, CurveTriCryptoPool, Pool, PoolSync, PoolType, Chain, PoolInfo};
 use std::collections::HashSet;
 use std::hash::Hash;
 use std::hash::{DefaultHasher, Hasher};
@@ -42,10 +42,17 @@ impl ArbGraph {
     pub fn build_graph(working_pools: Vec<Pool>) -> UnGraph<Address, Pool> {
         let mut graph: UnGraph<Address, Pool> = UnGraph::new_undirected();
         let mut inserted_nodes: HashSet<Address> = HashSet::new();
+        let pool_sync = PoolSync::builder()
+        .add_pool(PoolType::UniswapV2, UniswapV3, SushiswapV2, SushiswapV3, PancakeswapV2, PancakeswapV3, BaseswapV2, BaseswapV3, MaverickV1, MaverickV2, Aerodrome, Slipstream, AlienBase)
+        .chain(Chain::Base)
+        .build()?;
+        
+      // Synchronize pools
+       let (pools, last_synced_block) = pool_sync.sync_pools().await?;
 
-        for pool in working_pools {
+        for pools in working_pools {
             // add the nodes ot the graph if they have not already been added
-            match pool {
+            match pools {
                 Pool::BalancerV2(balancer_pool) => {
                     Self::add_balancer_pool_to_graph(
                         &mut graph,
@@ -53,6 +60,90 @@ impl ArbGraph {
                         balancer_pool,
                     );
                 }
+                Pool::BalancerV3(balancerv3_pool) => {
+                    Self::add_simple_pool_to_graph(
+                        &mut graph,
+                        &mut inserted_nodes,
+                        balancerv3_pool,
+                    );
+                }
+               Pool::SushiswapV2(SushiswapV2_pool) => {
+                    Self::add_balancer_pool_to_graph(
+                        &mut graph,
+                        &mut inserted_nodes,
+                       SushiswapV2_pool,
+                    );
+                }
+             Pool::SushiswapV3(SushiswapV3_pool) => {
+                    Self::add_simple_pool_to_graph(
+                        &mut graph,
+                        &mut inserted_nodes,
+                        SushiswapV3_pool,
+                    );
+                }
+              Pool::PancakeswapV2(PancakeswapV2_pool) => {
+                    Self::add_simple_pool_to_graph(
+                        &mut graph,
+                        &mut inserted_nodes,
+                        PancakeswapV2_pool,
+                    );
+                }
+            Pool::PancakeswapV3(PancakeswapV3_pool) => {
+                    Self::add_simple_pool_to_graph(
+                        &mut graph,
+                        &mut inserted_nodes,
+                        PancakeswapV3_pool,
+                    );
+                }
+             Pool::BaseswapV2(BaseswapV2_pool) => {
+                    Self::add_simple_pool_to_graph(
+                        &mut graph,
+                        &mut inserted_nodes,
+                        BaseswapV2_pool,
+                    );
+                }
+            Pool::BaseswapV3(BaseswapV3_pool) => {
+                    Self::add_simple_pool_to_graph(
+                        &mut graph,
+                        &mut inserted_nodes,
+                        BaseswapV3_pool,
+                    );
+                }
+            Pool::MaverickV1(MaverickV1_pool) => {
+                    Self::add_simple_pool_to_graph(
+                        &mut graph,
+                        &mut inserted_nodes,
+                        MaverickV1_pool,
+                    );
+                }
+             Pool::MaverickV2(MaverickV2_pool) => {
+                    Self::add_simple_pool_to_graph(
+                        &mut graph,
+                        &mut inserted_nodes,
+                        MaverickV2_pool,
+                    );
+                }
+              Pool::Aerodrome(Aerodrome_pool) => {
+                    Self::add_simple_pool_to_graph(
+                        &mut graph,
+                        &mut inserted_nodes,
+                        Aerodrome_pool,
+                    );
+                }
+              Pool::Slipstream(Slipstream_pool) => {
+                    Self::add_simple_pool_to_graph(
+                        &mut graph,
+                        &mut inserted_nodes,
+                        Slipstream_pool,
+                    );
+                }
+               Pool::AlienBase(AlienBase_pool) => {
+                    Self::add_simple_pool_to_graph(
+                        &mut graph,
+                        &mut inserted_nodes,
+                        AlienBase_pool,
+                    );
+                 }
                 Pool::CurveTriCrypto(curve_pool) => {
                     Self::add_curve_pool_to_graph(&mut graph, &mut inserted_nodes, curve_pool);
                 }
