@@ -63,7 +63,7 @@ reth = { git = "https://github.com/paradigmxyz/reth", rev = "6f8e725" }
 reth-db = { git = "https://github.com/paradigmxyz/reth", package = "reth-db", rev = "6f8e725" }
 reth-chainspec = { git = "https://github.com/paradigmxyz/reth", package = "reth-chainspec", rev = "6f8e725" }
 reth-node-ethereum = { git = "https://github.com/paradigmxyz/reth", package = "reth-node-ethereum", rev = "6f8e725" }
-reth-providers = { git = "https://github.com/paradigmxyz/reth", package = "reth-providers", rev = "6f8e725" }
+
 
 # Utilities
 rayon = "1.10.0"
