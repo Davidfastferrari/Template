@@ -1,9 +1,9 @@
 use super::Calculator;
-use alloy::network::Network;
-use alloy::primitives::Address;
-use alloy::primitives::{I256, U256};
-use alloy::providers::Provider;
-use alloy::transports::Transport;
+use alloy::alloy-network ::Network;
+use alloy::alloy-primitives::Address;
+use alloy::alloy-primitives::{I256, U256};
+use alloy::alloy-provider::Provider;
+use alloy::alloy-transport ::Transport;
 use anyhow::Result;
 use std::collections::HashMap;
 use uniswap_v3_math::tick_math::{MAX_SQRT_RATIO, MAX_TICK, MIN_SQRT_RATIO, MIN_TICK, get_sqrt_ratio_at_tick};
