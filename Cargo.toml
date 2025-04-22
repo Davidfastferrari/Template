@@ -65,7 +65,6 @@ reth-chainspec = { git = "https://github.com/paradigmxyz/reth", package = "reth-
 reth-node-ethereum = { git = "https://github.com/paradigmxyz/reth", package = "reth-node-ethereum", rev = "6f8e725"}
 reth-provider = { git = "https://github.com/paradigmxyz/reth"}
 reth-primitives = { git = "https://github.com/paradigmxyz/reth"}
-reth-api = { git = "https://github.com/paradigmxyz/reth",package = "reth-api", rev = "6f8e725"}
 
 
 # Utilities
