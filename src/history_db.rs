@@ -1,31 +1,5 @@
-// use alloy::primitives::StorageKey;
-// use alloy::primitives::{Address, B256, U256};
-// use eyre::Result;
-// use reth::api::NodeTypesWithDBAdapter;
-// use reth::providers::providers::StaticFileProvider;
-// use reth::providers::AccountReader;
-// use reth::providers::DatabaseProviderFactory;
-// use reth::providers::StateProviderFactory;
-// use reth::providers::HistoricalStateProvider;
-// use reth::providers::StateProviderBox;
-// use reth::providers::{BlockNumReader, ProviderFactory};
-// use reth::utils::open_db_read_only;
-// use reth_chainspec::ChainSpecBuilder;
-// use reth_db::{mdbx::DatabaseArguments, ClientVersion, DatabaseEnv};
-// use reth_node_ethereum::EthereumNode;
-// use revm::db::AccountState;
-// use revm::primitives::KECCAK_EMPTY;
-// use revm::primitives::{Account, AccountInfo, Bytecode};
-// use revm::{Database, DatabaseCommit, DatabaseRef};
-// use std::collections::HashMap;
-// use std::path::Path;
-// use std::sync::atomic::{AtomicU64, Ordering};
-// use std::sync::{Arc, RwLock};
-
 use alloy::primitives::{Address, B256, U256, StorageKey};
 use eyre::Result;
-
-// Reth restructured paths (use subcrates directly)
 use reth_api::NodeTypesWithDBAdapter;
 use reth_provider::{
     AccountReader, BlockNumReader, DatabaseProviderFactory, HistoricalStateProvider,
@@ -35,6 +9,7 @@ use reth_utils::open_db_read_only;
 use reth_chainspec::ChainSpecBuilder;
 use reth_db::{mdbx::DatabaseArguments, DatabaseEnv, ClientVersion};
 use reth_node_ethereum::EthereumNode;
+use reth_provider::StateProviderFactory;
 
 use revm::db::AccountState;
 use revm::primitives::{Account, AccountInfo, Bytecode, KECCAK_EMPTY};
