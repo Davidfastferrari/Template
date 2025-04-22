@@ -12,7 +12,7 @@ use reth::reth_node_ethereum::EthereumNode;
 use reth::reth_provider::StateProviderFactory;
 use revm::db::AccountState;
 use revm::primitives::{Account, AccountInfo, Bytecode, KECCAK_EMPTY};
-use revm::{Database, DatabaseCommit, DatabaseRef};
+use revm::revm-database::{Database, DatabaseCommit, DatabaseRef};
 
 use std::collections::HashMap;
 use std::path::Path;
