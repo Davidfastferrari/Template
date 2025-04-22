@@ -7,6 +7,15 @@ debug = true
 
 [features]
 verification = []
+serde = ["dep:serde"]
+alloy = ["dep:alloy"]
+revm = ["dep:revm"]
+reqwest = ["dep:reqwest"]
+reth = ["dep:reth"]
+pool-sync = ["dep:rpool-sync"]
+uniswap_v3_math = ["dep:uniswap_v3_math"]
+petgraph = ["dep:petgraph"]
+alloy-primitives = ["dep:alloy-primitives"]
 
 [dependencies]
 anyhow = "1.0.79"
