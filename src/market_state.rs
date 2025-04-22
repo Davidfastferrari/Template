@@ -1,10 +1,10 @@
-use alloy::network::Network;
-use alloy::primitives::{address, Address, U256};
-use alloy::providers::{Provider, ProviderBuilder, RootProvider};
-use alloy::rpc::types::BlockNumberOrTag;
+use alloy::alloy-network::Network;
+use alloy::alloy-primitives::{address, Address, U256};
+use alloy::alloy-providers::{Provider, ProviderBuilder, RootProvider};
+use alloy::alloy-rpc-types::BlockNumberOrTag;
 use alloy::sol_types::{SolCall, SolValue};
-use alloy::transports::http::{Client, Http};
-use alloy::transports::Transport;
+use alloy::alloy-transports::http::{Client, Http};
+use alloy::alloy-transports::Transport;
 use anyhow::Result;
 use log::{debug, error, info};
 use pool_sync::Pool;
@@ -20,7 +20,6 @@ use std::time::Instant;
 use tokio::sync::broadcast::Receiver;
 use std::sync::atomic::Ordering;
 use std::sync::atomic::AtomicBool;
-
 use crate::events::Event;
 use crate::gen::ERC20Token;
 use crate::gen::FlashQuoter;
