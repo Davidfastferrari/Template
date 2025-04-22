@@ -1,4 +1,4 @@
-use alloy::providers::ProviderBuilder;
+use alloy::alloy-provider::ProviderBuilder;
 use log::info;
 use pool_sync::{PoolSync, PoolType, Chain, PoolInfo};
 use std::sync::mpsc;
@@ -6,7 +6,6 @@ use std::thread;
 use std::sync::Arc;
 use std::sync::atomic::AtomicBool;
 use std::sync::atomic::Ordering::Relaxed;
-
 use crate::events::Event;
 use crate::filter::filter_pools;
 use crate::graph::ArbGraph;
