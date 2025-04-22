@@ -1,10 +1,10 @@
-use alloy::primitives::{U256, I256};
+use alloy::alloy-primitives::{U256, I256};
 use std::ops::Neg;
-use alloy::primitives::Address;
+use alloy::alloy-primitives::Address;
 use std::str::FromStr;
 use super::Calculator;
 
-impl Calculator {
+impl Calculator<T, N, P>{
 
     pub fn balancer_v2_out(
         &self, 
