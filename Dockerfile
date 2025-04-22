@@ -3,37 +3,27 @@ FROM rust:1.86.0 as builder
 
 WORKDIR /app
 
-# Install required libs for bindgen + FFI
-# RUN apt-get update && apt-get install -y \
-#     clang \
-#     llvm-dev \
-#     libclang-dev \
-#     pkg-config \
-#     build-essential \
-#     cmake \
-#     curl \
-#     git \
-#     ca-certificates \
-#     && rm -rf /var/lib/apt/lists/*
+# Required libs for bindgen + FFI
+RUN apt-get update && apt-get install -y \
+    clang \
+    llvm-dev \
+    libclang-dev \
+    pkg-config \
+    build-essential \
+    cmake \
+    curl \
+    git \
+    ca-certificates \
+ && rm -rf /var/lib/apt/lists/*
 
+# Optional: Explicitly tell bindgen where to find libclang (sometimes needed)
+ENV LIBCLANG_PATH=/usr/lib/llvm-14/lib
+ENV CLANG_PATH=/usr/bin/clang
 
-# Preload only metadata to cache dependencies
-# COPY Cargo.toml Cargo.lock ./
-
-# # Avoid full rebuild when only src changes
-# RUN mkdir -p src && echo "fn main() {}" > src/main.rs
-
-# # Fetch dependencies (WITHOUT resolving to newer versions)
-# RUN cargo fetch --locked
-
-# Copy the full source code
+# Copy full project
 COPY . .
 
-# Show file structure and loaded manifest
-# RUN ls -la /app && cat Cargo.toml
-
-# Build with locking to prevent unwanted updates
-#RUN cargo build --release --locked
+# Build without relying on Cargo.lock
 RUN cargo build --release
 
 # -------- STAGE 2: RUNTIME --------
@@ -46,11 +36,9 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /app
 
-# Copy only the built binary and runtime essentials
 COPY --from=builder /app/target/release/BaseBuster ./BaseBuster
 COPY --from=builder /app/contract ./contract
 
-# Set environment variables for runtime behavior
 ENV RUST_BACKTRACE=1
 ENV RUST_LOG=info
 
