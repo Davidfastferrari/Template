@@ -64,7 +64,6 @@ reth-db = { git = "https://github.com/paradigmxyz/reth", package = "reth-db", re
 reth-chainspec = { git = "https://github.com/paradigmxyz/reth", package = "reth-chainspec", rev = "6f8e725" }
 reth-node-ethereum = { git = "https://github.com/paradigmxyz/reth", package = "reth-node-ethereum", rev = "6f8e725" }
 reth-provider = { git = "https://github.com/paradigmxyz/reth" }
-reth-interfaces = { git = "https://github.com/paradigmxyz/reth", package = "reth-interfaces", rev = "6f8e725" }
 reth-primitives = { git = "https://github.com/paradigmxyz/reth" }
 
 
