@@ -1,9 +1,9 @@
 use super::BlockStateDB;
-use alloy::network::Network;
-use alloy::primitives::{keccak256, Address, Signed, Uint, I256, U160, U256};
-use alloy::providers::Provider;
+use alloy::alloy-network::Network;
+use alloy::alloy-primitives::{keccak256, Address, Signed, Uint, I256, U160, U256};
+use alloy::alloy-provider::Provider;
 use alloy::sol;
-use alloy::transports::Transport;
+use alloy::alloy-transport::Transport;
 use anyhow::Result;
 use lazy_static::lazy_static;
 use log::trace;
