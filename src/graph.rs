@@ -39,7 +39,7 @@ impl ArbGraph {
     }
 
     // Build the graph from the working set of pools
-    pub fn build_graph(working_pools: Vec<Pool>) -> UnGraph<Address, Pool> {
+   async fn build_graph(working_pools: Vec<Pool>) -> UnGraph<Address, Pool> {
         let mut graph: UnGraph<Address, Pool> = UnGraph::new_undirected();
         let mut inserted_nodes: HashSet<Address> = HashSet::new();
         let pool_sync = PoolSync::builder()
