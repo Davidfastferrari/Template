@@ -4,36 +4,37 @@ FROM rust:1.86.0 as builder
 WORKDIR /app
 
 # Install required libs for bindgen + FFI
-RUN apt-get update && apt-get install -y \
-    clang \
-    llvm-dev \
-    libclang-dev \
-    pkg-config \
-    build-essential \
-    cmake \
-    curl \
-    git \
-    ca-certificates \
-    && rm -rf /var/lib/apt/lists/*
+# RUN apt-get update && apt-get install -y \
+#     clang \
+#     llvm-dev \
+#     libclang-dev \
+#     pkg-config \
+#     build-essential \
+#     cmake \
+#     curl \
+#     git \
+#     ca-certificates \
+#     && rm -rf /var/lib/apt/lists/*
 
 
 # Preload only metadata to cache dependencies
-COPY Cargo.toml Cargo.lock ./
+# COPY Cargo.toml Cargo.lock ./
 
-# Avoid full rebuild when only src changes
-RUN mkdir -p src && echo "fn main() {}" > src/main.rs
+# # Avoid full rebuild when only src changes
+# RUN mkdir -p src && echo "fn main() {}" > src/main.rs
 
-# Fetch dependencies (WITHOUT resolving to newer versions)
-RUN cargo fetch --locked
+# # Fetch dependencies (WITHOUT resolving to newer versions)
+# RUN cargo fetch --locked
 
 # Copy the full source code
 COPY . .
 
 # Show file structure and loaded manifest
-RUN ls -la /app && cat Cargo.toml
+# RUN ls -la /app && cat Cargo.toml
 
 # Build with locking to prevent unwanted updates
-RUN cargo build --release --locked
+#RUN cargo build --release --locked
+RUN cargo build --release
 
 # -------- STAGE 2: RUNTIME --------
 FROM debian:bookworm-slim
