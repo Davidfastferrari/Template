@@ -10,7 +10,7 @@ use log::trace;
 use pool_sync::{Pool, PoolInfo};
 use revm::DatabaseRef;
 use std::ops::{BitAnd, Shl, Shr};
-use crate::state_db::blockstate_db::{InsertionType, BlockStateDBSlot};
+use state_db::blockstate_db::{InsertionType, BlockStateDBSlot};
 
 // Bitmasks for storage insertion
 lazy_static {
