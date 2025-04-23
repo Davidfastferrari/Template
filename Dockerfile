@@ -36,7 +36,7 @@ RUN --mount=type=bind,source=src,target=src \
 cargo build --release && \
 cp ./app
 cp ./app/src ./src
-cp .//app/contract ./contract
+cp ./app/contract ./contract
 
 ################################################################################
 # Create a new stage for running the application that contains the minimal
