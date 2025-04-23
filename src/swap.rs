@@ -1,10 +1,10 @@
 use alloy::{
-    primitives::{address, b128, b256, b512, b64, bytes, fixed_bytes, Address, Bytes, FixedBytes, Uint, I256, U256, hex},
+    primitives::{ address, b128, b256, b512, b64, bytes, fixed_bytes, Address, Bytes, FixedBytes, Uint, I256, U256, hex },
     sol,
     sol_types::SolCall,
 };
 use pool_sync::PoolType;
-use serde::{Deserialize, Serialize};
+use serde::{ Deserialize, Serialize };
 use std::convert::From;
 use std::hash::Hash;
 use gen::FlashQuoter;
