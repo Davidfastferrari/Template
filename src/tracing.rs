@@ -7,6 +7,7 @@ use alloy::{
     rpc::types::{
         trace::geth::{ GethDebugTracingCallOptions, Bundle, StateContext, TransactionRequest, GethTrace, GethDebugTracerType, GethDebugBuiltInTracerType, PreStateConfig, GethDebugTracingOptions, GethDefaultTracingOptions, PreStateFrame, AccountState },
         BlockNumberOrTag,
+        trace::common::TraceResult;
     },
    transports::http::{
         reqwest::{
