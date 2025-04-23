@@ -118,7 +118,7 @@ impl TransactionSender {
                 .with_max_fee_per_gas(max_fee)
                 .with_max_priority_fee_per_gas(priority_fee)
                 .transaction_type(2)
-                .with_input(AlloyBytes::from(calldata));
+                .with_input(Bytes::from(calldata));
             self.nonce += 1;
             let tx_envelope = tx.build(&self.wallet).await.unwrap();
             let mut encoded_tx = vec![];
