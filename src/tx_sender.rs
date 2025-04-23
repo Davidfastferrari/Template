@@ -6,7 +6,7 @@ use alloy::{
     consensus::Transaction,
     network::{ TransactionBuilder, EthereumWallet },
     primitives::{hex, address, U256, Address, FixedBytes, Bytes },
-    providers::{ Provider, ProviderBuilder, RootProvider },
+    providers::{ Provider, ProviderBuilder, RootProvider::{ client }},
     rpc::types::request::TransactionRequest,
     rpc::types::{
         trace::geth::{ GethDebugTracingCallOptions, Bundle, StateContext, TransactionRequest, GethTrace, GethDebugTracerType, GethDebugBuiltInTracerType, PreStateConfig, GethDebugTracingOptions, GethDefaultTracingOptions, PreStateFrame, AccountState }
@@ -37,7 +37,7 @@ pub struct TransactionSender {
     gas_station: Arc<GasStation>,
     contract_address: Address,
     client: Arc<Client>,
-    provider: Arc<RootProvider<Http<AlloyClient>>>,
+    provider: Arc<RootProvider<Http<>>>,
     nonce: u64,
 }
 
@@ -156,7 +156,7 @@ impl TransactionSender {
 
     // Send the transaction and monitor its status
     pub async fn send_and_monitor(
-        provider: Arc<RootProvider<Http<AlloyClient>>>,
+        provider: Arc<RootProvider<Http<client>>>,
         tx_hash: FixedBytes<32>,
         block_number: u64,
     ) {
