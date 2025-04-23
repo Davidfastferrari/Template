@@ -14,7 +14,7 @@ use estimator::Estimator;
 use events::Event;
 use market_state::MarketState;
 use swap::SwapPath;
-use AMOUNT;
+use main::AMOUNT;
 
 // top level sercher struct
 // contains the calculator and all path information
