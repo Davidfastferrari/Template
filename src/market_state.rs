@@ -37,8 +37,8 @@ use std::sync::atomic::Ordering;
 use std::sync::atomic::AtomicBool;
 
 use events::Event;
-use gen::ERC20Token;
-use gen::FlashQuoter;
+use gen1::ERC20Token;
+use gen1::FlashQuoter;
 use state_db::{BlockStateDB, InsertionType};
 use tracing::debug_trace_block;
 use main::AMOUNT;
