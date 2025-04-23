@@ -1,9 +1,10 @@
-use alloy::alloy-network::Ethereum;
-use alloy::alloy-primitives::{address, U256};
-use alloy::alloy-providers::RootProvider;
-use alloy::sol_types::SolCall;
-use alloy::sol_types::SolValue;
-use alloy::alloy-transports::http::{Client, Http};
+use alloy::{
+    consensus::Transaction,
+    network::TransactionBuilder,
+    primitives::{address, U256},
+    providers::{Provider, ProviderBuilder},
+    rpc::types::request::TransactionRequest,
+};
 use anyhow::{anyhow, Result};
 use revm::primitives::{ExecutionResult, TransactTo};
 use revm::Evm;
