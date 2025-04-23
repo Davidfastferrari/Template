@@ -9,13 +9,12 @@ use log::{debug, info, warn};
 use std::collections::HashSet;
 use std::sync::mpsc::{Receiver, Sender};
 use std::sync::Arc;
-
-use crate::calculation::Calculator;
-use crate::events::Event;
-use crate::gen::FlashQuoter;
-use crate::market_state::MarketState;
-use crate::quoter::Quoter;
-use crate::AMOUNT;
+use calculation::Calculator;
+use events::Event;
+use gen::FlashQuoter;
+use market_state::MarketState;
+use quoter::Quoter;
+use main::AMOUNT;
 
 // recieve a stream of potential arbitrage paths from the searcher and
 // simulate them against the contract to determine if they are actually viable
