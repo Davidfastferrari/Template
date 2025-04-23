@@ -1,15 +1,15 @@
-use gen::ERC20Token::{self, approveCall};
-use gen::{V2Aerodrome, V2Swap, V3Swap, V3SwapDeadline, V3SwapDeadlineTick};
+use gen::ERC20Token::{ self, approveCall };
+use gen::{ V2Aerodrome, V2Swap, V3Swap, V3SwapDeadline, V3SwapDeadlineTick };
 use main::AMOUNT;
 use alloy::{
-    eips::{BlockId, Encodable2718),
+    eips::{ BlockId, Encodable2718 },
     consensus::Transaction,
-    network::{TransactionBuilder, EthereumWallet, Ethereum, Network}
-    primitives::{hex, address, U256, U160, Address, FixedBytes, Bytes},
-    providers::{Provider, ProviderBuilder, RootProvider},
-    rpc::types::{TransactionRequest, BlockNumberOrTag),
+    network::{ TransactionBuilder, EthereumWallet, Ethereum, Network },
+    primitives::{ hex, address, U256, U160, Address, FixedBytes, Bytes },
+    providers::{ Provider, ProviderBuilder, RootProvider },
+    rpc::types::{ TransactionRequest, BlockNumberOrTag },
     rpc::types::{
-        trace::geth::{GethDebugTracingCallOptions, Bundle, StateContext, TransactionRequest, GethTrace, GethDebugTracerType, GethDebugBuiltInTracerType, PreStateConfig, GethDebugTracingOptions, GethDefaultTracingOptions, PreStateFrame, AccountState
+        trace::geth::{ GethDebugTracingCallOptions, Bundle, StateContext, TransactionRequest, GethTrace, GethDebugTracerType, GethDebugBuiltInTracerType, PreStateConfig, GethDebugTracingOptions, GethDefaultTracingOptions, PreStateFrame, AccountState
     },
    signer::local::PrivateKeySigner,
    signer::k256::SecretKey,
@@ -22,7 +22,7 @@ use alloy::{
         Http,
     },
     sol,
-    sol_types::{SolCall, SolValue, SolType},
+    sol_types::{ SolCall, SolValue, SolType },
 };
 use anyhow::Result;
 use lazy_static::lazy_static;
