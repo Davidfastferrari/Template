@@ -1,7 +1,11 @@
-use alloy::alloy-network::Network;
-use alloy::alloy-primitives::{Address, U256};
-use alloy::alloy-provider::Provider;
-use alloy::alloy-transport::Transport;
+use alloy::{
+    eips::{BlockId, BlockNumberOrTag},
+    primitives::{U256, Address},
+    network::Ethereum,
+    providers::RootProvider,
+    transports::http::{Client, Http};
+    primitives::U256,
+};
 use lazy_static::lazy_static;
 use pool_sync::{Pool, PoolInfo};
 use std::collections::{HashMap, HashSet};
