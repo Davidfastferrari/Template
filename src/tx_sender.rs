@@ -1,6 +1,6 @@
-use crate::events::Event;
-use crate::gas_station::GasStation;
-use crate::gen::FlashSwap;
+use events::Event;
+use gas_station::GasStation;
+use gen::FlashSwap;
 use alloy::{
     eips::{BlockId, Encodable2718),
     consensus::Transaction,
@@ -185,10 +185,10 @@ mod tx_signing_tests {
     use alloy::primitives::{address, U256};
     use alloy::providers::{Provider, ProviderBuilder};
     use env_logger;
-    use crate::gen::FlashQuoter;
+    use gen::FlashQuoter;
     use pool_sync::PoolType;
     use std::time::Instant;
-    use crate::AMOUNT;
+    use AMOUNT;
     use super::*;
 
     // Create mock swap params
