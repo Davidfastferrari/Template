@@ -17,7 +17,7 @@ use alloy::{
             Client,
         },
         Http,
-        Transport
+        Transport,
     },
    sol_types::sol;
 };
