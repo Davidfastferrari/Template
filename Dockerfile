@@ -23,6 +23,7 @@ ENV CLANG_PATH=/usr/bin/clang
 COPY . .
 
 # Build without relying on Cargo.lock
+RUN cargo clean
 RUN cargo build --release
 
 # -------- STAGE 2: RUNTIME --------
