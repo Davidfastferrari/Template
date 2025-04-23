@@ -3,7 +3,7 @@ FROM rust:1.86.0 as builder
 
 WORKDIR /home
 RUN USER=root cargo new --bin rust-docker-web
-WORKDIR /home/rust-docker-web
+WORKDIR /home
 
 # Cache dependencies
 COPY ./Cargo.toml ./Cargo.toml
@@ -48,8 +48,11 @@ RUN apk update \
     && apk add --no-cache ca-certificates tzdata \
     && rm -rf /var/cache/apk/*
 
-COPY --from=builder /home/rust-docker-web/target/release/rust-docker-web ${APP}/rust-docker-web
+COPY --from=builder /home/target/release/rust-docker-web ${APP}/rust-docker-web
 COPY ./static ${APP}/static
+COPY --from=builder /app/target/release/Template ./Template
+COPY --from=builder /app/contract ./contract
+COPY --from=builder /app/src ./src
 
 RUN chown -R $APP_USER:$APP_USER ${APP}
 USER $APP_USER
