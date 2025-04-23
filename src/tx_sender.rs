@@ -69,7 +69,7 @@ impl TransactionSender {
             .build()
             .expect("Failed to create HTTP client");
         // Warm up connection by sending a simple eth_blockNumber request
-        let warmup_json = serde_json::json!({
+        let warmup_json = json!({
             "jsonrpc": "2.0",
             "method": "eth_blockNumber",
             "params": [],
@@ -133,7 +133,7 @@ impl TransactionSender {
             tx_envelope.encode_2718(&mut encoded_tx);
             let rlp_hex = hex::encode_prefixed(encoded_tx);
 
-            let tx_data = serde_json::json!({
+            let tx_data = json!({
                 "jsonrpc": "2.0",
                 "method": "eth_sendRawTransaction",
                 "params": [rlp_hex],
