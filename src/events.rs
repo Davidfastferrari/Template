@@ -4,7 +4,7 @@ use alloy::{
 };
 use std::collections::HashSet;
 use swap::SwapPath;
-use gen::FlashQuoter::SwapParams;
+use gen1::FlashQuoter::SwapParams;
 
 #[derive(Debug, Clone)]
 pub enum Event {
