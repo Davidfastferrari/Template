@@ -92,11 +92,11 @@ async fn main() -> Result<()> {
             PoolType::Aerodrome,
             PoolType::Slipstream,
             PoolType::AlienBaseV2,
-            PoolType::AlienBaseV3
-            PoolType::BaseswapV2
-            PoolType::BaseswapV3
-            PoolType::MaverickV1
-            PoolType::MaverickV2
+            PoolType::AlienBaseV3,
+            PoolType::BaseswapV2,
+            PoolType::BaseswapV3,
+            PoolType::MaverickV1,
+            PoolType::MaverickV2,
         ])
         .chain(Chain::Base)
         .rate_limit(1000)
