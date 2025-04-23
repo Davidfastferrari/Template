@@ -1,10 +1,9 @@
 use alloy::{
-    eips::{BlockId, BlockNumberOrTag},
-    primitives::U256,
-    network::Ethereum,
-    providers::RootProvider,
-    transports::http::{Client, Http};
-    primitives::U256,
+    consensus::Transaction,
+    network::TransactionBuilder,
+    primitives::{address, U256},
+    providers::{Provider, ProviderBuilder},
+    rpc::types::request::TransactionRequest,
 };
 use log::{debug, info, warn};
 use std::collections::HashSet;
