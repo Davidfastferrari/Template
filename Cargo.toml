@@ -1,42 +1,10 @@
 [package]
-name = "BaseBuster"
+name = "Template"
 version = "1.86.0"
 edition = "2024"
 
 [profile.release]
 debug = true
-
-[features]
-serde = ["dep:serde"]
-alloy = ["dep:alloy"]
-revm = ["dep:revm"]
-revm-inspectors = ["dep:revm-inspectors"]
-revm-database = ["dep:revm-database"]
-reqwest = ["dep:reqwest"]
-reth = ["dep:reth"]
-reth-db = ["dep:reth-db"]
-reth-chainspec = ["dep:reth-chainspec"]
-reth-node-ethereum = ["dep:reth-node-ethereum"]
-reth-provider = ["dep:reth-provider"]
-reth-primitives = ["dep:reth-primitives"]
-pool-sync = ["dep:pool-sync"]
-petgraph = ["dep:petgraph"]
-alloy-primitives = ["dep:alloy-primitives"]
-alloy-network = ["dep:alloy-network"]
-alloy-consensus = ["dep:alloy-consensus"]
-rayon = ["dep:rayon"]
-eyre = ["dep:eyre"]
-uniswap-v3-sdk = ["dep:uniswap-v3-sdk"]
-alloy-eips = ["dep:alloy-eips"]
-lazy_static = ["dep:lazy_static"]
-blockstate = ["dep:blockstate"]
-block-db = ["dep:block-db"]
-log = ["dep:log"]
-rustc-hash = ["dep:rustc-hash"]
-zerocopy = ["dep:zerocopy"]
-http-body-util = ["dep:http-body-util"]
-bytes = ["dep:bytes"]
-once_cell = ["dep:once_cell"]
 
 [dependencies]
 anyhow = "1.0.79"
