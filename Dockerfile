@@ -35,7 +35,7 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /app
 
-//COPY --from=builder /app/target/release/Template ./Template
+# COPY --from=builder /app/target/release/Template ./Template
 COPY --from=builder /app/contract ./contract
 COPY --from=builder /app/src ./src
 
