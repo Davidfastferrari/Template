@@ -1,7 +1,7 @@
 use events::Event;
-use alloy::providers::{IpcConnect, Provider, ProviderBuilder};
+use alloy::providers::{ IpcConnect, Provider, ProviderBuilder };
 use futures::StreamExt;
-use log::{debug, warn};
+use log::{ debug, warn };
 use tokio::sync::broadcast::Sender;
 
 // Stream in new blocks
