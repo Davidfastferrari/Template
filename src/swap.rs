@@ -1,9 +1,16 @@
-use alloy::alloy-primitives::Address;
+use alloy::primitives::{
+    address, b128, b256, b512, b64, bytes, fixed_bytes, Address, Bytes, FixedBytes,
+};
+use alloy::{
+    hex,
+    primitives::{Uint, I256, U256},
+    sol,
+    sol_types::SolCall,
+};
 use pool_sync::PoolType;
 use serde::{Deserialize, Serialize};
 use std::convert::From;
 use std::hash::Hash;
-use alloy::sol_types::sol;
 
 use crate::gen::FlashQuoter;
 use crate::gen::FlashSwap;
