@@ -34,7 +34,9 @@ RUN --mount=type=bind,source=src,target=src \
     --mount=type=cache,target=/usr/local/cargo/git/db \
     --mount=type=cache,target=/usr/local/cargo/registry/ \
 cargo build --release && \
-cp ./target/release/$APP_NAME /bin/server
+cp ./app
+cp ./app/src ./src
+cp .//app/contract ./contract
 
 ################################################################################
 # Create a new stage for running the application that contains the minimal
