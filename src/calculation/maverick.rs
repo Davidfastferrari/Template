@@ -33,7 +33,12 @@ sol! {
     }
 }
 
-impl Calculator<T, N, P>{
+impl<T, N, P> Calculator<T, N, P>
+where
+    T: Transport + Clone,
+    N: Network,
+    P: Provider<T, N>,
+{
     pub fn maverick_v2_out(&self, amount_in: U256, pool: Address, zero_for_one: bool, tick_limit: i32) -> U256 {
         let calldata = MaverickOut::calculateSwapCall {
             pool,
