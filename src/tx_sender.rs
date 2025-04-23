@@ -4,7 +4,7 @@ use gen::FlashSwap;
 use alloy::{
     eips::{ BlockId, Encodable2718 },
     consensus::Transaction,
-    network::{ TransactionBuilder, EthereumWallet }
+    network::{ TransactionBuilder, EthereumWallet },
     primitives::{hex, address, U256, Address, FixedBytes, Bytes },
     providers::{ Provider, ProviderBuilder, RootProvider },
     rpc::types::request::TransactionRequest,
