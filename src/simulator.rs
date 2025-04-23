@@ -1,9 +1,24 @@
 use alloy::{
+    eips::{BlockId, Encodable2718),
     consensus::Transaction,
-    network::TransactionBuilder,
-    primitives::{address, U256},
-    providers::{Provider, ProviderBuilder},
-    rpc::types::request::TransactionRequest,
+    network::{TransactionBuilder, EthereumWallet, Ethereum, Network}
+    primitives::{hex, address, U256, Address, FixedBytes, Bytes},
+    providers::{Provider, ProviderBuilder, RootProvider},
+    rpc::types::{TransactionRequest, BlockNumberOrTag),
+    rpc::types::{
+        trace::geth::{GethDebugTracingCallOptions, Bundle, StateContext, TransactionRequest, GethTrace, GethDebugTracerType, GethDebugBuiltInTracerType, PreStateConfig, GethDebugTracingOptions, GethDefaultTracingOptions, PreStateFrame, AccountState
+    },
+   signer::local::PrivateKeySigner,
+   signer::k256::SecretKey,
+      rpc::client::RpcClient,
+    transports::http::{
+        reqwest::{
+            header::{HeaderMap, HeaderValue, AUTHORIZATION},
+            Client,
+        },
+        Http,
+    },
+   sol_types::sol;
 };
 use log::{debug, info, warn};
 use std::collections::HashSet;
