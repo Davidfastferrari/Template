@@ -1,18 +1,27 @@
-use alloy::alloy-network::alloy-primitives::HeaderResponse;
-use alloy::alloy-network::{BlockResponse, Network};
-use alloy::alloy-primitives::{Address, BlockNumber, B256, U256};
-use alloy::alloy-provider::Provider;
-use alloy::rpc::types::trace::geth::{
-    GethDebugTracingOptions, GethDefaultTracingOptions,
-    GethDebugTracerType::BuiltInTracer,
-    GethDebugBuiltInTracerType::PreStateTracer,
-    GethTrace,
-    PreStateFrame,
-    PreStateConfig
+use alloy::{
+    eips::{BlockId, Encodable2718, calc_next_block_base_fee, eip1559::{BaseFeeParams}),
+    consensus::Transaction,
+    network::{TransactionBuilder, EthereumWallet, Ethereum, Network, BlockResponse, HeaderResponse}
+    primitives::{BlockNumber, B256, hex, address, U256, U160, Address, FixedBytes, Bytes},
+    providers::{Provider, ProviderBuilder, RootProvider},
+    rpc::types::{TransactionRequest, BlockNumberOrTag, BlockId),
+    rpc::types::{
+        trace::geth::{GethDebugTracingOptions, GethDebugTracingCallOptions, Bundle, StateContext, TransactionRequest, GethTrace, GethDebugTracerType, GethDebugBuiltInTracerType, PreStateConfig, GethDebugTracingOptions, GethDefaultTracingOptions, PreStateFrame, AccountState},
+   signer::local::PrivateKeySigner,
+   signer::k256::SecretKey,
+      rpc::client::RpcClient,
+    transports::http::{
+        reqwest::{
+            header::{HeaderMap, HeaderValue, AUTHORIZATION},
+            Client,
+        },
+        Http,
+      Transport,
+      TransportError 
+    },
+    sol,
+    sol_types::{SolCall, SolValue, SolType},
 };
-use alloy::rpc::types::trace::geth::AccountState as GethAccountState;
-use alloy::alloy-rpc-types::BlockId;
-use alloy::alloy-transport::{Transport, TransportError};
 use anyhow::Result;
 use log::{debug, trace, warn};
 use pool_sync::PoolInfo;
