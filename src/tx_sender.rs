@@ -1,17 +1,21 @@
 use crate::events::Event;
 use crate::gas_station::GasStation;
 use crate::gen::FlashSwap;
-use alloy::alloy-eips::Encodable2718;
-use alloy::alloy-primitives::hex;
-use alloy::alloy-network::{EthereumWallet, TransactionBuilder};
-use alloy::alloy-primitives::{Address, FixedBytes};
-use alloy::alloy-primitives::Bytes as AlloyBytes;
-use alloy::alloy-provider ::{Provider, ProviderBuilder, RootProvider};
-use alloy::alloy-rpc-types::TransactionRequest;
-use alloy::alloy-signer::k256::SecretKey;
-use alloy::alloy-signer-local::PrivateKeySigner;
-use alloy::sol_types::sol;
-use alloy::alloy-transport-http::{Client as AlloyClient, Http};
+use alloy::{
+    eips::{BlockId, Encodable2718),
+    consensus::Transaction,
+    network::{TransactionBuilder, EthereumWallet}
+    primitives::{hex, address, U256, Address, FixedBytes, Bytes},
+    providers::{Provider, ProviderBuilder, RootProvider},
+    rpc::types::request::TransactionRequest,
+    rpc::types::{
+        trace::geth::GethDebugTracingCallOptions, Bundle, StateContext, TransactionRequest, GethTrace, GethDebugTracerType, GethDebugBuiltInTracerType, PreStateConfig, GethDebugTracingOptions, GethDefaultTracingOptions, PreStateFrame, AccountState
+    },
+   signer::local::PrivateKeySigner,
+   signer::k256::SecretKey,
+   transport::http::{Client, Http},
+   sol_types::sol;
+};
 use log::info;
 use std::collections::HashMap;
 use serde_json::{Result, Value};
