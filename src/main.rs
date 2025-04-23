@@ -13,7 +13,8 @@ use lazy_static::lazy_static;
 use std::collections::HashMap;
 use std::thread::Builder;
 use pool_sync::{PoolSync, PoolType, Chain, PoolInfo};
-use log::{debug, error, log_enabled, info, Level, LevelFilter};
+use env_logger::Builder;
+use log::{LevelFilter, error, info};
 
 
 mod bytecode;
@@ -75,9 +76,9 @@ pub fn update_amount(token_symbol: &str) {
 async fn main() -> Result<(), E>{
     // init dots and logger
     dotenv::dotenv().ok();
-   env_logger::init();
-        .filter_module("BaseBuster", LevelFilter::Info)
-        .init();
+  let mut builder = Builder::new();
+        builder.filter_level("Template", LevelFilter::Info)
+        builder.init();
     // Load in all the pools
     info!("Loading and syncing pools...");
     let pool_sync = PoolSync::builder()
