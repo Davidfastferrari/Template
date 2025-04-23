@@ -1,10 +1,25 @@
 use alloy::{
-    eips::{BlockId, BlockNumberOrTag},
-    primitives::{U256, Address},
-    network::Ethereum,
-    providers::RootProvider,
-    transports::http::{Client, Http};
-    primitives::U256,
+    eips::{BlockId, Encodable2718),
+    consensus::Transaction,
+    network::{TransactionBuilder, EthereumWallet, Ethereum, Network}
+    primitives::{hex, address, U256, U160, Address, FixedBytes, Bytes},
+    providers::{Provider, ProviderBuilder, RootProvider},
+    rpc::types::{TransactionRequest, BlockNumberOrTag),
+    rpc::types::{
+        trace::geth::{GethDebugTracingCallOptions, Bundle, StateContext, TransactionRequest, GethTrace, GethDebugTracerType, GethDebugBuiltInTracerType, PreStateConfig, GethDebugTracingOptions, GethDefaultTracingOptions, PreStateFrame, AccountState
+    },
+   signer::local::PrivateKeySigner,
+   signer::k256::SecretKey,
+      rpc::client::RpcClient,
+    transports::http::{
+        reqwest::{
+            header::{HeaderMap, HeaderValue, AUTHORIZATION},
+            Client,
+        },
+        Http,
+    },
+    sol,
+    sol_types::{SolCall, SolValue, SolType},
 };
 use lazy_static::lazy_static;
 use pool_sync::{Pool, PoolInfo};
