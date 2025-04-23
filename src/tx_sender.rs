@@ -9,7 +9,7 @@ use alloy::{
     providers::{Provider, ProviderBuilder, RootProvider},
     rpc::types::request::TransactionRequest,
     rpc::types::{
-        trace::geth::GethDebugTracingCallOptions, Bundle, StateContext, TransactionRequest, GethTrace, GethDebugTracerType, GethDebugBuiltInTracerType, PreStateConfig, GethDebugTracingOptions, GethDefaultTracingOptions, PreStateFrame, AccountState
+        trace::geth::{GethDebugTracingCallOptions, Bundle, StateContext, TransactionRequest, GethTrace, GethDebugTracerType, GethDebugBuiltInTracerType, PreStateConfig, GethDebugTracingOptions, GethDefaultTracingOptions, PreStateFrame, AccountState
     },
    signer::local::PrivateKeySigner,
    signer::k256::SecretKey,
