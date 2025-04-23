@@ -19,13 +19,10 @@ RUN apt-get update && apt-get install -y \
 # Optional: Explicitly tell bindgen where to find libclang (sometimes needed)
 ENV LIBCLANG_PATH=/usr/lib/llvm-14/lib
 ENV CLANG_PATH=/usr/bin/clang
-RUN cargo init Template
-COPY Cargo.toml Template/
 # Copy full project
 COPY . .
 
 # Build without relying on Cargo.lock
-RUN cargo install --path Template
 RUN cargo build --release
 
 # -------- STAGE 2: RUNTIME --------
@@ -38,7 +35,7 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /app
 
-COPY --from=builder /app/target/release/BaseBuster ./BaseBuster
+//COPY --from=builder /app/target/release/Template ./Template
 COPY --from=builder /app/contract ./contract
 COPY --from=builder /app/src ./src
 
