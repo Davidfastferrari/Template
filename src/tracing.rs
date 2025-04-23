@@ -7,6 +7,14 @@ use alloy::{
     rpc::types::{
         trace::geth::{ GethDebugTracingCallOptions, Bundle, StateContext, TransactionRequest, GethTrace, GethDebugTracerType, GethDebugBuiltInTracerType, PreStateConfig, GethDebugTracingOptions, GethDefaultTracingOptions, PreStateFrame, AccountState }
     },
+   transports::http::{
+        reqwest::{
+            header::{HeaderMap, HeaderValue, AUTHORIZATION},
+            Client,
+        },
+        Http,
+        Transport,
+    },
 };
 use log::warn;
 use std::collections::BTreeMap;
