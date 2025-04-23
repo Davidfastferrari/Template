@@ -7,8 +7,8 @@ use pool_sync::PoolType;
 use serde::{ Deserialize, Serialize };
 use std::convert::From;
 use std::hash::Hash;
-use gen::FlashQuoter;
-use gen::FlashSwap;
+use gen1::FlashQuoter;
+use gen1::FlashSwap;
 use main::AMOUNT;
 
 // A full representation of a path that we can swap along with its hash
