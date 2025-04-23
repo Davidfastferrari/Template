@@ -141,7 +141,7 @@ where
 
             // Get the next tick from the current tick
             (step.tick_next, step.initialized) =
-                uniswap_v3_math::tick_bitmap::next_initialized_tick_within_one_word(
+                tick_bitmap::next_initialized_tick_within_one_word(
                     &tick_bitmap,
                     current_state.tick,
                     tick_spacing,
@@ -154,7 +154,7 @@ where
 
             // Get the next sqrt price from the input amount
             step.sqrt_price_next_x96 =
-                uniswap_v3_math::tick_math::get_sqrt_ratio_at_tick(step.tick_next)?;
+                tick_math::get_sqrt_ratio_at_tick(step.tick_next)?;
 
             // Target spot price
             let swap_target_sqrt_ratio = if zero_to_one {
@@ -171,7 +171,7 @@ where
 
             // Compute swap step and update the current state
             let (sqrt_price_next_x96, amount_in, amount_out, fee_amount) = 
-                uniswap_v3_math::swap_math::compute_swap_step(
+                swap_math::compute_swap_step(
                     current_state.sqrt_price_x_96,
                     swap_target_sqrt_ratio,
                     current_state.liquidity,
