@@ -1,9 +1,9 @@
 use super::BlockStateDB;
 use alloy::{
     consensus::Transaction,
-    network::{TransactionBuilder, EthereumWallet, Ethereum, Network, BlockResponse, HeaderResponse}
-    primitives::{BlockNumber, B256, I256, hex, address, U256, U160, Address, FixedBytes, Bytes,keccak256},
-    providers::{Provider, ProviderBuilder, RootProvider},
+    network::{ TransactionBuilder, EthereumWallet, Ethereum, Network, BlockResponse, HeaderResponse },
+    primitives::{ BlockNumber, B256, I256, hex, address, U256, U160, Address, FixedBytes, Bytes,keccak256 },
+    providers::{ Provider, ProviderBuilder, RootProvider },
       rpc::client::RpcClient,
     transports::http::{
         reqwest::{
@@ -15,15 +15,15 @@ use alloy::{
       TransportError 
     },
  sol,
- sol_types::{SolCall, SolValue, SolType},
+ sol_types::{ SolCall, SolValue, SolType },
 };
 use anyhow::Result;
 use lazy_static::lazy_static;
 use log::trace;
-use pool_sync::{Pool, PoolInfo};
+use pool_sync:: { Pool, PoolInfo };
 use revm::DatabaseRef;
-use std::ops::{BitAnd, Shl, Shr};
-use state_db::blockstate_db::{InsertionType, BlockStateDBSlot};
+use std::ops::{ BitAnd, Shl, Shr};
+use state_db::blockstate_db::{ InsertionType, BlockStateDBSlot };
 
 // Bitmasks for storage insertion
 lazy_static {
