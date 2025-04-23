@@ -1,9 +1,10 @@
-use alloy::alloy-network::Network;
-use alloy::alloy-primitives::Address;
-use alloy::alloy-provider::ext::DebugApi;
-use alloy::alloy-provider::Provider;
-use alloy::alloy-rpc-types::BlockNumberOrTag;
-use alloy::alloy-rpc-types::common::TraceResult;
+use alloy::{
+    consensus::Transaction,
+    network::TransactionBuilder,
+    primitives::{address, U256},
+    providers::{Provider, ProviderBuilder},
+    rpc::types::request::TransactionRequest,
+};
 use alloy::rpc::types::trace::geth::{
     GethTrace,
     GethDebugTracerType,
@@ -14,7 +15,6 @@ use alloy::rpc::types::trace::geth::{
     PreStateFrame,
     AccountState
 };
-use alloy::alloy-transport::Transport;
 use log::warn;
 use std::collections::BTreeMap;
 use std::sync::Arc;
