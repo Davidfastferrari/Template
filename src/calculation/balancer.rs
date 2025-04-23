@@ -20,8 +20,12 @@ use alloy::{
 use std::str::FromStr;
 use super::Calculator;
 
-impl<T, N, P> Calculator<T, N, P>{
-
+impl<T, N, P> Calculator<T, N, P>
+where
+    T: Transport + Clone,
+    N: Network,
+    P: Provider<T, N>,
+{
     pub fn balancer_v2_out(
         &self, 
         amount_in: U256,
