@@ -10,10 +10,11 @@ use ignition::start_workers;
 use std::sync::RwLock;
 use once_cell::sync::Lazy;
 use lazy_static::lazy_static;
-use log::{info, LevelFilter};
 use std::collections::HashMap;
 use std::thread::Builder;
 use pool_sync::{PoolSync, PoolType, Chain, PoolInfo};
+use log::{debug, error, log_enabled, info, Level, LevelFilter};
+
 
 mod bytecode;
 mod cache;
