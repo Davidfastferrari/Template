@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y \
 # Optional: Explicitly tell bindgen where to find libclang (sometimes needed)
 ENV LIBCLANG_PATH=/usr/lib/llvm-14/lib
 ENV CLANG_PATH=/usr/bin/clang
-# RUN cargo init Template
+RUN cargo init Template
 COPY Cargo.toml Template/
 # Copy full project
 COPY . .
