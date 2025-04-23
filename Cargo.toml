@@ -20,7 +20,6 @@ reth-node-ethereum = ["dep:reth-node-ethereum"]
 reth-provider = ["dep:reth-provider"]
 reth-primitives = ["dep:reth-primitives"]
 pool-sync = ["dep:pool-sync"]
-uniswap_v3_math = ["dep:uniswap_v3_math"]
 petgraph = ["dep:petgraph"]
 alloy-primitives = ["dep:alloy-primitives"]
 alloy-network = ["dep:alloy-network"]
@@ -29,12 +28,10 @@ rayon = ["dep:rayon"]
 eyre = ["dep:eyre"]
 uniswap-v3-sdk = ["dep:uniswap-v3-sdk"]
 alloy-eips = ["dep:alloy-eips"]
-env_logger = ["dep:env_logger"]
 lazy_static = ["dep:lazy_static"]
 blockstate = ["dep:blockstate"]
 block-db = ["dep:block-db"]
 log = ["dep:log"]
-serde_json = ["dep:serde_json"]
 rustc-hash = ["dep:rustc-hash"]
 zerocopy = ["dep:zerocopy"]
 http-body-util = ["dep:http-body-util"]
@@ -45,7 +42,7 @@ once_cell = ["dep:once_cell"]
 anyhow = "1.0.79"
 eyre = {version = "0.6.12", optional = true}
 log = {version = "0.4.21", optional = true}
-env_logger = {version = "0.11.3", optional = true}
+env_logger = "0.11.3"
 lazy_static = {version = "1.4.0", optional = true}
 block-db = {version = "0.2.0", optional = true}
 blockstate = {version = "0.1.0", optional = true}
@@ -59,11 +56,11 @@ hyper-util = {version = "0.1.11", features = ["client", "client-legacy", "http1"
 http-body-util = {version = "0.1.1", optional = true}
 bytes = {version = "1.6.0", optional = true}
 serde = {version = "1.0.197", optional = true, features = ["derive"]}
-serde_json = {version = "1.0.114", optional = true}
+serde_json = "1.0.114"
 once_cell = {version = "1.21.3", optional = true}
 sha2 = "0.10.8"
 rustc-hash = {version = "2.1.1", optional = true}
-uniswap_v3_math = {version = "0.6.0", optional = true}
+uniswap_v3_math = "0.6.0"
 uniswap-v3-sdk = {version = "4.3.0", optional = true}
 chrono = "0.4.38"
 alloy = {version = "0.14.0", optional = true, features = ["full"]}
