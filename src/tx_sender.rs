@@ -6,7 +6,7 @@ use alloy::{
     consensus::Transaction,
     network::{ TransactionBuilder, EthereumWallet },
     primitives::{hex, address, U256, Address, FixedBytes, Bytes },
-    providers::{ Provider, ProviderBuilder, RootProvider::{ client }},
+    providers::{ Provider, ProviderBuilder, RootProvider::{Client}},
     rpc::types::request::TransactionRequest,
     rpc::types::{
         trace::geth::{ GethDebugTracingCallOptions, Bundle, StateContext, TransactionRequest, GethTrace, GethDebugTracerType, GethDebugBuiltInTracerType, PreStateConfig, GethDebugTracingOptions, GethDefaultTracingOptions, PreStateFrame, AccountState }
@@ -75,7 +75,7 @@ impl TransactionSender {
             "params": [],
             "id": 1
         });
-        let _ = client
+        let _ = Client
             .post("https://mainnet-sequencer.base.org")
             .json(&warmup_json)
             .send()
@@ -95,7 +95,7 @@ impl TransactionSender {
             wallet,
             gas_station,
             contract_address: std::env::var("SWAP_CONTRACT").unwrap().parse().unwrap(),
-            client: Arc::new(client),
+            client: Arc::new(Client),
             provider,
             nonce,
         }
@@ -145,7 +145,7 @@ impl TransactionSender {
             let start = Instant::now();
 
             // construct the request and send it
-            let req = self.client
+            let req = self.Client
                 .post("https://mainnet-sequencer.base.org")
                 .json(&tx_data)
                 .send()
@@ -164,7 +164,7 @@ impl TransactionSender {
 
     // Send the transaction and monitor its status
     pub async fn send_and_monitor(
-        provider: Arc<RootProvider<Http<client>>>,
+        provider: Arc<RootProvider<Http<Client>>>,
         tx_hash: FixedBytes<32>,
         block_number: u64,
     ) {
