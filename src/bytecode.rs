@@ -1,4 +1,4 @@
-use alloy::alloy-primitives::B256;
+use alloy::primitives::B256;
 use lazy_static::lazy_static;
 use revm::primitives::Bytes;
 use revm::primitives::Bytecode;
