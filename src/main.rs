@@ -6,7 +6,6 @@ use alloy::{
     rpc::types::request::TransactionRequest,
     eips::{BlockId, BlockNumberOrTag},
 };
-use anyhow::Result;
 use ignition::start_workers;
 use lazy_static::lazy_static;
 use log::{info, LevelFilter};
