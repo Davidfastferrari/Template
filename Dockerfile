@@ -19,12 +19,12 @@ WORKDIR /app
 # Optional: Explicitly tell bindgen where to find libclang (sometimes needed)
 # ENV LIBCLANG_PATH=/usr/lib/llvm-14/lib
 # ENV CLANG_PATH=/usr/bin/clang
-ENV CLANG_PATH=../Cargo.toml
+# ENV CLANG_PATH=../Cargo.toml
 # Copy full project
 COPY . .
 
 # Build without relying on Cargo.lock
-RUN cargo install --path 
+# RUN cargo install --path 
 RUN cargo build --release
 
 # -------- STAGE 2: RUNTIME --------
