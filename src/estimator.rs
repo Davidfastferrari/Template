@@ -12,10 +12,10 @@ use std::collections::{HashMap, HashSet};
 use std::sync::Arc;
 use log::debug;
 
-use crate::calculation::Calculator;
-use crate::market_state::MarketState;
-use crate::swap::SwapPath;
-use crate::AMOUNT;
+use calculation::Calculator;
+use market_state::MarketState;
+use swap::SwapPath;
+use main::AMOUNT;
 
 // Calculation constants
 const RATE_SCALE: u32 = 18; // 18 decimals for rate precision
@@ -309,7 +309,7 @@ where
 #[cfg(test)]
 mod estimator_tests {
     use super::*;
-    use crate::swap::SwapStep;
+    use swap::SwapStep;
     use alloy::network::Ethereum;
     use alloy::primitives::address;
     use alloy::providers::{Provider, ProviderBuilder, RootProvider};
