@@ -28,7 +28,12 @@ sol! {
     }
 }
 
-impl Calculator<T, N, P>{
+impl<T, N, P> Calculator<T, N, P>
+where
+    T: Transport + Clone,
+    N: Network,
+    P: Provider<T, N>,
+{
     pub fn curve_out(&self, index_in: U256, index_out: U256, amount_in: U256, pool: Address) -> U256 {
         // the function calldata
         let calldata = CurveOut::get_dyCall {
