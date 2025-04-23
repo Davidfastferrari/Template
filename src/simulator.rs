@@ -26,7 +26,7 @@ use std::sync::mpsc::{Receiver, Sender};
 use std::sync::Arc;
 use calculation::Calculator;
 use events::Event;
-use gen::FlashQuoter;
+use gen1::FlashQuoter;
 use market_state::MarketState;
 use quoter::Quoter;
 use main::AMOUNT;
