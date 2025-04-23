@@ -26,7 +26,6 @@ use pool_sync::{Pool, PoolInfo};
 use std::collections::{HashMap, HashSet};
 use std::sync::Arc;
 use log::debug;
-
 use calculation::Calculator;
 use market_state::MarketState;
 use swap::SwapPath;
