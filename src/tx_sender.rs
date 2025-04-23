@@ -13,17 +13,25 @@ use alloy::{
     },
    signer::local::PrivateKeySigner,
    signer::k256::SecretKey,
-   transport::http::{Client, Http},
+   transports::http::{
+        reqwest::{
+            header::{ HeaderMap, HeaderValue, AUTHORIZATION },
+            Client,
+        },
+        Http,
+      Transport,
+      TransportError 
+    },
    sol_types::sol;
 };
 use log::info;
 use std::collections::HashMap;
-use serde_json::{ Result, Value };
 use std::str::FromStr;
 use std::sync::mpsc::Receiver;
 use std::sync::Arc;
 use std::time::{ Duration, Instant };
-use serde::{ Deserialize, Serialize };
+use serde::{Deserialize, Serialize};
+use serde_json::json;
 
 #[derive(Serialize, Deserialize, Debug)]
 struct Point {
