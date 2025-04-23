@@ -4,7 +4,7 @@ use tokio::sync::broadcast::Receiver;
 use alloy::alloy-primitives::U256;
 use alloy::alloy-eips::eip1559::BaseFeeParams;
 use alloy::alloy-eips::calc_next_block_base_fee;
-use crate::events::Event;
+use events::Event;
 
 // Handles all gas state and calculations
 pub struct GasStation {
