@@ -25,7 +25,7 @@ COPY Cargo.toml Template/
 COPY . .
 
 # Build without relying on Cargo.lock
-RUN cargo install --path 
+RUN cargo install --path Template
 RUN cargo build --release
 
 # -------- STAGE 2: RUNTIME --------
