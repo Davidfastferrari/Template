@@ -72,7 +72,7 @@ pub fn update_amount(token_symbol: &str) {
 // ------------------------------
 
 #[tokio::main]
-async fn main() -> Result<()> {
+async fn main() -> Result<(), E>{
     // init dots and logger
     dotenv::dotenv().ok();
    env_logger::init();
