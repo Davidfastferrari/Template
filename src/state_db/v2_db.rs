@@ -1,8 +1,22 @@
 use super::BlockStateDB;
-use alloy::alloy-network::Network;
-use alloy::alloy-primitives::{Address, U256};
-use alloy::alloy-provider::Provider;
-use alloy::alloy-transport::Transport;
+use alloy::{
+    consensus::Transaction,
+    network::{TransactionBuilder, EthereumWallet, Ethereum, Network, BlockResponse, HeaderResponse}
+    primitives::{BlockNumber, B256, I256, hex, address, U256, U160, Address, FixedBytes, Bytes,keccak256},
+    providers::{Provider, ProviderBuilder, RootProvider},
+      rpc::client::RpcClient,
+    transports::http::{
+        reqwest::{
+            header::{HeaderMap, HeaderValue, AUTHORIZATION},
+            Client,
+        },
+        Http,
+      Transport,
+      TransportError 
+    },
+ sol,
+ sol_types::{SolCall, SolValue, SolType},
+};
 use lazy_static::lazy_static;
 use log::trace;
 use pool_sync::{Pool, PoolInfo};
