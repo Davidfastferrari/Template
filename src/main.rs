@@ -74,8 +74,7 @@ pub fn update_amount(token_symbol: &str) {
 async fn main() -> Result<()> {
     // init dots and logger
     dotenv::dotenv().ok();
-
-    env_logger::Builder::new()
+   env_logger::init();
         .filter_module("BaseBuster", LevelFilter::Info)
         .init();
     // Load in all the pools
