@@ -36,12 +36,12 @@ use tokio::sync::broadcast::Receiver;
 use std::sync::atomic::Ordering;
 use std::sync::atomic::AtomicBool;
 
-use crate::events::Event;
-use crate::gen::ERC20Token;
-use crate::gen::FlashQuoter;
-use crate::state_db::{BlockStateDB, InsertionType};
-use crate::tracing::debug_trace_block;
-use crate::AMOUNT;
+use events::Event;
+use gen::ERC20Token;
+use gen::FlashQuoter;
+use state_db::{BlockStateDB, InsertionType};
+use tracing::debug_trace_block;
+use main::AMOUNT;
 
 // Internal representation of the current state of the blockchain
 pub struct MarketState<T, N, P>
