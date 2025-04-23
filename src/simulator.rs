@@ -1,12 +1,12 @@
 use alloy::{
-    eips::{BlockId, Encodable2718),
+    eips::{ BlockId, Encodable2718 },
     consensus::Transaction,
-    network::{TransactionBuilder, EthereumWallet, Ethereum, Network}
-    primitives::{hex, address, U256, Address, FixedBytes, Bytes},
-    providers::{Provider, ProviderBuilder, RootProvider},
-    rpc::types::{TransactionRequest, BlockNumberOrTag),
+    network::{ TransactionBuilder, EthereumWallet, Ethereum, Network }
+    primitives::{ hex, address, U256, Address, FixedBytes, Bytes },
+    providers::{ Provider, ProviderBuilder, RootProvider },
+    rpc::types::{TransactionRequest, BlockNumberOrTag },
     rpc::types::{
-        trace::geth::{GethDebugTracingCallOptions, Bundle, StateContext, TransactionRequest, GethTrace, GethDebugTracerType, GethDebugBuiltInTracerType, PreStateConfig, GethDebugTracingOptions, GethDefaultTracingOptions, PreStateFrame, AccountState
+        trace::geth::{ GethDebugTracingCallOptions, Bundle, StateContext, TransactionRequest, GethTrace, GethDebugTracerType, GethDebugBuiltInTracerType, PreStateConfig, GethDebugTracingOptions, GethDefaultTracingOptions, PreStateFrame, AccountState
     },
    signer::local::PrivateKeySigner,
    signer::k256::SecretKey,
