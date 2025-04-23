@@ -1,5 +1,5 @@
-use gen::ERC20Token::{ self, approveCall };
-use gen::{ V2Aerodrome, V2Swap, V3Swap, V3SwapDeadline, V3SwapDeadlineTick };
+use gen1::ERC20Token::{ self, approveCall };
+use gen1::{ V2Aerodrome, V2Swap, V3Swap, V3SwapDeadline, V3SwapDeadlineTick };
 use main::AMOUNT;
 use alloy::{
     eips::{ BlockId, Encodable2718 },
