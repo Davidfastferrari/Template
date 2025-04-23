@@ -4,17 +4,17 @@ FROM rust:1.86.0 as builder
 WORKDIR /app
 
 # Required libs for bindgen + FFI
-RUN apt-get update && apt-get install -y \
-    clang \
-    llvm-dev \
-    libclang-dev \
-    pkg-config \
-    build-essential \
-    cmake \
-    curl \
-    git \
-    ca-certificates \
- && rm -rf /var/lib/apt/lists/*
+# RUN apt-get update && apt-get install -y \
+#     clang \
+#     llvm-dev \
+#     libclang-dev \
+#     pkg-config \
+#     build-essential \
+#     cmake \
+#     curl \
+#     git \
+#     ca-certificates \
+#  && rm -rf /var/lib/apt/lists/*
 
 # Optional: Explicitly tell bindgen where to find libclang (sometimes needed)
 # ENV LIBCLANG_PATH=/usr/lib/llvm-14/lib
