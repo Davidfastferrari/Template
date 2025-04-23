@@ -1,12 +1,12 @@
 use alloy::{
-    eips::{BlockId, Encodable2718, calc_next_block_base_fee, eip1559::{BaseFeeParams}),
+    eips::{BlockId, Encodable2718, calc_next_block_base_fee, eip1559::{BaseFeeParams}},
     consensus::Transaction,
-    network::{TransactionBuilder, EthereumWallet, Ethereum, Network, BlockResponse, HeaderResponse}
+    network::{ TransactionBuilder, EthereumWallet, Ethereum, Network, BlockResponse, HeaderResponse },
     primitives::{BlockNumber, B256, hex, address, U256, U160, Address, FixedBytes, Bytes},
-    providers::{Provider, ProviderBuilder, RootProvider},
-    rpc::types::{TransactionRequest, BlockNumberOrTag, BlockId),
+    providers::{ Provider, ProviderBuilder, RootProvider },
+    rpc::types::{ TransactionRequest, BlockNumberOrTag, BlockId },
     rpc::types::{
-        trace::geth::{GethDebugTracingOptions, GethDebugTracingCallOptions, Bundle, StateContext, TransactionRequest, GethTrace, GethDebugTracerType, GethDebugBuiltInTracerType, PreStateConfig, GethDebugTracingOptions, GethDefaultTracingOptions, PreStateFrame, AccountState},
+        trace::geth::{ GethDebugTracingOptions, GethDebugTracingCallOptions, Bundle, StateContext, TransactionRequest, GethTrace, GethDebugTracerType, GethDebugBuiltInTracerType, PreStateConfig, GethDebugTracingOptions, GethDefaultTracingOptions, PreStateFrame, AccountState },
    signer::local::PrivateKeySigner,
    signer::k256::SecretKey,
       rpc::client::RpcClient,
