@@ -2,7 +2,7 @@ use swap::{SwapPath, SwapStep};
 use alloy::{
     consensus::Transaction,
     network::TransactionBuilder,
-    primitives::{ address, U256 },
+    primitives::{ Address, address, U256 },
     providers::{ Provider, ProviderBuilder },
     rpc::types::request::TransactionRequest,
 };
