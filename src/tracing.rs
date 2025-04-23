@@ -4,16 +4,9 @@ use alloy::{
     primitives::{address, U256},
     providers::{Provider, ProviderBuilder},
     rpc::types::request::TransactionRequest,
-};
-use alloy::rpc::types::trace::geth::{
-    GethTrace,
-    GethDebugTracerType,
-    GethDebugBuiltInTracerType,
-    PreStateConfig,
-    GethDebugTracingOptions,
-    GethDefaultTracingOptions,
-    PreStateFrame,
-    AccountState
+    rpc::types::{
+        trace::geth::GethDebugTracingCallOptions, Bundle, StateContext, TransactionRequest, GethTrace, GethDebugTracerType, GethDebugBuiltInTracerType, PreStateConfig, GethDebugTracingOptions, GethDefaultTracingOptions, PreStateFrame, AccountState
+    },
 };
 use log::warn;
 use std::collections::BTreeMap;
