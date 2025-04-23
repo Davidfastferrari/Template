@@ -2,14 +2,14 @@ use std::sync::atomic::AtomicU64;
 use std::sync::atomic::Ordering;
 use tokio::sync::broadcast::Receiver;
 use alloy::{
-    eips::{BlockId, Encodable2718, calc_next_block_base_fee, eip1559::{BaseFeeParams}),
+    eips::{ BlockId, Encodable2718, calc_next_block_base_fee, eip1559::{BaseFeeParams} },
     consensus::Transaction,
-    network::{TransactionBuilder, EthereumWallet, Ethereum, Network}
-    primitives::{hex, address, U256, U160, Address, FixedBytes, Bytes},
-    providers::{Provider, ProviderBuilder, RootProvider},
-    rpc::types::{TransactionRequest, BlockNumberOrTag),
+    network::{ TransactionBuilder, EthereumWallet, Ethereum, Network },
+    primitives::{ hex, address, U256, U160, Address, FixedBytes, Bytes },
+    providers::{ Provider, ProviderBuilder, RootProvider },
+    rpc::types::{ TransactionRequest, BlockNumberOrTag },
     rpc::types::{
-        trace::geth::{GethDebugTracingCallOptions, Bundle, StateContext, TransactionRequest, GethTrace, GethDebugTracerType, GethDebugBuiltInTracerType, PreStateConfig, GethDebugTracingOptions, GethDefaultTracingOptions, PreStateFrame, AccountState
+        trace::geth::{ GethDebugTracingCallOptions, Bundle, StateContext, TransactionRequest, GethTrace, GethDebugTracerType, GethDebugBuiltInTracerType, PreStateConfig, GethDebugTracingOptions, GethDefaultTracingOptions, PreStateFrame, AccountState
     },
    signer::local::PrivateKeySigner,
    signer::k256::SecretKey,
