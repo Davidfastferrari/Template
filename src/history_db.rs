@@ -1,8 +1,8 @@
 use alloy::{
     consensus::Transaction,
     network::TransactionBuilder,
-    primitives::{address, U256},
-    providers::{Provider, ProviderBuilder},
+    primitives::{ address, U256 },
+    providers::{ Provider, ProviderBuilder },
     rpc::types::request::TransactionRequest,
 };
 use eyre::EyreHandler;
