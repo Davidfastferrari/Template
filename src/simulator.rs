@@ -1,7 +1,7 @@
 use alloy::{
     eips::{ BlockId, Encodable2718 },
     consensus::Transaction,
-    network::{ TransactionBuilder, EthereumWallet, Ethereum, Network }
+    network::{ TransactionBuilder, EthereumWallet, Ethereum, Network },
     primitives::{ hex, address, U256, Address, FixedBytes, Bytes },
     providers::{ Provider, ProviderBuilder, RootProvider },
     rpc::types::{TransactionRequest, BlockNumberOrTag },
