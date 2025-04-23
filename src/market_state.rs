@@ -1,10 +1,25 @@
-use alloy::alloy-network::Network;
-use alloy::alloy-primitives::{address, Address, U256};
-use alloy::alloy-providers::{Provider, ProviderBuilder, RootProvider};
-use alloy::alloy-rpc-types::BlockNumberOrTag;
-use alloy::sol_types::{SolCall, SolValue};
-use alloy::alloy-transports::http::{Client, Http};
-use alloy::alloy-transports::Transport;
+use alloy::{
+    eips::{BlockId, Encodable2718),
+    consensus::Transaction,
+    network::{TransactionBuilder, EthereumWallet, Ethereum, Network}
+    primitives::{hex, address, U256, Address, FixedBytes, Bytes},
+    providers::{Provider, ProviderBuilder, RootProvider},
+    rpc::types::{TransactionRequest, BlockNumberOrTag),
+    rpc::types::{
+        trace::geth::GethDebugTracingCallOptions, Bundle, StateContext, TransactionRequest, GethTrace, GethDebugTracerType, GethDebugBuiltInTracerType, PreStateConfig, GethDebugTracingOptions, GethDefaultTracingOptions, PreStateFrame, AccountState
+    },
+   signer::local::PrivateKeySigner,
+   signer::k256::SecretKey,
+      rpc::client::RpcClient,
+    transports::http::{
+        reqwest::{
+            header::{HeaderMap, HeaderValue, AUTHORIZATION},
+            Client,
+        },
+        Http,
+    },
+   sol_types::sol;
+};
 use anyhow::Result;
 use log::{debug, error, info};
 use pool_sync::Pool;
@@ -20,6 +35,7 @@ use std::time::Instant;
 use tokio::sync::broadcast::Receiver;
 use std::sync::atomic::Ordering;
 use std::sync::atomic::AtomicBool;
+
 use crate::events::Event;
 use crate::gen::ERC20Token;
 use crate::gen::FlashQuoter;
