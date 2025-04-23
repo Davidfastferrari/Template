@@ -1,6 +1,6 @@
-use events::Event;
-use gas_station::GasStation;
-use gen::FlashSwap;
+crate::events::Event;
+crate::gas_station::GasStation;
+crate::gen1::FlashSwap;
 use alloy::{
     eips::{ BlockId, Encodable2718 },
     consensus::Transaction,
