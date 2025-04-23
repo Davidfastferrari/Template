@@ -4,7 +4,7 @@ use revm::primitives::Bytes;
 use revm::primitives::Bytecode;
 use std::str::FromStr;
 
-lazy_static {
+enum lazy_static {
     pub static ref UNISWAP_V2_BYTECODE: Bytecode = {
         let bytecode_hex = "";
         Bytecode::new_raw(Bytes::from_str(bytecode_hex).expect("failed to decode bytecode"))
