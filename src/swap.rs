@@ -4,12 +4,19 @@ use alloy::{
     sol_types::SolCall,
 };
 use pool_sync::PoolType;
-use serde::{ Deserialize, Serialize };
 use std::convert::From;
 use std::hash::Hash;
-use gen1::FlashQuoter;
-use gen1::FlashSwap;
-use main::AMOUNT;
+crate::gen1::FlashQuoter;
+crate::gen1::FlashQuoter;
+crate::gen1::FlashSwap;
+crate::main::AMOUNT;
+use serde::{Serialize, Deserialize};
+
+#[derive(Serialize, Deserialize, Debug)]
+struct Point {
+    x: i32,
+    y: i32,
+}
 
 // A full representation of a path that we can swap along with its hash
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Hash)]
