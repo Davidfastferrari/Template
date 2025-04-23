@@ -2,14 +2,14 @@ use events::Event;
 use gas_station::GasStation;
 use gen::FlashSwap;
 use alloy::{
-    eips::{BlockId, Encodable2718),
+    eips::{ BlockId, Encodable2718 },
     consensus::Transaction,
-    network::{TransactionBuilder, EthereumWallet}
-    primitives::{hex, address, U256, Address, FixedBytes, Bytes},
-    providers::{Provider, ProviderBuilder, RootProvider},
+    network::{ TransactionBuilder, EthereumWallet }
+    primitives::{hex, address, U256, Address, FixedBytes, Bytes },
+    providers::{ Provider, ProviderBuilder, RootProvider },
     rpc::types::request::TransactionRequest,
     rpc::types::{
-        trace::geth::{GethDebugTracingCallOptions, Bundle, StateContext, TransactionRequest, GethTrace, GethDebugTracerType, GethDebugBuiltInTracerType, PreStateConfig, GethDebugTracingOptions, GethDefaultTracingOptions, PreStateFrame, AccountState
+        trace::geth::{ GethDebugTracingCallOptions, Bundle, StateContext, TransactionRequest, GethTrace, GethDebugTracerType, GethDebugBuiltInTracerType, PreStateConfig, GethDebugTracingOptions, GethDefaultTracingOptions, PreStateFrame, AccountState
     },
    signer::local::PrivateKeySigner,
    signer::k256::SecretKey,
@@ -18,12 +18,12 @@ use alloy::{
 };
 use log::info;
 use std::collections::HashMap;
-use serde_json::{Result, Value};
+use serde_json::{ Result, Value };
 use std::str::FromStr;
 use std::sync::mpsc::Receiver;
 use std::sync::Arc;
-use std::time::{Duration, Instant};
-use serde::{Deserialize, Serialize};
+use std::time::{ Duration, Instant };
+use serde::{ Deserialize, Serialize };
 
 #[derive(Serialize, Deserialize, Debug)]
 struct Point {
