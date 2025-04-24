@@ -1,24 +1,10 @@
-use alloy::{
-    alloy-consensus ::Transaction,
-    alloy-network::{ TransactionBuilder, Network },
-    primitives::{ Address, address, U256 },
-    alloy-provider::{ Provider, ProviderBuilder },
-    alloy_rpc_types_trace::{
-           pre_state::AccountState,
-           geth::{ PreStateConfig, GethTrace, GethDebugTracerType, GethDebugBuiltInTracerType, GethDebugTracingOptions, GethDefaultTracingOptions },
-           common::TraceResult,
-           BlockNumberOrTag,
-           TransactionRequest,
-    },
-   alloy-transport-http::{
-        reqwest::{
-            header::{ HeaderMap, HeaderValue, AUTHORIZATION },
-            Client,
-        },
-        Http,
-      Transport
-    },
-};
+use alloy::network::Network;
+use alloy::primitives::Address;
+use alloy::providers::ext::DebugApi;
+use alloy::providers::Provider;
+use alloy::rpc::types::trace::{common::TraceResult, geth::*};
+use alloy::rpc::types::BlockNumberOrTag;
+use alloy::transports::Transport;
 use log::warn;
 use std::collections::BTreeMap;
 use std::sync::Arc;
