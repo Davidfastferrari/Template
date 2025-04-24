@@ -21,7 +21,7 @@ RUN apt-get update && apt-get install -y \
 # Cache dependencies first for incremental builds
 COPY ./Template/Cargo.toml ./Template/Cargo.lock
 RUN mkdir -p Template/src && echo 'fn main() {}' > Template/src/main.rs
-WORKDIR /app/Template
+WORKDIR /app
 RUN cargo build --release || true
 
 # Actual code copy
