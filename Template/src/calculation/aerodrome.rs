@@ -16,7 +16,7 @@ impl<T, N, P> Calculator<T, N, P>
 where
     T: Transport + Clone,
     N: Network,
-    P: Provider<T, N>,
+    P: Provider< N >,
 {
     // Amount out calculation for aerodrome pools
     pub fn aerodrome_out(&self, amount_in: U256, token_in: Address, pool_address: Address) -> U256 {
