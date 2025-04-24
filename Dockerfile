@@ -21,7 +21,7 @@ RUN apt-get update && apt-get install -y \
 # Cache dependencies first for incremental builds
 COPY . .
 
-RUN cargo fetch
+WORKDIR /app/Template
 
 RUN cargo build --release
 
