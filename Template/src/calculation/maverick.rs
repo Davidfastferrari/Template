@@ -1,24 +1,9 @@
 use super::Calculator;
-use alloy::{
-    consensus::Transaction,
-    network::{ TransactionBuilder, EthereumWallet, Ethereum, Network, BlockResponse, HeaderResponse },
-    primitives::{ BlockNumber, B256, I256, hex, address, U256, U160, Address, FixedBytes, Bytes },
-    providers::{ Provider, ProviderBuilder, RootProvider },
-      rpc::client::RpcClient,
-    transports::http::{
-        reqwest::{
-            header::{ HeaderMap, HeaderValue, AUTHORIZATION },
-            Client,
-        },
-        Http,
-      Transport,
-      TransportError 
-    },
- sol,
- sol_types::{SolCall, SolValue, SolType},
-};
+use alloy::primitives::{Address, U256, address};
+use alloy::sol;
+use alloy::sol_types::{SolCall, SolValue};
+use revm::primitives::{ExecutionResult, TransactTo};
 use revm::Evm;
-use revm::primitives::{ ExecutionResult, TransactTo };
 
 sol! {
     #[sol(rpc)]
