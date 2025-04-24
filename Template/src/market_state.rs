@@ -27,7 +27,7 @@ pub struct MarketState<T, N, P>
 where
     T: Transport + Clone,
     N: Network,
-    P: Provider<T, N>,
+    P: Provider<N>,
 {
     pub db: RwLock<BlockStateDB<T, N, P>>,
 }
