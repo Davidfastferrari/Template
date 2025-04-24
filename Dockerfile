@@ -4,7 +4,7 @@ FROM rust:1.86.0 as builder
 WORKDIR /app
 
 # Install host build dependencies.
-RUN apk add --no-cache clang lld musl-dev git
+# RUN apk add --no-cache clang lld musl-dev git
 
 # Required libs for bindgen + FFI
 RUN apt-get update && apt-get install -y \
