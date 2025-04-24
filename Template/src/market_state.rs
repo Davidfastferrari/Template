@@ -1,48 +1,26 @@
-use alloy::{
-    eips::{BlockId, Encodable2718 },
-    consensus::Transaction,
-    network::{ TransactionBuilder, EthereumWallet, Ethereum, Network },
-    primitives::{ hex, address, U256, Address, FixedBytes, Bytes },
-    providers::{ Provider, ProviderBuilder, RootProvider },
-    rpc::types::{ TransactionRequest, BlockNumberOrTag },
-    rpc::types::{
-        trace::geth::{ GethDebugTracingCallOptions, Bundle, StateContext, TransactionRequest, GethTrace, GethDebugTracerType, GethDebugBuiltInTracerType, PreStateConfig, GethDebugTracingOptions, GethDefaultTracingOptions, PreStateFrame, AccountState }
-    },
-   signer::local::PrivateKeySigner,
-   signer::k256::SecretKey,
-      rpc::client::RpcClient,
-    transports::http::{
-        reqwest::{
-            header::{HeaderMap, HeaderValue, AUTHORIZATION},
-            Client,
-        },
-        Http,
-       Transport,
-    },
-   sol_types::sol;
-};
+use alloy::network::Network;
+use alloy::primitives::{address, Address, U256};
+use alloy::providers::{Provider, ProviderBuilder, RootProvider};
+use alloy::rpc::types::BlockNumberOrTag;
+use alloy_sol_types::{SolCall, SolValue};
+use alloy_transports_http::{Client, Http};
+use alloy::transports::Transport;
 use anyhow::Result;
 use log::{debug, error, info};
-use pool_sync::Pool;
-use pool_sync::PoolInfo;
-use revm::primitives::keccak256;
-use revm::primitives::{AccountInfo, Bytecode, TransactTo};
+use pool_sync::{Pool, PoolInfo};
+use revm_primitives::{keccak256, AccountInfo, Bytecode, TransactTo};
 use revm::Evm;
 use std::collections::HashSet;
-use std::sync::mpsc::Sender;
-use std::sync::Arc;
-use std::sync::RwLock;
+use std::sync::{mpsc::Sender, Arc, RwLock, atomic::{AtomicBool, Ordering}};
 use std::time::Instant;
 use tokio::sync::broadcast::Receiver;
-use std::sync::atomic::Ordering;
-use std::sync::atomic::AtomicBool;
 
 use crate::events::Event;
-use crate::gen1::ERC20Token;
-use crate::gen1::FlashQuoter;
+use crate::gen::{ERC20Token, FlashQuoter};
 use crate::state_db::{BlockStateDB, InsertionType};
 use crate::tracing::debug_trace_block;
-use crate::main::AMOUNT;
+use crate::AMOUNT;
+
 
 // Internal representation of the current state of the blockchain
 pub struct MarketState<T, N, P>
