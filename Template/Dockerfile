@@ -31,6 +31,6 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /app
 
-COPY --from=builder /app/target/release/BaseBuster .
+COPY --from=builder /app/target/release/template .
 
 CMD ["./template"]
