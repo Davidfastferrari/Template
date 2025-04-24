@@ -1,38 +1,19 @@
-use alloy::{
-    eips::{ BlockId, Encodable2718 },
-    consensus::Transaction,
-    network::{ TransactionBuilder, EthereumWallet, Ethereum, Network },
-    primitives::{ hex, address, U256, Address, FixedBytes, Bytes },
-    providers::{Provider, ProviderBuilder, RootProvider},
-    rpc::types::{TransactionRequest, BlockNumberOrTag },
-    rpc::types::{
-        trace::geth::{ GethDebugTracingCallOptions, Bundle, StateContext, TransactionRequest, GethTrace, GethDebugTracerType, GethDebugBuiltInTracerType, PreStateConfig, GethDebugTracingOptions, GethDefaultTracingOptions, PreStateFrame, AccountState }
-    },
-   signer::local::PrivateKeySigner,
-   signer::k256::SecretKey,
-      rpc::client::RpcClient,
-    transports::http::{
-        reqwest::{
-            header::{HeaderMap, HeaderValue, AUTHORIZATION},
-            Client,
-        },
-        Http,
-        Transport,
-    },
-   sol_types::sol;
-};
+use alloy::network::Network;
+use alloy::primitives::{Address, U256};
+use alloy::providers::Provider;
+use alloy::transports::Transport;
 use log::{debug, info};
-use rayon::prelude;
+use rayon::prelude::*;
 use std::collections::{HashMap, HashSet};
-use std::sync::mpsc::{Receiver, Sender};
-use std::sync::Arc;
+use std::sync::{mpsc::{Receiver, Sender}, Arc};
 use std::time::Instant;
+
 use crate::calculation::Calculator;
 use crate::estimator::Estimator;
 use crate::events::Event;
 use crate::market_state::MarketState;
 use crate::swap::SwapPath;
-use crate::main::AMOUNT;
+use crate::AMOUNT;
 
 // top level sercher struct
 // contains the calculator and all path information
