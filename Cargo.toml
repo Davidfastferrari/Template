@@ -40,12 +40,12 @@ zerocopy = {version = "0.8.25-alpha.3", optional = true}
 revm = {version = "22.0.1", optional = true, features = ["alloydb"]}
 revm-inspectors = { version = "0.19.1", optional = true}
 revm-database = { version = "3.0.0", optional = true}
-reth = {git = "https://github.com/paradigmxyz/reth", optional = true, rev = "6f8e725"}
-reth-db = {git = "https://github.com/paradigmxyz/reth", optional = true, package = "reth-db", rev = "6f8e725"}
-reth-chainspec = {git = "https://github.com/paradigmxyz/reth", optional = true, package = "reth-chainspec", rev = "6f8e725"}
-reth-node-ethereum = {git = "https://github.com/paradigmxyz/reth", optional = true, package = "reth-node-ethereum", rev = "6f8e725"}
-reth-provider = {git = "https://github.com/paradigmxyz/reth", optional = true}
-reth-primitives = {git = "https://github.com/paradigmxyz/reth", optional = true}
+reth = { git = "https://github.com/paradigmxyz/reth", package = "reth", rev = "6f8e725" }
+reth-api = { git = "https://github.com/paradigmxyz/reth", package = "reth-api", rev = "6f8e725" }
+reth-db = { git = "https://github.com/paradigmxyz/reth", package = "reth-db", rev = "6f8e725" }
+reth-provider = { git = "https://github.com/paradigmxyz/reth", package = "reth-provider", rev = "6f8e725" }
+reth-node-ethereum = { git = "https://github.com/paradigmxyz/reth", package = "reth-node-ethereum", rev = "6f8e725" }
+reth-chainspec = { git = "https://github.com/paradigmxyz/reth", package = "reth-chainspec", rev = "6f8e725" }
 rayon = {version = "1.10.0", optional = true}
 petgraph = {version = "0.8.1", optional = true}
 dashmap = "6.1.0"
