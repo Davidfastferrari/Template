@@ -1,11 +1,8 @@
-# ---------------------
-# 🚧 STAGE 1: BUILD
-# ---------------------
-FROM rust:1.76 as builder
+# -------- STAGE 1: BUILD --------
+FROM rust:1.86.0 as builder
 
 WORKDIR /app
 
-# Install build deps for FFI/BPF/smart contract tooling
 RUN apt-get update && apt-get install -y \
     clang \
     llvm-dev \
@@ -18,36 +15,28 @@ RUN apt-get update && apt-get install -y \
     ca-certificates \
  && rm -rf /var/lib/apt/lists/*
 
-# Cache dependencies first for incremental builds
+# 👇 Match the inner Template folder
+# Copy the actual crate code into /app/Template
+# COPY Template/ ./Template/
+
 COPY . .
 
+# Move into the actual Rust project directory
 WORKDIR /app/Template
 
 RUN cargo build --release
 
-# ---------------------
-# 🚀 STAGE 2: RUNTIME
-# ---------------------
+# -------- STAGE 2: RUNTIME --------
 FROM debian:bookworm-slim
 
-# Install runtime dependencies (OpenSSL, Certs)
 RUN apt-get update && apt-get install -y \
     libssl3 \
     ca-certificates \
  && rm -rf /var/lib/apt/lists/*
 
-# Set working directory
 WORKDIR /app
 
-# Copy only release binary
+# Copy the final built binary
 COPY --from=builder /app/Template/target/release/Template .
 
-# Inject .env (optional)
-COPY Template/.env .env
-
-# Log output + backtrace in production
-ENV RUST_BACKTRACE=1
-ENV RUST_LOG=info
-
-# Entrypoint
 CMD ["./Template"]
