@@ -1,29 +1,8 @@
-use std::sync::atomic::AtomicU64;
-use std::sync::atomic::Ordering;
+use std::sync::atomic::{AtomicU64, Ordering};
 use tokio::sync::broadcast::Receiver;
-use alloy::{
-    eips::{ BlockId, Encodable2718, calc_next_block_base_fee, eip1559::{BaseFeeParams} },
-    consensus::Transaction,
-    network::{ TransactionBuilder, EthereumWallet, Ethereum, Network },
-    primitives::{ hex, address, U256, U160, Address, FixedBytes, Bytes },
-    providers::{ Provider, ProviderBuilder, RootProvider },
-    rpc::types::{ TransactionRequest, BlockNumberOrTag },
-    rpc::types::{
-        trace::geth::{ GethDebugTracingCallOptions, Bundle, StateContext, TransactionRequest, GethTrace, GethDebugTracerType, GethDebugBuiltInTracerType, PreStateConfig, GethDebugTracingOptions, GethDefaultTracingOptions, PreStateFrame, AccountState }
-    },
-   signer::local::PrivateKeySigner,
-   signer::k256::SecretKey,
-      rpc::client::RpcClient,
-    transports::http::{
-        reqwest::{
-            header::{HeaderMap, HeaderValue, AUTHORIZATION},
-            Client,
-        },
-        Http,
-    },
-    sol,
-    sol_types::{SolCall, SolValue, SolType},
-};
+use alloy::primitives::U256;
+use alloy::eips::eip1559::BaseFeeParams;
+use alloy::eips::calc_next_block_base_fee;
 
 use crate::events::Event;
 
