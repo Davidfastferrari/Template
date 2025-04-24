@@ -1,4 +1,4 @@
-crate::swap::{SwapPath, SwapStep};
+use crate::swap::{SwapPath, SwapStep};
 use alloy::{
     consensus::Transaction,
     network::TransactionBuilder,
