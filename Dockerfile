@@ -27,14 +27,18 @@ RUN apk add --no-cache clang lld musl-dev git
 # Leverage a bind mount to the src directory to avoid having to copy the
 # source code into the container. Once built, copy the executable to an
 # output directory before the cache mounted /app/target is unmounted.
-RUN --mount=type=bind,source=src,app=src \
-    --mount=type=bind,source=Cargo.toml,app=Cargo.toml \
-    --mount=type=bind,source=Cargo.lock,app=Cargo.lock \
-    --mount=type=cache,target=/app \
-    --mount=type=cache,app=/usr/local/cargo/git/db \
-    --mount=type=cache,app=/usr/local/cargo/registry/ \
-cargo build --release && \
-cp ./app
+# RUN --mount=type=bind,source=src,app=src \
+#     --mount=type=bind,source=Cargo.toml,app=Cargo.toml \
+#     --mount=type=bind,source=Cargo.lock,app=Cargo.lock \
+#     --mount=type=cache,target=/app \
+#     --mount=type=cache,app=/usr/local/cargo/git/db \
+#     --mount=type=cache,app=/usr/local/cargo/registry/ \
+# cargo build --release && \
+# cp ./app
+
+# Copy full project
+COPY . ./
+
 
 ################################################################################
 # Create a new stage for running the application that contains the minimal
@@ -61,9 +65,11 @@ FROM alpine:3.18 AS final
 #     appuser
 # USER appuser
 
-# Copy the executable from the "build" stage.
-COPY --from=build /bin/server /bin/
+WORKDIR /app
 
+# Copy the executable from the "build" stage.
+# COPY --from=build /bin/server /bin/
+COPY --from=builder /app/src ./src
 # Expose the port that the application listens on.
 EXPOSE 1000
 
