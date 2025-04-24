@@ -1,28 +1,11 @@
 use super::Calculator;
-use alloy::{
-    consensus::Transaction,
-    network::{ TransactionBuilder, EthereumWallet, Ethereum, Network, BlockResponse, HeaderResponse },
-    primitives::{ BlockNumber, B256, I256, hex, address, U256, U160, Address, FixedBytes, Bytes },
-    providers::{ Provider, ProviderBuilder, RootProvider },
-      rpc::client::RpcClient,
-    transports::http::{
-        reqwest::{
-            header::{HeaderMap, HeaderValue, AUTHORIZATION},
-            Client,
-        },
-        Http,
-      Transport,
-      TransportError 
-    },
-};
-use uniswap_v3_math::{
-     tick_math::{ MAX_SQRT_RATIO, MAX_TICK, MIN_SQRT_RATIO, MIN_TICK },
-     tick_bitmap,
-     swap_math::{ compute_swap_step },
-}
+use alloy::network::Network;
+use alloy::primitives::{Address, I256, U256};
+use alloy::providers::Provider;
+use alloy::transports::Transport;
 use anyhow::Result;
 use std::collections::HashMap;
-use uniswap_v3_sdk::prelude::*;
+use uniswap_v3_math::tick_math::{MAX_SQRT_RATIO, MAX_TICK, MIN_SQRT_RATIO, MIN_TICK};
 
 pub const U256_1: U256 = U256::from_limbs([1, 0, 0, 0]);
 
