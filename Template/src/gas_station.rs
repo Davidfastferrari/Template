@@ -24,7 +24,7 @@ use alloy::{
     sol,
     sol_types::{SolCall, SolValue, SolType},
 };
-use crate::events::Event;
+crate::events::Event;
 
 // Handles all gas state and calculations
 pub struct GasStation {
