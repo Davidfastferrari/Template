@@ -578,7 +578,7 @@ impl<T: Transport + Clone, N: Network, P: Provider<T, N>> DatabaseCommit for Blo
     }
 }
 
-#[derive(Default, Eq, PartialEq, Copy, Clone, Debug)]
+#[derive(Default, Eq, PartialEq, Clone, Debug)]
 pub enum InsertionType {
     Custom,
     #[default]
@@ -592,7 +592,7 @@ pub struct BlockStateDBSlot {
 }
 
 #[allow(dead_code)]
-#[derive(Default, Eq, PartialEq, Copy, Clone, Debug)]
+#[derive(Default, Eq, PartialEq, Clone, Debug)]
 pub struct BlockStateDBAccount {
     pub info: AccountInfo,
     pub state: AccountState,
