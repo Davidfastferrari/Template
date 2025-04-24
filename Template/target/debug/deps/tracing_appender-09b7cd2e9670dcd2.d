@@ -1,0 +1,10 @@
+C:\Users\Damulak\Template\Template\target\debug\deps\libtracing_appender-09b7cd2e9670dcd2.rmeta: C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tracing-appender-0.2.3\src\lib.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tracing-appender-0.2.3\src\non_blocking.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tracing-appender-0.2.3\src\rolling.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tracing-appender-0.2.3\src\rolling\builder.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tracing-appender-0.2.3\src\worker.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tracing-appender-0.2.3\src\sync.rs
+
+C:\Users\Damulak\Template\Template\target\debug\deps\tracing_appender-09b7cd2e9670dcd2.d: C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tracing-appender-0.2.3\src\lib.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tracing-appender-0.2.3\src\non_blocking.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tracing-appender-0.2.3\src\rolling.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tracing-appender-0.2.3\src\rolling\builder.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tracing-appender-0.2.3\src\worker.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tracing-appender-0.2.3\src\sync.rs
+
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tracing-appender-0.2.3\src\lib.rs:
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tracing-appender-0.2.3\src\non_blocking.rs:
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tracing-appender-0.2.3\src\rolling.rs:
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tracing-appender-0.2.3\src\rolling\builder.rs:
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tracing-appender-0.2.3\src\worker.rs:
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tracing-appender-0.2.3\src\sync.rs:

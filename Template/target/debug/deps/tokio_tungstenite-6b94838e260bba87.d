@@ -1,0 +1,10 @@
+C:\Users\Damulak\Template\Template\target\debug\deps\libtokio_tungstenite-6b94838e260bba87.rmeta: C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.26.2\src\lib.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.26.2\src\compat.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.26.2\src\connect.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.26.2\src\handshake.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.26.2\src\stream.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.26.2\src\tls.rs
+
+C:\Users\Damulak\Template\Template\target\debug\deps\tokio_tungstenite-6b94838e260bba87.d: C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.26.2\src\lib.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.26.2\src\compat.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.26.2\src\connect.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.26.2\src\handshake.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.26.2\src\stream.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.26.2\src\tls.rs
+
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.26.2\src\lib.rs:
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.26.2\src\compat.rs:
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.26.2\src\connect.rs:
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.26.2\src\handshake.rs:
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.26.2\src\stream.rs:
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.26.2\src\tls.rs:

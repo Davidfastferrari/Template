@@ -1,0 +1,11 @@
+C:\Users\Damulak\Template\Template\target\debug\deps\libarrayvec-a8c03b42de302fce.rmeta: C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\arrayvec-0.7.6\src\lib.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\arrayvec-0.7.6\src\arrayvec_impl.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\arrayvec-0.7.6\src\arrayvec.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\arrayvec-0.7.6\src\array_string.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\arrayvec-0.7.6\src\char.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\arrayvec-0.7.6\src\errors.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\arrayvec-0.7.6\src\utils.rs
+
+C:\Users\Damulak\Template\Template\target\debug\deps\arrayvec-a8c03b42de302fce.d: C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\arrayvec-0.7.6\src\lib.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\arrayvec-0.7.6\src\arrayvec_impl.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\arrayvec-0.7.6\src\arrayvec.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\arrayvec-0.7.6\src\array_string.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\arrayvec-0.7.6\src\char.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\arrayvec-0.7.6\src\errors.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\arrayvec-0.7.6\src\utils.rs
+
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\arrayvec-0.7.6\src\lib.rs:
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\arrayvec-0.7.6\src\arrayvec_impl.rs:
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\arrayvec-0.7.6\src\arrayvec.rs:
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\arrayvec-0.7.6\src\array_string.rs:
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\arrayvec-0.7.6\src\char.rs:
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\arrayvec-0.7.6\src\errors.rs:
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\arrayvec-0.7.6\src\utils.rs:

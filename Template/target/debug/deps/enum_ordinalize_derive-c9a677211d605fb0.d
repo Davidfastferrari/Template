@@ -1,0 +1,9 @@
+C:\Users\Damulak\Template\Template\target\debug\deps\enum_ordinalize_derive-c9a677211d605fb0.dll: C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\enum-ordinalize-derive-4.3.1\src\lib.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\enum-ordinalize-derive-4.3.1\src\int128.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\enum-ordinalize-derive-4.3.1\src\int_wrapper.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\enum-ordinalize-derive-4.3.1\src\panic.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\enum-ordinalize-derive-4.3.1\src\variant_type.rs
+
+C:\Users\Damulak\Template\Template\target\debug\deps\enum_ordinalize_derive-c9a677211d605fb0.d: C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\enum-ordinalize-derive-4.3.1\src\lib.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\enum-ordinalize-derive-4.3.1\src\int128.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\enum-ordinalize-derive-4.3.1\src\int_wrapper.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\enum-ordinalize-derive-4.3.1\src\panic.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\enum-ordinalize-derive-4.3.1\src\variant_type.rs
+
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\enum-ordinalize-derive-4.3.1\src\lib.rs:
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\enum-ordinalize-derive-4.3.1\src\int128.rs:
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\enum-ordinalize-derive-4.3.1\src\int_wrapper.rs:
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\enum-ordinalize-derive-4.3.1\src\panic.rs:
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\enum-ordinalize-derive-4.3.1\src\variant_type.rs:
