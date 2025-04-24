@@ -9,7 +9,6 @@ use alloy::{
 use ignition::start_workers;
 use std::sync::RwLock;
 use once_cell::sync::Lazy;
-use lazy_static::lazy_static;
 use std::collections::HashMap;
 use std::thread::Builder;
 use pool_sync::{PoolSync, PoolType, Chain, PoolInfo};
@@ -39,65 +38,29 @@ mod tracing;
 mod tx_sender;
 mod history_db;
 
-pub const AMOUNT_USD: u64 = 100_000; // $100,000
-
-// Dynamically changeable U256 global value
-pub static AMOUNT: Lazy<RwLock<U256>> = Lazy::new(|| RwLock::new(U256::ZERO));
-
-// Token decimals map
 pub static TOKEN_DECIMALS: Lazy<HashMap<&'static str, u8>> = Lazy::new(|| {
     let mut map = HashMap::new();
     map.insert("USDC", 6);
-    map.insert("USDT", 6);
     map.insert("WETH", 18);
     map.insert("DAI", 18);
+    map.insert("USDT", 6);
     map
 });
 
-// Calculates $100k in base units for given token
 pub fn amount_for_token(token_symbol: &str) -> U256 {
     let decimals = TOKEN_DECIMALS.get(token_symbol).copied().unwrap_or(18);
     let multiplier = U256::exp10(decimals as usize);
     U256::from(AMOUNT_USD) * multiplier
 }
 
-// Sets global AMOUNT
-pub fn update_amount(token_symbol: &str) {
-    let calculated = amount_for_token(token_symbol);
-    let mut amount = AMOUNT.write().unwrap();
-    *amount = calculated;
-}
-// lazy_static! {
-//     pub static ref TOKEN_DECIMALS: HashMap<&'static str, u8> = {
-//         let mut map = HashMap::new();
-//         map.insert("USDC", 6);
-//         map.insert("WETH", 18);
-//         map.insert("DAI", 18);
-//         map.insert("USDT", 6);
-//         map
-//     };
-// }
-
-// pub fn amount_for_token(token_symbol: &str) -> U256 {
-//     let decimals = TOKEN_DECIMALS.get(token_symbol).copied().unwrap_or(18);
-//     let multiplier = U256::exp10(decimals as usize);
-//     U256::from(AMOUNT_USD) * multiplier
-// }
-
-// lazy_static! {
-//     pub static ref AMOUNT: RwLock<U256> = RwLock::new(amount_for_token("USDC"));
-// }
-// ------------------------------
-// ✅ MAIN ENTRY
-// ------------------------------
 
 #[tokio::main]
 async fn main() -> Result<(), E>{
     // init dots and logger
     dotenv::dotenv().ok();
-  let mut builder = Builder::new();
-        builder.filter_level("Template", LevelFilter::Info)
-        builder.init();
+    env_logger::Builder::new()
+    .filter_module("BaseBuster", LevelFilter::Info)
+    .init();
     // Load in all the pools
     info!("Loading and syncing pools...");
     let pool_sync = PoolSync::builder()
