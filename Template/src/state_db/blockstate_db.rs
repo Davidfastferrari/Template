@@ -39,7 +39,7 @@ impl HandleOrRuntime {
 }
 
 #[derive(Debug)]
-pub struct BlockStateDB<T: Transport + Clone, N: Network, P: Provider< N >> {
+pub struct BlockStateDB<N: Network, P: Provider<N>> BlockStateDB<N, P> {
     // All of the accounts
     pub accounts: HashMap<Address, BlockStateDBAccount>,
 
@@ -60,7 +60,7 @@ pub struct BlockStateDB<T: Transport + Clone, N: Network, P: Provider< N >> {
     _marker: std::marker::PhantomData<fn() -> (T, N)>,
 }
 
-impl<T: Transport + Clone, N: Network, P: Provider< N >> BlockStateDB<T, N, P> {
+impl<N: Network, P: Provider<N>> BlockStateDB<N, P>{
     // Construct a new BlockStateDB
     pub fn new(provider: P) -> Option<Self> {
         debug!("Creating new BlockStateDB");
@@ -207,7 +207,7 @@ impl<T: Transport + Clone, N: Network, P: Provider< N >> BlockStateDB<T, N, P> {
 }
 
 // Implement the database trait for the BlockStateDB
-impl<T: Transport + Clone, N: Network, P: Provider< N >> Database for BlockStateDB<T, N, P> {
+impl<N: Network, P: Provider<N>> BlockStateDB<N, P>{
     type Error = TransportError;
 
     // Get basic account information
@@ -356,7 +356,7 @@ impl<T: Transport + Clone, N: Network, P: Provider< N >> Database for BlockState
 }
 
 // Implement required DatabaseRef trait, read references to the database (fetch from provider)
-impl<T: Transport + Clone, N: Network, P: Provider< N >> DatabaseRef for BlockStateDB<T, N, P> {
+impl<N: Network, P: Provider<N>> BlockStateDB<N, P>{
     type Error = TransportError;
 
     // Get basic account information
@@ -497,7 +497,7 @@ impl<T: Transport + Clone, N: Network, P: Provider< N >> DatabaseRef for BlockSt
     }
 }
 
-impl<T: Transport + Clone, N: Network, P: Provider< N >> DatabaseCommit for BlockStateDB<T, N, P> {
+impl<N: Network, P: Provider<N>> BlockStateDB<N, P>{
     fn commit(&mut self, changes: HashMap<Address, Account, foldhash::fast::RandomState>) {
         for (address, mut account) in changes {
             if !account.is_touched() {
