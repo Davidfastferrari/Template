@@ -34,7 +34,7 @@ impl<T, N, P> Searchoor<T, N, P>
 where
     T: Transport + Clone,
     N: Network,
-    P: Provider<T, N>,
+    P: Provider< N >,
 {
     // Construct the searcher with the calculator and all the swap paths
     pub fn new(
