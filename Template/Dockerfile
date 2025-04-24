@@ -33,4 +33,4 @@ WORKDIR /app
 
 COPY --from=builder /app/target/release/BaseBuster .
 
-CMD ["./BaseBuster"]
+CMD ["./template"]
