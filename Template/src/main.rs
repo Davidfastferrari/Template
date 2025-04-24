@@ -1,20 +1,14 @@
 use alloy::{
-    consensus::Transaction,
-    network::TransactionBuilder,
-    primitives::{address, U256},
-    providers::{Provider, ProviderBuilder},
-    rpc::types::request::TransactionRequest,
     eips::{BlockId, BlockNumberOrTag},
+    primitives::U256,
+    providers::Provider,
+    rpc::types::{BlockTransactions, BlockTransactionsKind},
 };
+use anyhow::Result;
 use ignition::start_workers;
-use std::sync::RwLock;
-use once_cell::sync::Lazy;
-use std::collections::HashMap;
-use std::thread::Builder;
-use pool_sync::{PoolSync, PoolType, Chain, PoolInfo};
-use env_logger::Builder;
-use log::{LevelFilter, error, info};
-
+use lazy_static::lazy_static;
+use log::{info, LevelFilter};
+use pool_sync::*;
 
 mod bytecode;
 mod cache;
@@ -23,7 +17,7 @@ mod estimator;
 mod events;
 mod filter;
 mod gas_station;
-mod gen1;
+mod gen;
 mod graph;
 mod ignition;
 mod market_state;
@@ -37,6 +31,7 @@ mod tests;
 mod tracing;
 mod tx_sender;
 mod history_db;
+
 
 pub const AMOUNT_USD: u64 = 100_000; // $100,000
 
