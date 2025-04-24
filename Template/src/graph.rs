@@ -1,17 +1,10 @@
 use crate::swap::{SwapPath, SwapStep};
-use alloy::{
-    consensus::Transaction,
-    network::TransactionBuilder,
-    primitives::{ Address, address, U256 },
-    providers::{ Provider, ProviderBuilder },
-    rpc::types::request::TransactionRequest,
-};
-use petgraph::graph::{ NodeIndex, UnGraph };
-use petgraph::prelude;
-use pool_sync::{ UniswapV2, UniswapV3, SushiswapV2, SushiswapV3, PancakeswapV2, PancakeswapV3, BalancerV2Pool, BaseswapV2, BaseswapV3, MaverickV1, MaverickV2, Aerodrome, Slipstream, AlienBase, CurveTriCryptoPool, Pool, PoolSync, PoolType, Chain, PoolInfo };
+use alloy::primitives::Address;
+use petgraph::graph::UnGraph;
+use petgraph::prelude::*;
+use pool_sync::{BalancerV2Pool, CurveTriCryptoPool, Pool, PoolInfo};
 use std::collections::HashSet;
-use std::hash::Hash;
-use std::hash::{DefaultHasher, Hasher};
+use std::hash::{Hash, Hasher, DefaultHasher};
 
 pub struct ArbGraph;
 impl ArbGraph {
