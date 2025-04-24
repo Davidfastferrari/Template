@@ -29,7 +29,7 @@ WORKDIR /app
 COPY . .
 
 # Full optimized build
-WORKDIR /app/Template
+WORKDIR /app
 RUN cargo build --release
 
 # ---------------------
