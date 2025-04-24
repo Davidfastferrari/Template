@@ -1,26 +1,23 @@
-use alloy::{
-    consensus::Transaction,
-    network::TransactionBuilder,
-    primitives::{ address, U256 },
-    providers::{ Provider, ProviderBuilder },
-    rpc::types::request::TransactionRequest,
+use alloy::primitives::{Address, B256, StorageKey, U256};
+use eyre::Result;
+use reth::api::NodeTypesWithDBAdapter;
+use reth::providers::{
+    providers::StaticFileProvider,
+    AccountReader,
+    DatabaseProviderFactory,
+    StateProviderFactory,
+    HistoricalStateProvider,
+    StateProviderBox,
+    BlockNumReader,
+    ProviderFactory
 };
-use eyre::EyreHandler;
-use eyre::Chain;
-use std::error::Error;
-use reth_api::NodeTypesWithDBAdapter;
-use reth_provider::{
-    AccountReader, BlockNumReader, DatabaseProviderFactory, HistoricalStateProvider,
-    ProviderFactory, StateProviderBox, StateProviderFactory, StaticFileProvider,
-};
-use reth::reth_utils::open_db_read_only;
-use reth::reth_chainspec::ChainSpecBuilder;
-use reth::reth_db::{mdbx::DatabaseArguments, DatabaseEnv, ClientVersion};
-use reth::reth_node_ethereum::EthereumNode;
-use reth::reth_provider::StateProviderFactory;
+use reth::utils::open_db_read_only;
+use reth_chainspec::ChainSpecBuilder;
+use reth_db::{mdbx::DatabaseArguments, ClientVersion, DatabaseEnv};
+use reth_node_ethereum::EthereumNode;
+use revm::{Database, DatabaseCommit, DatabaseRef};
 use revm::db::AccountState;
 use revm::primitives::{Account, AccountInfo, Bytecode, KECCAK_EMPTY};
-use revm::revm-database::{Database, DatabaseCommit, DatabaseRef};
 use std::collections::HashMap;
 use std::path::Path;
 use std::sync::{Arc, RwLock};
