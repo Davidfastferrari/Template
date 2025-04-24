@@ -6,43 +6,21 @@ WORKDIR /app
 # Install host build dependencies.
 # RUN apk add --no-cache clang lld musl-dev git
 
-# Required libs for bindgen + FFI
-RUN apt-get update && apt-get install -y \
-    clang \
-    llvm-dev \
-    libclang-dev \
-    pkg-config \
-    build-essential \
-    cmake \
-    curl \
-    git \
-    ca-certificates \
- && rm -rf /var/lib/apt/lists/*
+# Install libclang for bindgen
+RUN apt-get update && apt-get install -y clang llvm-dev libclang-dev pkg-config cmake build-essential git curl ca-certificates
 
-# Optional: Explicitly tell bindgen where to find libclang (sometimes needed)
-ENV LIBCLANG_PATH=/usr/lib/llvm-14/lib
-ENV CLANG_PATH=/usr/bin/clang
+# Copy everything
+COPY . .
 
-# Copy full project
-COPY . ./
-
-# Build without relying on Cargo.lock
+# Build app
 RUN cargo build --release
 
 # -------- STAGE 2: RUNTIME --------
 FROM debian:bookworm-slim
 
-RUN apt-get update && apt-get install -y \
-    libssl3 \
-    ca-certificates \
- && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y libssl3 ca-certificates && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
-COPY --from=builder /app/contracts ./contracts
-COPY --from=builder /app/src ./src
+COPY --from=builder /app/target/release/BaseBuster .
 
-
-ENV RUST_BACKTRACE=1
-ENV RUST_LOG=info
-
-CMD ["./Template"]
+CMD ["./BaseBuster"]
