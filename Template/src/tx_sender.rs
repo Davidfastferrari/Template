@@ -1,37 +1,21 @@
 use crate::events::Event;
 use crate::gas_station::GasStation;
-use crate::gen1::FlashSwap;
-use alloy::{
-    eips::{ BlockId, Encodable2718 },
-    consensus::Transaction,
-    network::{ TransactionBuilder, EthereumWallet },
-    primitives::{hex, address, U256, Address, FixedBytes, Bytes },
-    providers::{ Provider, ProviderBuilder, RootProvider::{Client}},
-    rpc::types::request::TransactionRequest,
-    rpc::types::{
-        trace::geth::{ GethDebugTracingCallOptions, Bundle, StateContext, TransactionRequest, GethTrace, GethDebugTracerType, GethDebugBuiltInTracerType, PreStateConfig, GethDebugTracingOptions, GethDefaultTracingOptions, PreStateFrame, AccountState }
-    },
-   signer::local::PrivateKeySigner,
-   signer::k256::SecretKey,
-   transports::http::{
-        reqwest::{
-            header::{ HeaderMap, HeaderValue, AUTHORIZATION },
-            Client,
-        },
-        Http,
-      Transport,
-      TransportError 
-    },
-   sol_types::sol;
-};
+use crate::gen::FlashSwap;
+use alloy::hex;
+use alloy::network::Ethereum;
+use alloy::primitives::{Address, Bytes as AlloyBytes, FixedBytes};
+use alloy::providers::{Provider, ProviderBuilder, RootProvider};
+use alloy::rpc::types::TransactionRequest;
+use alloy_signer_wallet::LocalWallet;
+use alloy_sol_types::{SolCall};
+use alloy_transports_http::{Http, Client as AlloyClient};
 use log::info;
-use std::collections::HashMap;
+use reqwest::Client;
+use serde_json::Value;
 use std::str::FromStr;
-use std::sync::mpsc::Receiver;
-use std::sync::Arc;
-use std::time::{ Duration, Instant };
-use serde::{Deserialize, Serialize};
-use serde_json::json;
+use std::sync::{mpsc::Receiver, Arc};
+use std::time::{Duration, Instant};
+
 
 #[derive(Serialize, Deserialize, Debug)]
 struct Point {
