@@ -7,6 +7,8 @@ use alloy::primitives::{Address, Bytes as AlloyBytes, FixedBytes};
 use alloy::providers::{Provider, ProviderBuilder, RootProvider};
 use alloy::rpc::types::TransactionRequest;
 use alloy_signer_wallet::LocalWallet;
+use alloy_signer::local::PrivateKeySigner;
+use alloy_signer::k256::SecretKey;
 use alloy_sol_types::{SolCall};
 use alloy_transports_http::{Http, Client as AlloyClient};
 use log::info;
