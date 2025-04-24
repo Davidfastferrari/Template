@@ -27,7 +27,7 @@ RUN cargo build --release || true
 # Actual code copy
 WORKDIR /app
 # COPY . .
-COPY . . Template/
+COPY . ./
 
 # Full optimized build
 WORKDIR /app
