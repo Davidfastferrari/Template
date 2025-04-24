@@ -1,10 +1,9 @@
-use alloy::{
-    primitives::{U256, Address},
-    rpc::types::Header,
-};
+use alloy::primitives::{Address, U256};
+use alloy::rpc::types::Header;
 use std::collections::HashSet;
+
+use crate::gen::FlashQuoter::SwapParams;
 use crate::swap::SwapPath;
-use crate::gen1::FlashQuoter::SwapParams;
 
 #[derive(Debug, Clone)]
 pub enum Event {
