@@ -24,9 +24,9 @@ use anyhow::{anyhow, Result};
 use revm::primitives::{ExecutionResult, TransactTo};
 use revm::Evm;
 use std::sync::Arc;
-crate::gen1::FlashQuoter;
-crate::market_state::MarketState;
-crate::main::AMOUNT;
+use crate::gen1::FlashQuoter;
+use crate::market_state::MarketState;
+use crate::main::AMOUNT;
 
 // Quoter. This is used to get a simulation quote before sending off a transaction.
 // This will confirm that our offchain calculations are reasonable and make sure we can swap the tokens
