@@ -21,7 +21,7 @@ pub struct Searchoor<T, N, P>
 where
     T: Transport + Clone,
     N: Network,
-    P: Provider<T, N>,
+    P: Provider< N >,
 {
     calculator: Calculator<T, N, P>,
     estimator: Estimator<T, N, P>,
