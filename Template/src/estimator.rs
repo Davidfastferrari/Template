@@ -1,35 +1,17 @@
-use alloy::{
-    eips::{ BlockId, Encodable2718 },
-    consensus::Transaction,
-    network::{ TransactionBuilder, EthereumWallet, Ethereum, Network },
-    primitives::{ hex, address, U256, U160, Address, FixedBytes, Bytes },
-    providers::{ Provider, ProviderBuilder, RootProvider},
-    rpc::types::{ TransactionRequest, BlockNumberOrTag },
-    rpc::types::{
-        trace::geth::{ GethDebugTracingCallOptions, Bundle, StateContext, TransactionRequest, GethTrace, GethDebugTracerType, GethDebugBuiltInTracerType, PreStateConfig, GethDebugTracingOptions, GethDefaultTracingOptions, PreStateFrame, AccountState }
-    },
-   signer::local::PrivateKeySigner,
-   signer::k256::SecretKey,
-      rpc::client::RpcClient,
-    transports::http::{
-        reqwest::{
-            header::{HeaderMap, HeaderValue, AUTHORIZATION},
-            Client,
-        },
-        Http,
-    },
-    sol,
-    sol_types::{SolCall, SolValue, SolType},
-};
+use alloy::network::Network;
+use alloy::primitives::{Address, U256};
+use alloy::providers::Provider;
+use alloy::transports::Transport;
 use lazy_static::lazy_static;
 use pool_sync::{Pool, PoolInfo};
 use std::collections::{HashMap, HashSet};
 use std::sync::Arc;
 use log::debug;
+
 use crate::calculation::Calculator;
 use crate::market_state::MarketState;
 use crate::swap::SwapPath;
-use crate::main::AMOUNT;
+use crate::AMOUNT;
 
 // Calculation constants
 const RATE_SCALE: u32 = 18; // 18 decimals for rate precision
