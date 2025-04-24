@@ -1,35 +1,10 @@
-use alloy::{
-    eips::{ BlockId, Encodable2718 },
-    consensus::Transaction,
-    network::{ TransactionBuilder, EthereumWallet, Ethereum, Network },
-    primitives::{ hex, address, U256, Address, FixedBytes, Bytes },
-    providers::{ Provider, ProviderBuilder, RootProvider },
-    rpc::types::{TransactionRequest, BlockNumberOrTag },
-    rpc::types::{
-        trace::geth::{ GethDebugTracingCallOptions, Bundle, StateContext, TransactionRequest, GethTrace, GethDebugTracerType, GethDebugBuiltInTracerType, PreStateConfig, GethDebugTracingOptions, GethDefaultTracingOptions, PreStateFrame, AccountState }
-    },
-   signer::local::PrivateKeySigner,
-   signer::k256::SecretKey,
-      rpc::client::RpcClient,
-    transports::http::{
-        reqwest::{
-            header::{HeaderMap, HeaderValue, AUTHORIZATION},
-            Client,
-        },
-        Http,
-    },
-   sol_types::sol;
-};
+use alloy::network::Ethereum;
+use alloy::providers::RootProvider;
+use alloy_transports_http::{Http, Client};
+use alloy::primitives::U256;
 use log::{debug, info, warn};
 use std::collections::HashSet;
-use std::sync::mpsc::{Receiver, Sender};
-use std::sync::Arc;
-use crate::calculation::Calculator;
-use crate::events::Event;
-use crate::gen1::FlashQuoter;
-use crate::market_state::MarketState;
-use crate::quoter::Quoter;
-use crate::main::AMOUNT;
+use std::sync::{mpsc::{Receiver, Sender}, Arc};
 
 // recieve a stream of potential arbitrage paths from the searcher and
 // simulate them against the contract to determine if they are actually viable
