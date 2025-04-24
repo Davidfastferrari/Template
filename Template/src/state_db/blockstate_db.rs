@@ -39,7 +39,7 @@ impl HandleOrRuntime {
 }
 
 #[derive(Debug)]
-pub struct BlockStateDB<T: Transport + Clone, N: Network, P: Provider<T, N>> {
+pub struct BlockStateDB<T: Transport + Clone, N: Network, P: Provider< N >> {
     // All of the accounts
     pub accounts: HashMap<Address, BlockStateDBAccount>,
 
