@@ -1,0 +1,11 @@
+C:\Users\Damulak\Template\Template\target\debug\deps\libdigest-3db68e3eeb359916.rmeta: C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\digest-0.9.0\src\lib.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\digest-0.9.0\src\digest.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\digest-0.9.0\src\dyn_digest.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\digest-0.9.0\src\errors.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\digest-0.9.0\src\fixed.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\digest-0.9.0\src\variable.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\digest-0.9.0\src\xof.rs
+
+C:\Users\Damulak\Template\Template\target\debug\deps\digest-3db68e3eeb359916.d: C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\digest-0.9.0\src\lib.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\digest-0.9.0\src\digest.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\digest-0.9.0\src\dyn_digest.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\digest-0.9.0\src\errors.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\digest-0.9.0\src\fixed.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\digest-0.9.0\src\variable.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\digest-0.9.0\src\xof.rs
+
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\digest-0.9.0\src\lib.rs:
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\digest-0.9.0\src\digest.rs:
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\digest-0.9.0\src\dyn_digest.rs:
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\digest-0.9.0\src\errors.rs:
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\digest-0.9.0\src\fixed.rs:
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\digest-0.9.0\src\variable.rs:
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\digest-0.9.0\src\xof.rs:
