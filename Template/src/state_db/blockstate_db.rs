@@ -207,7 +207,7 @@ impl<T: Transport + Clone, N: Network, P: Provider< N >> BlockStateDB<T, N, P> {
 }
 
 // Implement the database trait for the BlockStateDB
-impl<T: Transport + Clone, N: Network, P: Provider<T, N>> Database for BlockStateDB<T, N, P> {
+impl<T: Transport + Clone, N: Network, P: Provider< N >> Database for BlockStateDB<T, N, P> {
     type Error = TransportError;
 
     // Get basic account information
