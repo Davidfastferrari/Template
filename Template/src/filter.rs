@@ -1,44 +1,26 @@
-use crate::gen1::ERC20Token::{ self, approveCall };
-use crate::gen1::{ V2Aerodrome, V2Swap, V3Swap, V3SwapDeadline, V3SwapDeadlineTick };
-use crate::main::AMOUNT;
-use alloy::{
-    eips::{ BlockId, Encodable2718 },
-    consensus::Transaction,
-    network::{ TransactionBuilder, EthereumWallet, Ethereum, Network },
-    primitives::{ hex, address, U256, U160, Address, FixedBytes, Bytes },
-    providers::{ Provider, ProviderBuilder, RootProvider },
-    rpc::types::{ TransactionRequest, BlockNumberOrTag },
-    rpc::types::{
-        trace::geth::{ GethDebugTracingCallOptions, Bundle, StateContext, TransactionRequest, GethTrace, GethDebugTracerType, GethDebugBuiltInTracerType, PreStateConfig, GethDebugTracingOptions, GethDefaultTracingOptions, PreStateFrame, AccountState }
-    },
-   signer::local::PrivateKeySigner,
-   signer::k256::SecretKey,
-      rpc::client::RpcClient,
-    transports::http::{
-        reqwest::{
-            header::{HeaderMap, HeaderValue, AUTHORIZATION},
-            Client,
-        },
-        Http,
-    },
-    sol,
-    sol_types::{ SolCall, SolValue, SolType },
-};
+use crate::gen::ERC20Token::{self, approveCall};
+use crate::gen::{V2Aerodrome, V2Swap, V3Swap, V3SwapDeadline, V3SwapDeadlineTick};
+use crate::AMOUNT;
+
+use alloy::primitives::{address, Address, U160, U256};
+use alloy::sol_types::{SolCall, SolValue};
 use anyhow::Result;
 use lazy_static::lazy_static;
 use log::{info, debug};
 use node_db::{InsertionType, NodeDB};
 use pool_sync::{Chain, Pool, PoolInfo, PoolType};
-use std::collections::HashMap;
-use revm::primitives::{Bytes, TransactTo, ExecutionResult, FixedBytes};
-use revm::{Inspector, InspectEvm};
+use reqwest::header::{HeaderMap, HeaderValue};
+use revm::primitives::{Bytes, ExecutionResult, FixedBytes, TransactTo};
+use revm::{inspector_handle_register, Evm};
 use serde::{Deserialize, Serialize};
+use std::collections::{HashMap, HashSet};
 use std::fs::{create_dir_all, File};
 use std::io::{BufReader, BufWriter};
 use std::path::Path;
 use std::str::FromStr;
-use std::collections::{HashSet, HashMap};
-use rayon::prelude;
+use revm_inspectors::access_list::AccessListInspector;
+use rayon::prelude::*;
+
 
 // Blacklisted tokens we dont want to consider
 lazy_static {
