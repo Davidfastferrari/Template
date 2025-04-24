@@ -19,8 +19,8 @@ RUN apt-get update && apt-get install -y \
  && rm -rf /var/lib/apt/lists/*
 
 # Cache dependencies first for incremental builds
-COPY ./Template/Cargo.toml ./Template/Cargo.lock
-RUN mkdir -p Template/src && echo 'fn main() {}' > Template/src/main.rs
+COPY ./Cargo.toml ./Cargo.lock
+RUN mkdir -p src && echo 'fn main() {}' > src/main.rs
 WORKDIR /app
 RUN cargo build --release || true
 
