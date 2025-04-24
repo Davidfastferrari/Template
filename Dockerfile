@@ -24,11 +24,6 @@ RUN mkdir -p src && echo 'fn main() {}' > src/main.rs
 WORKDIR /app
 RUN cargo build --release || true
 
-# Actual code copy
-WORKDIR /app
-# COPY . .
-
-
 # Full optimized build
 WORKDIR /app
 RUN cargo build --release
