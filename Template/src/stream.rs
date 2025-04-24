@@ -1,4 +1,4 @@
-crate::events::Event;
+use crate::events::Event;
 use alloy::providers::{ IpcConnect, Provider, ProviderBuilder };
 use futures::StreamExt;
 use log::{ debug, warn };
