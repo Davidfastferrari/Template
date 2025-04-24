@@ -28,5 +28,6 @@
 **/values.dev.yaml
 /bin
 /target
+/contracts
 LICENSE
 README.md
