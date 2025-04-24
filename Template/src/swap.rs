@@ -1,7 +1,6 @@
 use alloy::{
-    primitives::{ address, b128, b256, b512, b64, bytes, fixed_bytes, Address, Bytes, FixedBytes, Uint, I256, U256, hex },
-    sol,
-    sol_types::SolCall,
+    alloy-primitives::{ address, b128, b256, b512, b64, bytes, fixed_bytes, Address, Bytes, FixedBytes, Uint, I256, U256, hex },
+    alloy-sol-types::{ sol_data::*, SolType, SolValue, sol, SolCall },
 };
 use pool_sync::PoolType;
 use std::convert::From;
