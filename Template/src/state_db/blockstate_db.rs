@@ -1,51 +1,23 @@
-use alloy::{
-    eips::{BlockId, Encodable2718, calc_next_block_base_fee, eip1559::{BaseFeeParams}},
-    consensus::Transaction,
-    network::{ TransactionBuilder, EthereumWallet, Ethereum, Network, BlockResponse, HeaderResponse },
-    primitives::{ BlockNumber, B256, hex, address, U256, U160, Address, FixedBytes, Bytes },
-    providers::{ Provider, ProviderBuilder, RootProvider },
-    rpc::types::{ TransactionRequest, BlockNumberOrTag, BlockId },
-    rpc::types::{
-        trace::geth::{ GethDebugTracingOptions, GethDebugTracingCallOptions, Bundle, StateContext, TransactionRequest, GethTrace, GethDebugTracerType, GethDebugBuiltInTracerType, PreStateConfig, GethDebugTracingOptions, GethDefaultTracingOptions, PreStateFrame, AccountState, GethAccountState }
-    },
-    signer::local::PrivateKeySigner,
-    signer::k256::SecretKey,
-    rpc::client::RpcClient,
-    transports::http::{
-        reqwest::{
-            header::{ HeaderMap, HeaderValue, AUTHORIZATION },
-            Client,
-        },
-        Http,
-      Transport,
-      TransportError 
-    },
-    sol,
-    sol_types::{SolCall, SolValue, SolType},
-};
+use alloy::network::Network;
+use alloy::primitives::{Address, BlockNumber, B256, U256};
+use alloy::providers::Provider;
+use alloy::rpc::types::{BlockId};
+use alloy::rpc::types::trace::geth::AccountState as GethAccountState;
+use alloy::transports::{Transport, TransportError};
 use anyhow::Result;
 use log::{debug, trace, warn};
-use pool_sync::PoolInfo;
-use revm::db::AccountState;
-use revm::primitives::{Log, KECCAK_EMPTY};
-use revm::primitives::{Account, AccountInfo, Bytecode};
+use pool_sync::{Pool, PoolInfo};
 use revm::{Database, DatabaseCommit, DatabaseRef};
-use std::marker::Copy;
-use std::collections::HashMap;
-use std::collections::HashSet;
-use std::future::IntoFuture;
-use pool_sync::Pool;
+use revm::db::AccountState;
+use revm::primitives::{Account, AccountInfo, Bytecode, Log, KECCAK_EMPTY};
+use std::collections::{HashMap, HashSet};
 use tokio::runtime::Handle;
-use winit::event_loop::EventLoop;
-use winit::window::Window;
-
 
 #[derive(Debug)]
 pub struct Application {
     event_loop: EventLoop<()>,
     window: Window,
 }
-
 
 #[derive(Debug)]
 pub enum HandleOrRuntime {
