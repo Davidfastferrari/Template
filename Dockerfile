@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y \
  && rm -rf /var/lib/apt/lists/*
 
 # Cache dependencies first for incremental builds
-COPY ../ Cargo.toml .
+COPY Template/ 
 RUN mkdir -p src && echo 'fn main() {}' > src/main.rs
 WORKDIR /app
 RUN cargo build --release || true
@@ -27,7 +27,7 @@ RUN cargo build --release || true
 # Actual code copy
 WORKDIR /app
 # COPY . .
-COPY Template/ .
+
 
 # Full optimized build
 WORKDIR /app
