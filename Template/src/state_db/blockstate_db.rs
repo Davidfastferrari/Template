@@ -30,6 +30,7 @@ use revm::db::AccountState;
 use revm::primitives::{Log, KECCAK_EMPTY};
 use revm::primitives::{Account, AccountInfo, Bytecode};
 use revm::{Database, DatabaseCommit, DatabaseRef};
+use std::marker::Copy;
 use std::collections::HashMap;
 use std::collections::HashSet;
 use std::future::IntoFuture;
@@ -37,6 +38,7 @@ use pool_sync::Pool;
 use tokio::runtime::Handle;
 use winit::event_loop::EventLoop;
 use winit::window::Window;
+
 
 #[derive(Debug)]
 pub struct Application {
@@ -583,7 +585,7 @@ pub enum InsertionType {
     OnChain,
 }
 
-#[derive(Default, Eq, PartialEq, Copy, Clone, Debug)]
+#[derive(Default, Eq, PartialEq, Clone, Debug)]
 pub struct BlockStateDBSlot {
     pub value: U256,
     pub insertion_type: InsertionType,
