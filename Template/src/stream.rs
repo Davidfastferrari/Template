@@ -1,8 +1,9 @@
 use crate::events::Event;
-use alloy-provider::{ IpcConnect, Provider, ProviderBuilder };
+use alloy::providers::{Provider, ProviderBuilder, Ipc};
 use futures::StreamExt;
-use log::{ debug, warn };
+use log::{debug, warn};
 use tokio::sync::broadcast::Sender;
+
 
 // Stream in new blocks
 pub async fn stream_new_blocks(block_sender: Sender<Event>) {
