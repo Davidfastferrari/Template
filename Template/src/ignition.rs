@@ -12,16 +12,16 @@ use std::thread;
 use std::sync::Arc;
 use std::sync::atomic::AtomicBool;
 use std::sync::atomic::Ordering::Relaxed;
-crate::events::Event;
-crate::filter::filter_pools;
-crate::graph::ArbGraph;
-crate::market_state::MarketState;
-crate::searcher::Searchoor;
-crate::simulator::simulate_paths;
-crate::stream::stream_new_blocks;
-crate::tx_sender::TransactionSender;
-crate::gas_station::GasStation;
-crate::estimator::Estimator;
+use crate::events::Event;
+use crate::filter::filter_pools;
+use crate::graph::ArbGraph;
+use crate::market_state::MarketState;
+use crate::searcher::Searchoor;
+use crate::simulator::simulate_paths;
+use crate::stream::stream_new_blocks;
+use crate::tx_sender::TransactionSender;
+use crate::gas_station::GasStation;
+use crate::estimator::Estimator;
 
 /// Start all of the workers
 pub async fn start_workers(pools: Vec<PoolSync>, last_synced_block: u64) {
