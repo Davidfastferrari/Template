@@ -7,24 +7,24 @@ WORKDIR /app
 RUN apk add --no-cache clang lld musl-dev git
 
 # Required libs for bindgen + FFI
-# RUN apt-get update && apt-get install -y \
-#     clang \
-#     llvm-dev \
-#     libclang-dev \
-#     pkg-config \
-#     build-essential \
-#     cmake \
-#     curl \
-#     git \
-#     ca-certificates \
-#  && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y \
+    clang \
+    llvm-dev \
+    libclang-dev \
+    pkg-config \
+    build-essential \
+    cmake \
+    curl \
+    git \
+    ca-certificates \
+ && rm -rf /var/lib/apt/lists/*
 
 # Optional: Explicitly tell bindgen where to find libclang (sometimes needed)
-# ENV LIBCLANG_PATH=/usr/lib/llvm-14/lib
-# ENV CLANG_PATH=/usr/bin/clang
+ENV LIBCLANG_PATH=/usr/lib/llvm-14/lib
+ENV CLANG_PATH=/usr/bin/clang
 
 # Copy full project
-COPY . .
+COPY . ./
 
 # Build without relying on Cargo.lock
 RUN cargo build --release
