@@ -1,21 +1,22 @@
 use alloy::{
-    consensus::Transaction,
-    network::{ TransactionBuilder, Network },
+    alloy-consensus ::Transaction,
+    alloy-network::{ TransactionBuilder, Network },
     primitives::{ Address, address, U256 },
-    providers::{ Provider, ProviderBuilder },
-    rpc::types::request::TransactionRequest,
-    rpc::types::{
-        trace::geth::{ GethDebugTracingCallOptions, Bundle, StateContext, TransactionRequest, GethTrace, GethDebugTracerType, GethDebugBuiltInTracerType, PreStateConfig, GethDebugTracingOptions, GethDefaultTracingOptions, PreStateFrame, AccountState },
-        BlockNumberOrTag,
-        trace::common::TraceResult;
+    alloy-provider::{ Provider, ProviderBuilder },
+    alloy_rpc_types_trace::{
+           pre_state::AccountState,
+           geth::{ PreStateConfig, GethTrace, GethDebugTracerType, GethDebugBuiltInTracerType, GethDebugTracingOptions, GethDefaultTracingOptions },
+           common::TraceResult,
+           BlockNumberOrTag,
+           TransactionRequest,
     },
-   transports::http::{
+   alloy-transport-http::{
         reqwest::{
-            header::{HeaderMap, HeaderValue, AUTHORIZATION},
+            header::{ HeaderMap, HeaderValue, AUTHORIZATION },
             Client,
         },
         Http,
-        Transport,
+      Transport
     },
 };
 use log::warn;
