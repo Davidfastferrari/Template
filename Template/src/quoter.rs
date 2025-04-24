@@ -1,32 +1,17 @@
-use alloy::{
-    eips::{ BlockId, Encodable2718 },
-    consensus::Transaction,
-    network::{ TransactionBuilder, EthereumWallet, Ethereum, Network },
-    primitives::{hex, address, U256, Address, FixedBytes, Bytes},
-    providers::{Provider, ProviderBuilder, RootProvider},
-    rpc::types::{ TransactionRequest, BlockNumberOrTag },
-    rpc::types::{
-        trace::geth::{ GethDebugTracingCallOptions, Bundle, StateContext, TransactionRequest, GethTrace, GethDebugTracerType, GethDebugBuiltInTracerType, PreStateConfig, GethDebugTracingOptions, GethDefaultTracingOptions, PreStateFrame, AccountState }
-    },
-   signer::local::PrivateKeySigner,
-   signer::k256::SecretKey,
-      rpc::client::RpcClient,
-    transports::http::{
-        reqwest::{
-            header::{HeaderMap, HeaderValue, AUTHORIZATION},
-            Client,
-        },
-        Http,
-    },
-   sol_types::sol;
-};
+use alloy::network::Ethereum;
+use alloy::primitives::{address, U256};
+use alloy::providers::RootProvider;
+use alloy_sol_types::{SolCall, SolValue};
+use alloy_transports_http::{Http, Client};
 use anyhow::{anyhow, Result};
-use revm::primitives::{ExecutionResult, TransactTo};
+use revm_primitives::{ExecutionResult, TransactTo};
 use revm::Evm;
 use std::sync::Arc;
-use crate::gen1::FlashQuoter;
+
+use crate::gen::FlashQuoter;
 use crate::market_state::MarketState;
-use crate::main::AMOUNT;
+use crate::AMOUNT;
+
 
 // Quoter. This is used to get a simulation quote before sending off a transaction.
 // This will confirm that our offchain calculations are reasonable and make sure we can swap the tokens
