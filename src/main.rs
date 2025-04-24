@@ -67,7 +67,26 @@ pub fn update_amount(token_symbol: &str) {
     let mut amount = AMOUNT.write().unwrap();
     *amount = calculated;
 }
+// lazy_static! {
+//     pub static ref TOKEN_DECIMALS: HashMap<&'static str, u8> = {
+//         let mut map = HashMap::new();
+//         map.insert("USDC", 6);
+//         map.insert("WETH", 18);
+//         map.insert("DAI", 18);
+//         map.insert("USDT", 6);
+//         map
+//     };
+// }
 
+// pub fn amount_for_token(token_symbol: &str) -> U256 {
+//     let decimals = TOKEN_DECIMALS.get(token_symbol).copied().unwrap_or(18);
+//     let multiplier = U256::exp10(decimals as usize);
+//     U256::from(AMOUNT_USD) * multiplier
+// }
+
+// lazy_static! {
+//     pub static ref AMOUNT: RwLock<U256> = RwLock::new(amount_for_token("USDC"));
+// }
 // ------------------------------
 // ✅ MAIN ENTRY
 // ------------------------------
