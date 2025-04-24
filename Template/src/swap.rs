@@ -1,15 +1,10 @@
-use alloy::{
-    alloy-primitives::{ address, b128, b256, b512, b64, bytes, fixed_bytes, Address, Bytes, FixedBytes, Uint, I256, U256, hex },
-    alloy-sol-types::{ sol_data::*, SolType, SolValue, sol, SolCall },
-};
+use crate::gen::{FlashQuoter, FlashSwap};
+use crate::AMOUNT;
+use alloy::primitives::Address;
 use pool_sync::PoolType;
+use serde::{Deserialize, Serialize};
 use std::convert::From;
 use std::hash::Hash;
-use crate::gen1::FlashQuoter;
-use crate::gen1::FlashQuoter;
-use crate::gen1::FlashSwap;
-use crate::main::AMOUNT;
-use serde::{Serialize, Deserialize};
 
 #[derive(Serialize, Deserialize, Debug)]
 struct Point {
