@@ -1,6 +1,6 @@
-use gen1::ERC20Token::{ self, approveCall };
-use gen1::{ V2Aerodrome, V2Swap, V3Swap, V3SwapDeadline, V3SwapDeadlineTick };
-use main::AMOUNT;
+use crate::gen1::ERC20Token::{ self, approveCall };
+use crate::gen1::{ V2Aerodrome, V2Swap, V3Swap, V3SwapDeadline, V3SwapDeadlineTick };
+use crate::main::AMOUNT;
 use alloy::{
     eips::{ BlockId, Encodable2718 },
     consensus::Transaction,
