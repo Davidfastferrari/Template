@@ -60,7 +60,7 @@ pub struct BlockStateDB<T: Transport + Clone, N: Network, P: Provider< N >> {
     _marker: std::marker::PhantomData<fn() -> (T, N)>,
 }
 
-impl<T: Transport + Clone, N: Network, P: Provider<T, N>> BlockStateDB<T, N, P> {
+impl<T: Transport + Clone, N: Network, P: Provider< N >> BlockStateDB<T, N, P> {
     // Construct a new BlockStateDB
     pub fn new(provider: P) -> Option<Self> {
         debug!("Creating new BlockStateDB");
