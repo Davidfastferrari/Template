@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y \
 # Copy the actual crate code into /app/Template
 # COPY Template/ ./Template/
 
-COPY ./Template
+COPY ../Template
 
 # Move into the actual Rust project directory
 WORKDIR /app/Template
