@@ -7,7 +7,19 @@ WORKDIR /app
 # RUN apk add --no-cache clang lld musl-dev git
 
 # Install libclang for bindgen
-RUN apt-get update && apt-get install -y clang llvm-dev libclang-dev pkg-config cmake build-essential git curl ca-certificates
+#RUN apt-get update && apt-get install -y clang llvm-dev libclang-dev pkg-config cmake build-essential git curl ca-certificates
+
+RUN apt-get update && apt-get install -y \
+    clang \
+    llvm-dev \
+    libclang-dev \
+    pkg-config \
+    build-essential \
+    cmake \
+    curl \
+    git \
+    ca-certificates \
+ && rm -rf /var/lib/apt/lists/*
 
 # Copy everything
 COPY . .
@@ -23,4 +35,4 @@ RUN apt-get update && apt-get install -y libssl3 ca-certificates && rm -rf /var/
 WORKDIR /app
 COPY --from=builder /app/target/release/BaseBuster .
 
-CMD ["./BaseBuster"]
+CMD ["./Template"]
