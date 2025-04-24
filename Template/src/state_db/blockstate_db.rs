@@ -356,7 +356,7 @@ impl<T: Transport + Clone, N: Network, P: Provider< N >> Database for BlockState
 }
 
 // Implement required DatabaseRef trait, read references to the database (fetch from provider)
-impl<T: Transport + Clone, N: Network, P: Provider<T, N>> DatabaseRef for BlockStateDB<T, N, P> {
+impl<T: Transport + Clone, N: Network, P: Provider< N >> DatabaseRef for BlockStateDB<T, N, P> {
     type Error = TransportError;
 
     // Get basic account information
@@ -497,7 +497,7 @@ impl<T: Transport + Clone, N: Network, P: Provider<T, N>> DatabaseRef for BlockS
     }
 }
 
-impl<T: Transport + Clone, N: Network, P: Provider<T, N>> DatabaseCommit for BlockStateDB<T, N, P> {
+impl<T: Transport + Clone, N: Network, P: Provider< N >> DatabaseCommit for BlockStateDB<T, N, P> {
     fn commit(&mut self, changes: HashMap<Address, Account, foldhash::fast::RandomState>) {
         for (address, mut account) in changes {
             if !account.is_touched() {
