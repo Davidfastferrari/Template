@@ -3,8 +3,8 @@ use alloy::{
     rpc::types::Header,
 };
 use std::collections::HashSet;
-use crate::swap::SwapPath;
-use crate::gen1::FlashQuoter::SwapParams;
+crate::swap::SwapPath;
+crate::gen1::FlashQuoter::SwapParams;
 
 #[derive(Debug, Clone)]
 pub enum Event {
