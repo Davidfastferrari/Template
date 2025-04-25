@@ -6,77 +6,85 @@ use log::{debug, info, warn};
 use std::collections::HashSet;
 use std::sync::{mpsc::{Receiver, Sender}, Arc};
 
-// recieve a stream of potential arbitrage paths from the searcher and
-// simulate them against the contract to determine if they are actually viable
+/// Simulates arbitrage paths passed from the searcher and sends viable ones to the tx sender.
 pub async fn simulate_paths(
     tx_sender: Sender<Event>,
-    arb_receiver: Receiver<Event>,
+    mut arb_receiver: Receiver<Event>,
     market_state: Arc<MarketState<Http<Client>, Ethereum, RootProvider<Http<Client>>>>,
 ) {
-    // if this is just a sim run or not
-    let sim: bool = std::env::var("SIM").unwrap().parse().unwrap();
+    let sim: bool = match std::env::var("SIM") {
+        Ok(v) => v.parse().unwrap_or(false),
+        Err(_) => false,
+    };
 
-    // blacklisted paths, some error in swapping that wasnt caught during filter
     let mut blacklisted_paths: HashSet<u64> = HashSet::new();
 
-    // recieve new paths from the searcher
-    while let Ok(Event::ArbPath((arb_path, expected_out, block_number))) = arb_receiver.recv() {
-        // convert from searcher format into quoter format
+    while let Some(Event::ArbPath((arb_path, expected_out, block_number))) = arb_receiver.recv().await {
+        if blacklisted_paths.contains(&arb_path.hash) {
+            continue;
+        }
+
+        info!("Received path for simulation...");
+
         let mut converted_path: FlashQuoter::SwapParams = arb_path.clone().into();
-        println!("{:?}", converted_path);
 
-        // get the quote for the path and handle it appropriately
-        // if we have not blacklisted the path
-        if !blacklisted_paths.contains(&arb_path.hash) {
-            info!("Simulating a new path...");
-            // get an initial quote to see if we can swap
-            // get read access to the db so we can quote the path
-            match Quoter::quote_path(converted_path.clone(), market_state.clone()) {
-                Ok(quote) => {
-                    // if we are just simulated, compare to the expected amount
-                    if sim {
-                        if *(quote.last().unwrap()) == expected_out {
-                            info!(
-                                "Success.. Calculated {expected_out}, Quoted: {}, Path Hash {}",
-                                quote.last().unwrap(),
-                                arb_path.hash
-                            );
-                        } else {
-                            // get a full debug quote path
-                            let calculator = Calculator::new(market_state.clone());
-                            calculator.debug_calculation(&arb_path);
-                        }
-                    } else {
-                        if *quote.last().unwrap() > U256::from(1e18) {
-                            continue;
-                        };
+        // Quote path
+        match Quoter::quote_path(converted_path.clone(), market_state.clone()) {
+            Ok(quote) => {
+                let last_quote = match quote.last() {
+                    Some(q) => *q,
+                    None => {
+                        warn!("Quote was empty for path {:?}", arb_path.hash);
+                        blacklisted_paths.insert(arb_path.hash);
+                        continue;
+                    }
+                };
 
+                if sim {
+                    // Just simulating, compare result
+                    if last_quote == expected_out {
                         info!(
-                            "Sim successful... Estimated output: {}, Block {}",
-                            expected_out, block_number
+                            "✅ Sim match! Expected: {}, Quoted: {}, Hash: {}",
+                            expected_out, last_quote, arb_path.hash
                         );
+                    } else {
+                        info!(
+                            "❌ Sim mismatch. Expected: {}, Got: {}, Hash: {}",
+                            expected_out, last_quote, arb_path.hash
+                        );
+                        let calculator = Calculator::new(market_state.clone());
+                        calculator.debug_calculation(&arb_path);
+                    }
+                } else {
+                    // Only continue if expected value is big enough
+                    if last_quote < U256::from_dec_str("1000000000000000000").unwrap() {
+                        continue;
+                    }
 
+                    info!(
+                        "✅ Sim successful. Output: {}, Block: {}",
+                        expected_out, block_number
+                    );
 
+                    let optimized = Quoter::optimize_input(
+                        converted_path.clone(),
+                        last_quote,
+                        market_state.clone(),
+                    );
+                    info!("💰 Optimized input: {}, output: {}", optimized.0, optimized.1);
 
-                        // now optimize the input
-                        let optimized_amounts = Quoter::optimize_input(converted_path.clone(), *quote.last().unwrap(), market_state.clone());
-                        info!("Optimized input: {}. Optimized output: {}", optimized_amounts.0, optimized_amounts.1);
-                        let profit = expected_out - *AMOUNT;
-                        converted_path.amountIn = optimized_amounts.0;
+                    let profit = expected_out.saturating_sub(*AMOUNT); // ✅ Prevent underflow
+                    converted_path.amountIn = optimized.0;
 
-                        match tx_sender.send(Event::ValidPath((converted_path, profit, block_number))) {
-                            Ok(_) => debug!("Simulator sent path to Tx Sender"),
-                            Err(_) => warn!("Simulator: failed to send path to tx sender"),
-                        }
+                    match tx_sender.send(Event::ValidPath((converted_path, profit, block_number))).await {
+                        Ok(_) => debug!("✔️ Sent to tx sender"),
+                        Err(_) => warn!("⚠️ Failed to send to tx sender"),
                     }
                 }
-                Err(quote_err) => {
-                    info!(
-                        "Failed to simulate quote {}, {:#?} ",
-                        quote_err, arb_path.hash
-                    );
-                    blacklisted_paths.insert(arb_path.hash);
-                }
+            }
+            Err(err) => {
+                warn!("Simulation error on hash {}: {:?}", arb_path.hash, err);
+                blacklisted_paths.insert(arb_path.hash);
             }
         }
     }
