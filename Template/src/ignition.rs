@@ -1,51 +1,59 @@
+use std::{
+    sync::{
+        atomic::{AtomicBool, Ordering::Relaxed},
+        mpsc, Arc,
+    },
+    thread,
+    time::Duration,
+};
+
 use alloy::providers::ProviderBuilder;
 use log::info;
 use pool_sync::{Chain, Pool};
-use std::sync::{Arc, mpsc};
-use std::sync::atomic::{AtomicBool, Ordering::Relaxed};
-use std::thread;
 
-use crate::events::Event;
-use crate::filter::filter_pools;
-use crate::gas_station::GasStation;
-use crate::graph::ArbGraph;
-use crate::market_state::MarketState;
-use crate::searcher::Searchoor;
-use crate::simulator::simulate_paths;
-use crate::stream::stream_new_blocks;
-use crate::tx_sender::TransactionSender;
-use crate::estimator::Estimator;
+use crate::{
+    events::Event,
+    estimator::Estimator,
+    filter::filter_pools,
+    gas_station::GasStation,
+    graph::ArbGraph,
+    market_state::MarketState,
+    searcher::Searchoor,
+    simulator::simulate_paths,
+    stream::stream_new_blocks,
+    tx_sender::TransactionSender,
+};
 
-
-/// Start all of the workers
-pub async fn start_workers(pools: Vec<PoolSync>, last_synced_block: u64) {
-    // all of the sender and receiversb
+/// Bootstraps the entire system: syncing, simulation, and arbitrage search
+pub async fn start_workers(pools: Vec<Pool>, last_synced_block: u64) {
+    // --- Channel Setup ---
     let (block_sender, block_receiver) = tokio::sync::broadcast::channel::<Event>(100);
     let (address_sender, address_receiver) = mpsc::channel::<Event>();
     let (paths_sender, paths_receiver) = mpsc::channel::<Event>();
     let (profitable_sender, profitable_receiver) = mpsc::channel::<Event>();
 
-    // filter the pools here to smartly select the working set
-    info!("Pool count before filter {}", pools.len());
+    // --- Pool Filtering ---
+    info!("Pool count before filtering: {}", pools.len());
     let pools = filter_pools(pools, 4000, Chain::Base).await;
-    info!("Pool count after filter {}", pools.len());
+    info!("Pool count after filtering: {}", pools.len());
 
-    // start the block stream so we dont miss any blocks
+    // --- Block Streamer ---
     tokio::spawn(stream_new_blocks(block_sender));
 
-    // Construct and start the gas station
+    // --- Gas Station ---
     let gas_station = Arc::new(GasStation::new());
-    tokio::spawn( {
-        let gas_station = gas_station.clone();
+    {
+        let gas_station = Arc::clone(&gas_station);
         let block_rx = block_receiver.resubscribe();
-        async move { gas_station.update_gas(block_rx).await }
-    });
+        tokio::spawn(async move {
+            gas_station.update_gas(block_rx).await;
+        });
+    }
 
-    // Signal for if the blocks are caught up 
+    // --- State Catch-up Flag ---
     let caught_up = Arc::new(AtomicBool::new(false));
 
-    // Initialize our market state, this is a wrapper over the REVM database with all our pool state
-    // then start the updater
+    // --- Market State Initialization ---
     info!("Initializing market state...");
     let http_url = std::env::var("FULL").unwrap().parse().unwrap();
     let provider = ProviderBuilder::new().on_http(http_url);
@@ -55,41 +63,47 @@ pub async fn start_workers(pools: Vec<PoolSync>, last_synced_block: u64) {
         address_sender,
         last_synced_block,
         provider,
-        caught_up.clone()
+        Arc::clone(&caught_up),
     )
     .await
-    .unwrap();
-    info!("Initialized market state!");
-        
-    // Construct and populate the estimator
-    // wait until we have caught up to all the blocks before we start estimating the rates
-    info!("Calculating initial rates in estimator...");
-    let mut estimator = Estimator::new(market_state.clone());
-    // spin why we are not caught up, then calculate rates for the updates pools
-    while !caught_up.load(Relaxed) {}
+    .expect("Failed to initialize market state");
+    info!("Market state initialized!");
+
+    // --- Estimator Initialization ---
+    info!("Waiting for block sync before initializing estimator...");
+    while !caught_up.load(Relaxed) {
+        tokio::time::sleep(Duration::from_millis(100)).await;
+    }
+
+    info!("Calculating initial rates...");
+    let mut estimator = Estimator::new(Arc::clone(&market_state));
     estimator.process_pools(pools.clone());
-    info!("Calculated initial rates!");
+    info!("Initial rates calculated!");
 
-    // generate the graph
-    info!("Generating cycles...");
+    // --- Arbitrage Graph + Cycles ---
+    info!("Generating arbitrage cycles...");
     let cycles = ArbGraph::generate_cycles(pools.clone()).await;
-    info!("Generated {} cycles", cycles.len());
+    info!("Generated {} arbitrage cycles", cycles.len());
 
-    // start the simulator
+    // --- Simulator ---
     info!("Starting the simulator...");
     tokio::spawn(simulate_paths(
         profitable_sender,
         paths_receiver,
-        market_state.clone(),
+        Arc::clone(&market_state),
     ));
 
-    // start the searcher
+    // --- Arbitrage Searcher ---
     info!("Starting arbitrage searcher...");
-    let mut searcher = Searchoor::new(cycles, market_state.clone(), estimator);
-    thread::spawn(move || searcher.search_paths(paths_sender, address_receiver));
+    let mut searcher = Searchoor::new(cycles, Arc::clone(&market_state), estimator);
+    thread::spawn(move || {
+        searcher.search_paths(paths_sender, address_receiver);
+    });
 
-    // start the tx sender
+    // --- Transaction Sender ---
     info!("Starting transaction sender...");
-    let mut tx_sender = TransactionSender::new(gas_station.clone()).await;
-    tokio::spawn(async move { tx_sender.send_transactions(profitable_receiver).await });
+    let mut tx_sender = TransactionSender::new(Arc::clone(&gas_station)).await;
+    tokio::spawn(async move {
+        tx_sender.send_transactions(profitable_receiver).await;
+    });
 }
