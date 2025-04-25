@@ -55,6 +55,8 @@ where
             cache: Arc::new(Cache::new(500)),
         }
      }
+ }
+
 
     /// Perform output amount calculation for a given swap path
     #[inline(always)]
@@ -176,7 +178,7 @@ where
 impl<N, P> Calculator<N, P>
 where
     N: Network,
-    P: Provider<N, P>,
+    P: Provider<N>,
 {
     /// Simulate sandwich backrun MEV strategy
     ///
