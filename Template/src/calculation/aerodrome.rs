@@ -21,11 +21,10 @@ sol! {
     }
 }
 
-impl<T, N, P> Calculator<T, N, P>
+impl<N, P> Calculator<N, P>
 where
-    T: Transport + Clone,
     N: Network,
-    P: Provider<N>,
+    P: Provider<N, P>,
 {
     /// Calculate output amount for Aerodrome-style pool
     /// Supports both stable and volatile formulas
@@ -204,8 +203,8 @@ pub fn find_best_route(
     let mut visited = HashSet::new();
     let mut best = None;
 
-    fn dfs<'a, T, N, P>(
-        calc: &Calculator<T, N, P>,
+    fn dfs<'a, N, P>(
+        calc: &Calculator<N, P>,
         graph: &HashMap<Address, Vec<(Address, Address)>>,
         current_token: Address,
         target: Address,
