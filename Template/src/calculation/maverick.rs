@@ -19,9 +19,8 @@ sol! {
     }
 }
 
-impl<T, N, P> Calculator<T, N, P>
+impl<N, P> Calculator<N, P>
 where
-    T: alloy::transports::Transport + Clone,
     N: alloy::network::Network,
     P: alloy::providers::Provider<T, N>,
 {
