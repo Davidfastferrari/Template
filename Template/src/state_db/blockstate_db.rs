@@ -14,6 +14,9 @@ use std::collections::{HashMap, HashSet};
 use std::marker::PhantomData;
 use tokio::runtime::{Handle, Runtime};
 use revm::primitives::Account as RevmAccount;
+use revm::revm_database::alloydb::DBTransportError; // ✅ fix: valid DBErrorMarker implementor
+
+type Error = DBTransportError;
 
 // Handles either a current thread Handle or a dedicated Runtime
 #[derive(Debug)]
@@ -45,11 +48,10 @@ pub struct BlockStateDB<T: Transport + Clone, N: Network, P: Provider<T, N>> {
     _marker: PhantomData<fn() -> (T, N)>,
 }
 
-impl<T, N, P> BlockStateDB<T, N, P>
+impl<N, P> BlockStateDB<N, P>
 where
-    T: Transport + Clone,
     N: Network,
-    P: Provider<T, N> + Clone + 'static,
+    P: Provider<N, P> + 'static,
 {
     /// Construct a new BlockStateDB with appropriate runtime handle
     pub fn new(provider: P) -> Option<Self> {
@@ -173,13 +175,12 @@ where
     }
 }
 
-impl<T, N, P> Database for BlockStateDB<T, N, P>
+impl<N, P> Database for BlockStateDB<N, P>
 where
-    T: Transport + Clone,
     N: Network,
-    P: Provider<T, N>,
+    P: Provider<N>,
 {
-    type Error = TransportError;
+    type Error = DBTransportError;
 
     /// Return account info or query from provider and insert if missing.
     fn basic(&mut self, address: Address) -> Result<Option<AccountInfo>, Self::Error> {
@@ -232,13 +233,12 @@ where
     }
 }
 
-impl<T, N, P> DatabaseRef for BlockStateDB<T, N, P>
+impl<N, P> DatabaseRef for BlockStateDB<N, P>
 where
-    T: Transport + Clone,
     N: Network,
     P: Provider<T, N>,
 {
-    type Error = TransportError;
+    type Error = DBTransportError;
 
     fn basic_ref(&self, address: Address) -> Result<Option<AccountInfo>, Self::Error> {
         if let Some(acc) = self.accounts.get(&address) {
@@ -288,9 +288,8 @@ where
     }
 }
 
-impl<T, N, P> BlockStateDB<T, N, P>
+impl<N, P> BlockStateDB<N, P>
 where
-    T: Transport + Clone,
     N: Network,
     P: Provider<T, N>,
 {
@@ -343,20 +342,20 @@ where
     }
 }
 
-#[derive(Default, Clone, Debug, Eq, PartialEq)]
+#[derive(Default, Debug, Eq, PartialEq)]
 pub struct BlockStateDBSlot {
     pub value: U256,
     pub insertion_type: InsertionType,
 }
 
-#[derive(Default, Clone, Debug, Eq, PartialEq)]
+#[derive(Default, Debug, Eq, PartialEq)]
 pub enum InsertionType {
     Custom,
     #[default]
     OnChain,
 }
 
-#[derive(Default, Clone, Debug, Eq, PartialEq)]
+#[derive(Default, Debug, Eq, PartialEq)]
 pub struct BlockStateDBAccount {
     pub info: AccountInfo,
     pub state: AccountState,
