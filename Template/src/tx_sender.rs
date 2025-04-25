@@ -27,51 +27,49 @@ struct Point {
 
 // Handles sending transactions
 pub struct TransactionSender {
-    wallet: EthereumWallet,
+    wallet: EthereumWallet<PrivateKeySigner>,
     gas_station: Arc<GasStation>,
     contract_address: Address,
     client: Arc<Client>,
-    provider: Arc<RootProvider<Http<>>>,
+    provider: Arc<RootProvider<Http<HttpClient>>>,
     nonce: u64,
 }
 
 impl TransactionSender {
     pub async fn new(gas_station: Arc<GasStation>) -> Self {
         // construct a wallet
-        let key = std::env::var("PRIVATE_KEY").unwrap();
-        let key_hex = hex::decode(key).unwrap();
-        let key = SecretKey::from_bytes((&key_hex[..]).into()).unwrap();
+        let key = std::env::var("PRIVATE_KEY").expect("PRIVATE_KEY not set");
+        let key_hex = hex::decode(&key).expect("Invalid hex");
+        let key = SecretKey::from_bytes((&key_hex[..]).into()).expect("Invalid secret key");
         let signer = PrivateKeySigner::from(key);
         let wallet = EthereumWallet::from(signer);
 
-        // Create persisent http client
+        // Create persistent reqwest client
         let client = Client::builder()
             .pool_max_idle_per_host(10)
-            .pool_idle_timeout(None)
-            .tcp_keepalive(Duration::from_secs(10))
-            .tcp_nodelay(true)
             .timeout(Duration::from_secs(10))
             .connect_timeout(Duration::from_secs(5))
             .build()
-            .expect("Failed to create HTTP client");
-        // Warm up connection by sending a simple eth_blockNumber request
+            .expect("Failed to create reqwest client");
+
+        // Warm-up request
         let warmup_json = json!({
             "jsonrpc": "2.0",
             "method": "eth_blockNumber",
             "params": [],
             "id": 1
         });
-        let _ = Client
+        let _ = client
             .post("https://mainnet-sequencer.base.org")
             .json(&warmup_json)
             .send()
             .await
             .unwrap();
 
-        // construct a provider for tx receipts and nonce
-        let provider = Arc::new(
-            ProviderBuilder::new().on_http(std::env::var("FULL").unwrap().parse().unwrap()),
-        );
+        // setup provider
+        let http_provider = std::env::var("FULL").unwrap().parse::<Http<HttpClient>>().unwrap();
+        let provider = Arc::new(ProviderBuilder::new().on_http(http_provider));
+
         let nonce = provider
             .get_transaction_count(std::env::var("ACCOUNT").unwrap().parse().unwrap())
             .await
@@ -81,29 +79,24 @@ impl TransactionSender {
             wallet,
             gas_station,
             contract_address: std::env::var("SWAP_CONTRACT").unwrap().parse().unwrap(),
-            client: Arc::new(Client),
+            client: Arc::new(client),
             provider,
             nonce,
         }
     }
 
-
-    // Receive a path that has passed simulation to be sent to the sequencer
     pub async fn send_transactions(&mut self, tx_receiver: Receiver<Event>) {
-        // wait for a new transaction that has passed simulation
-        while let Ok(Event::ValidPath((arb_path, profit, block_number))) = tx_receiver.recv()
-        {
+        while let Ok(Event::ValidPath((arb_path, profit, block_number))) = tx_receiver.recv() {
             info!("Sending path...");
 
-            // Setup the calldata
             let converted_path: FlashSwap::SwapParams = arb_path.clone().into();
             let calldata = FlashSwap::executeArbitrageCall {
-                arb: converted_path
+                arb: converted_path,
             }
             .abi_encode();
 
-            // Construct, sign, and encode transaction
             let (max_fee, priority_fee) = self.gas_station.get_gas_fees(profit);
+
             let tx = TransactionRequest::default()
                 .with_to(self.contract_address)
                 .with_nonce(self.nonce)
@@ -112,8 +105,9 @@ impl TransactionSender {
                 .with_max_fee_per_gas(max_fee)
                 .with_max_priority_fee_per_gas(priority_fee)
                 .transaction_type(2)
-                .with_input(Bytes::from(calldata));
+                .with_input(AlloyBytes::from(calldata));
             self.nonce += 1;
+
             let tx_envelope = tx.build(&self.wallet).await.unwrap();
             let mut encoded_tx = vec![];
             tx_envelope.encode_2718(&mut encoded_tx);
@@ -126,12 +120,11 @@ impl TransactionSender {
                 "id": 1
             });
 
-            // Send the transaciton off and monitor its status
             info!("Sending on block {}", block_number);
             let start = Instant::now();
 
-            // construct the request and send it
-            let req = self.Client
+            let req = self
+                .client
                 .post("https://mainnet-sequencer.base.org")
                 .json(&tx_data)
                 .send()
@@ -139,39 +132,37 @@ impl TransactionSender {
                 .unwrap();
             let req_response: Value = req.json().await.unwrap();
             info!("Took {:?} to send tx and receive response", start.elapsed());
-            let tx_hash = FixedBytes::<32>::from_str(req_response["result"].as_str().unwrap()).unwrap();
+            let tx_hash = FixedBytes::<32>::from_str(req_response["result"].as_str().unwrap())
+                .unwrap();
 
             let provider = self.provider.clone();
             tokio::spawn(async move {
-                Self::send_and_monitor(provider,tx_hash, block_number).await;
+                Self::send_and_monitor(provider, tx_hash, block_number).await;
             });
         }
     }
 
-    // Send the transaction and monitor its status
     pub async fn send_and_monitor(
-        provider: Arc<RootProvider<Http<Client>>>,
+        provider: Arc<RootProvider<Http<HttpClient>>>,
         tx_hash: FixedBytes<32>,
         block_number: u64,
     ) {
-        // loop while waiting for tx receipt
         let mut attempts = 0;
         while attempts < 10 {
-            // try to fetch the receipt
             let receipt = provider.get_transaction_receipt(tx_hash).await;
             if let Ok(Some(inner)) = receipt {
-                info!("Send on block {:?}, Landed on block {:?}", block_number, inner.block_number.unwrap());
+                info!(
+                    "Sent on block {:?}, Landed on block {:?}",
+                    block_number,
+                    inner.block_number.unwrap()
+                );
                 return;
             }
-
             tokio::time::sleep(Duration::from_secs(2)).await;
             attempts += 1;
         }
-
     }
 }
-
-
 
 // Test transaction sending functionality
 #[cfg(test)]
