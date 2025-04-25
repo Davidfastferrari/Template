@@ -6,9 +6,9 @@ use alloy::providers::Provider;
 use alloy::transports::Transport;
 use std::collections::{HashMap, HashSet};
 
-let weth = Address::from_str("...").unwrap();
-let usdc = Address::from_str("...").unwrap();
-let initial_amt = U256::from(10u64.pow(18)); // 1 ETH
+const weth = Address::from_str("...").unwrap();
+const usdc = Address::from_str("...").unwrap();
+const initial_amt = U256::from(10u64.pow(18)); // 1 ETH
 
 sol! {
     #[sol(rpc)]
