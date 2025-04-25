@@ -15,11 +15,10 @@ lazy_static! {
     static ref U112_MASK: U256 = (U256::from(1) << 112) - 1;
 }
 
-impl<T, N, P> BlockStateDB<T, N, P>
+impl<N, P> BlockStateDB<N, P>
 where
-    T: Transport + Clone,
     N: Network,
-    P: Provider<T, N>,
+    P: Provider<N, P>,
 {
     /// Inserts UniswapV2-style pool into the simulated state DB
     pub fn insert_v2(&mut self, pool: Pool) {
