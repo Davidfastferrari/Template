@@ -54,6 +54,7 @@ where
             market_state,
             cache: Arc::new(Cache::new(500)),
         }
+     }
 
     /// Perform output amount calculation for a given swap path
     #[inline(always)]
@@ -172,11 +173,10 @@ where
     }
 }
 
-impl<T, N, P> Calculator<T, N, P>
+impl<N, P> Calculator<N, P>
 where
-    T: Transport + Clone,
     N: Network,
-    P: Provider<T, N>,
+    P: Provider<N, P>,
 {
     /// Simulate sandwich backrun MEV strategy
     ///
