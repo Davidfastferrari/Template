@@ -40,11 +40,10 @@ sol!(
 );
 
 // === V3 Pool Insertion Logic ===
-impl<T, N, P> BlockStateDB<T, N, P>
+impl<N, P> BlockStateDB<N, P>
 where
-    T: Transport + Clone,
     N: Network,
-    P: Provider<T, N>,
+    P: Provider<N, P>,
 {
     pub fn insert_v3(&mut self, pool: Pool) -> Result<()> {
         trace!("Inserting V3 Pool: {}", pool.address());
