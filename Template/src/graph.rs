@@ -2,57 +2,55 @@ use crate::swap::{SwapPath, SwapStep};
 use alloy::primitives::Address;
 use petgraph::graph::UnGraph;
 use petgraph::prelude::*;
-use pool_sync::{BalancerV2Pool, CurveTriCryptoPool, Pool, PoolInfo};
+use pool_sync::{BalancerV2Pool, CurveTriCryptoPool, Pool};
 use std::collections::HashSet;
 use std::hash::{Hash, Hasher, DefaultHasher};
 
 pub struct ArbGraph;
-impl ArbGraph {
-    // Constructor, takes the set of working tokens we are interested in searching over
-    pub async fn generate_cycles(working_pools: Vec<Pool>) -> Vec<SwapPath> {
-        // build the graph
-        let token: Address = std::env::var("WETH").unwrap().parse().unwrap();
-        let graph = ArbGraph::build_graph(working_pools);
 
-        // get start node and construct cycles
+impl ArbGraph {
+    /// Generate arbitrage cycles using known pools
+    pub async fn generate_cycles(working_pools: Vec<Pool>) -> Vec<SwapPath> {
+        // Fetch token (e.g. WETH) as starting point from env
+        let token: Address = std::env::var("WETH")
+            .expect("WETH environment variable must be set")
+            .parse()
+            .expect("Invalid WETH address");
+
+        let graph = Self::build_graph(working_pools).await;
+
         let start_node = graph
             .node_indices()
             .find(|node| graph[*node] == token)
-            .unwrap();
-        let cycles = ArbGraph::find_all_arbitrage_paths(&graph, start_node, 2);
+            .expect("Start token not found in graph");
 
-        // form our swappaths
-        let swappaths: Vec<SwapPath> = cycles
-            .iter()
+        let cycles = Self::find_all_arbitrage_paths(&graph, start_node, 2);
+
+        // Hash & structure the cycles
+        cycles
+            .into_iter()
             .map(|cycle| {
                 let mut hasher = DefaultHasher::new();
-                cycle.iter().for_each(|step| step.hash(&mut hasher));
-                let output_hash = hasher.finish();
+                for step in &cycle {
+                    step.hash(&mut hasher);
+                }
+
                 SwapPath {
-                    steps: cycle.clone(),
-                    hash: output_hash,
+                    steps: cycle,
+                    hash: hasher.finish(),
                 }
             })
-            .collect();
-        swappaths
+            .collect()
     }
 
-    // Build the graph from the working set of pools
-   async fn build_graph(working_pools: Vec<Pool>) -> UnGraph<Address, Pool> {
+    /// Build token connectivity graph from pool list
+    async fn build_graph(working_pools: Vec<Pool>) -> UnGraph<Address, Pool> {
         let mut graph: UnGraph<Address, Pool> = UnGraph::new_undirected();
         let mut inserted_nodes: HashSet<Address> = HashSet::new();
-        let pool_sync = PoolSync::builder()
-        .add_pool(PoolType::UniswapV2, UniswapV3, SushiswapV2, SushiswapV3, PancakeswapV2, PancakeswapV3, BaseswapV2, BaseswapV3, MaverickV1, MaverickV2, Aerodrome, Slipstream, AlienBase)
-        .chain(Chain::Base)
-        .build()?;
-        
-      // Synchronize pools
-       let (pools, last_synced_block) = pool_sync.sync_pools().await?;
 
-        for pools in working_pools {
-            // add the nodes ot the graph if they have not already been added
-            match pools {
-               Pool::BalancerV2(balancer_pool) => {
+        for pool in working_pools {
+            match pool {
+                Pool::BalancerV2(balancer_pool) => {
                     Self::add_balancer_pool_to_graph(
                         &mut graph,
                         &mut inserted_nodes,
@@ -63,10 +61,11 @@ impl ArbGraph {
                     Self::add_curve_pool_to_graph(&mut graph, &mut inserted_nodes, curve_pool);
                 }
                 _ => {
-                    Self::add_simple_pool_to_graph(&mut graph, &mut inserted_nodes, pools);
+                    Self::add_simple_pool_to_graph(&mut graph, &mut inserted_nodes, pool);
                 }
             }
         }
+
         graph
     }
 
@@ -78,21 +77,21 @@ impl ArbGraph {
         let token0 = pool.token0_address();
         let token1 = pool.token1_address();
 
-        // Add nodes if they don't exist
-        if !inserted_nodes.contains(&token0) {
-            graph.add_node(token0);
-            inserted_nodes.insert(token0);
-        }
-        if !inserted_nodes.contains(&token1) {
-            graph.add_node(token1);
-            inserted_nodes.insert(token1);
+        for token in [token0, token1] {
+            if inserted_nodes.insert(token) {
+                graph.add_node(token);
+            }
         }
 
-        // Get the node indices
-        let node0 = graph.node_indices().find(|&n| graph[n] == token0).unwrap();
-        let node1 = graph.node_indices().find(|&n| graph[n] == token1).unwrap();
+        let node0 = graph
+            .node_indices()
+            .find(|&n| graph[n] == token0)
+            .expect("Token0 not found in graph");
+        let node1 = graph
+            .node_indices()
+            .find(|&n| graph[n] == token1)
+            .expect("Token1 not found in graph");
 
-        // Add the edge (pool)
         graph.add_edge(node0, node1, pool);
     }
 
@@ -103,30 +102,24 @@ impl ArbGraph {
     ) {
         let tokens = curve_pool.get_tokens();
 
-        // Add nodes for all tokens in the pool
         for &token in &tokens {
-            if !inserted_nodes.contains(&token) {
+            if inserted_nodes.insert(token) {
                 graph.add_node(token);
-                inserted_nodes.insert(token);
             }
         }
 
-        // Add edges for all possible token pairs with non-zero balances
         for (i, &token_in) in tokens.iter().enumerate() {
             for &token_out in tokens.iter().skip(i + 1) {
-                // Only add edge if both balances are non-zero
                 let node_in = graph
                     .node_indices()
                     .find(|&n| graph[n] == token_in)
-                    .unwrap();
+                    .expect("Token_in not found");
                 let node_out = graph
                     .node_indices()
                     .find(|&n| graph[n] == token_out)
-                    .unwrap();
+                    .expect("Token_out not found");
 
-                // Create a new Pool::BalancerV2 for each edge
-                let pool = Pool::CurveTriCrypto(curve_pool.clone());
-                graph.add_edge(node_in, node_out, pool);
+                graph.add_edge(node_in, node_out, Pool::CurveTriCrypto(curve_pool.clone()));
             }
         }
     }
@@ -138,46 +131,40 @@ impl ArbGraph {
     ) {
         let tokens = balancer_pool.get_tokens();
 
-        // Add nodes for all tokens in the pool
         for &token in &tokens {
-            if !inserted_nodes.contains(&token) {
+            if inserted_nodes.insert(token) {
                 graph.add_node(token);
-                inserted_nodes.insert(token);
             }
         }
 
-        // Add edges for all possible token pairs with non-zero balances
         for (i, &token_in) in tokens.iter().enumerate() {
             for &token_out in tokens.iter().skip(i + 1) {
                 let balance_in = balancer_pool.get_balance(&token_in);
                 let balance_out = balancer_pool.get_balance(&token_out);
 
-                // Only add edge if both balances are non-zero
                 if !balance_in.is_zero() && !balance_out.is_zero() {
                     let node_in = graph
                         .node_indices()
                         .find(|&n| graph[n] == token_in)
-                        .unwrap();
+                        .expect("Token_in not found");
                     let node_out = graph
                         .node_indices()
                         .find(|&n| graph[n] == token_out)
-                        .unwrap();
+                        .expect("Token_out not found");
 
-                    // Create a new Pool::BalancerV2 for each edge
-                    let pool = Pool::BalancerV2(balancer_pool.clone());
-                    graph.add_edge(node_in, node_out, pool);
+                    graph.add_edge(node_in, node_out, Pool::BalancerV2(balancer_pool.clone()));
                 }
             }
         }
     }
 
+    /// Finds arbitrage paths starting and ending at the same node
     fn find_all_arbitrage_paths(
         graph: &UnGraph<Address, Pool>,
         start_node: NodeIndex,
         max_hops: usize,
     ) -> Vec<Vec<SwapStep>> {
-        //let mut all_paths = Vec::new();
-        let mut all_paths: Vec<Vec<SwapStep>> = Vec::new();
+        let mut all_paths = Vec::new();
         let mut current_path = Vec::new();
         let mut visited = HashSet::new();
 
@@ -194,7 +181,7 @@ impl ArbGraph {
         all_paths
     }
 
-    // Build all of the cycles
+    /// Recursively builds cycles from token paths
     fn construct_cycles(
         graph: &UnGraph<Address, Pool>,
         current_node: NodeIndex,
@@ -220,17 +207,16 @@ impl ArbGraph {
                     let mut new_path = current_path.clone();
                     new_path.push((current_node, protocol, next_node));
 
-                    let mut swap_path = Vec::new();
-                    for (base, pool, quote) in new_path.iter() {
-                        let swap = SwapStep {
+                    let swap_path = new_path
+                        .iter()
+                        .map(|(base, pool, quote)| SwapStep {
                             pool_address: pool.address(),
                             token_in: graph[*base],
                             token_out: graph[*quote],
                             protocol: pool.pool_type(),
                             fee: pool.fee(),
-                        };
-                        swap_path.push(swap);
-                    }
+                        })
+                        .collect();
 
                     all_paths.push(swap_path);
                 }
