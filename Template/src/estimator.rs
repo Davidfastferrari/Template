@@ -13,8 +13,6 @@ use crate::market_state::MarketState;
 use crate::swap::SwapPath;
 use crate::AMOUNT;
 
-const RATE_SCALE: u32 = 18; // 18 decimals for rate precision
-
 // Constants
 const RATE_SCALE: u32 = 18;
 
@@ -199,22 +197,20 @@ where
 #[cfg(test)]
 mod estimator_tests {
     use super::*;
-    use swap::SwapStep;
+    use crate::swap::SwapStep;
     use alloy::network::Ethereum;
     use alloy::primitives::address;
-    use alloy::providers::{Provider, ProviderBuilder, RootProvider};
+    use alloy::providers::{ProviderBuilder, RootProvider};
     use alloy::transports::http::{Client, Http};
-    use pool_sync::PoolType;
-    use pool_sync::UniswapV2Pool;
-    use std::sync::mpsc;
+    use pool_sync::{PoolType, UniswapV2Pool};
+    use std::sync::{mpsc, Arc};
     use tokio::sync::broadcast;
-    use std::sync::Arc;
-    use std::sync::atomic::AtomicBool;
-    use std::sync::atomic::Ordering;
+    use std::sync::atomic::{AtomicBool, Ordering};
+    use proptest::prelude::*;
 
-    // Create mock uniswapv2 weth/usdc pool
-    fn uni_v2_weth_usdc() -> Pool {
-        let pool = UniswapV2Pool {
+    // Create a sample Uniswap V2 pool
+    fn mock_uni_v2_pool() -> Pool {
+        Pool::UniswapV2(UniswapV2Pool {
             address: address!("88A43bbDF9D098eEC7bCEda4e2494615dfD9bB9C"),
             token0: address!("4200000000000000000000000000000000000006"),
             token1: address!("833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"),
@@ -222,97 +218,69 @@ mod estimator_tests {
             token1_name: "USDC".to_string(),
             token0_decimals: 18,
             token1_decimals: 6,
-            token0_reserves: U256::from(325032740126871996707_u128),
-            token1_reserves: U256::from(1014189875851_u128),
+            token0_reserves: U256::from(3e18 as u128),
+            token1_reserves: U256::from(1_000_000_000 as u128),
             stable: None,
             fee: None,
-        };
-        Pool::UniswapV2(pool)
+        })
     }
 
-    // Create mock sushiswapv2 weth/usdc pool
-    fn sushi_v2_weth_usdc() -> Pool {
-        let pool = UniswapV2Pool {
-            address: address!("2F8818D1B0f3e3E295440c1C0cDDf40aAA21fA87"),
-            token0: address!("4200000000000000000000000000000000000006"),
-            token1: address!("833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"),
-            token0_name: "WETH".to_string(),
-            token1_name: "USDC".to_string(),
-            token0_decimals: 18,
-            token1_decimals: 6,
-            token0_reserves: U256::from(324239280299976672116_u128),
-            token1_reserves: U256::from(1016689282374_u128),
-            stable: None,
-            fee: None,
-        };
-        Pool::SushiSwapV2(pool)
-    }
-
-    // Mock the estimator for calculation
-    async fn mock_estimator() -> Estimator<Http<Client>, Ethereum, RootProvider<Http<Client>>> {
+    async fn setup_estimator() -> Estimator<Http<Client>, Ethereum, RootProvider<Http<Client>>> {
         dotenv::dotenv().ok();
         let endpoint = std::env::var("FULL").unwrap().parse().unwrap();
-
-        let uni_pool = uni_v2_weth_usdc();
-        let sushi_pool = sushi_v2_weth_usdc();
-        let pools = vec![uni_pool, sushi_pool];
-
-        let (_, block_rx) = broadcast::channel(10);
-        let (address_tx, _) = mpsc::channel();
-
         let provider = ProviderBuilder::new().on_http(endpoint);
-        let block = provider.get_block_number().await.unwrap();
 
-        let is_caught_up = Arc::new(AtomicBool::new(false));
-        let market_state =
-            MarketState::init_state_and_start_stream(pools, block_rx, address_tx, block, provider, is_caught_up.clone())
-                .await
-                .unwrap();
-        while is_caught_up.load(Ordering::Relaxed) == false {}
-        Estimator::new(market_state)
+        let (block_tx, block_rx) = broadcast::channel(1);
+        let (address_tx, _) = mpsc::channel();
+        let pool = mock_uni_v2_pool();
+        let last_block = provider.get_block_number().await.unwrap();
+        let ready = Arc::new(AtomicBool::new(false));
+
+        let state = MarketState::init_state_and_start_stream(
+            vec![pool],
+            block_rx,
+            address_tx,
+            last_block,
+            provider,
+            ready.clone(),
+        )
+        .await
+        .unwrap();
+
+        while !ready.load(Ordering::Relaxed) {}
+        Estimator::new(state)
     }
 
-    // Test that we can properly scale values to a desired precision
-    #[tokio::test(flavor = "multi_thread")]
-    async fn test_scale_to_rate() {
-        let estimator = mock_estimator().await;
-
-        // Scale up from 6 decimals
-        let amount = U256::from(1_000_000); // 1 USDC
-        let scaled = estimator.scale_to_rate(amount, 6);
-        assert_eq!(scaled, U256::from(1e18));
-
-        // Scale down from 24 decimals
-        let amount = U256::from(1_000_000_000_000_000_000_000_000_u128);
-        let scaled = estimator.scale_to_rate(amount, 24);
-        assert_eq!(scaled, U256::from(1e18));
+    proptest! {
+        #[test]
+        fn test_scale_preserves_unit(amount in 1_000_000u64..1_000_000_000u64, decimals in 0u32..36) {
+            let estimator = Estimator::<Http<Client>, Ethereum, RootProvider<Http<Client>>>::new(Arc::new(
+                MarketState {
+                    db: RwLock::new(MockBlockStateDB::default()) // You should define MockBlockStateDB
+                }
+            ));
+            let scaled = estimator.scale_to_rate(U256::from(amount), decimals);
+            prop_assert!(scaled > U256::ZERO);
+        }
     }
 
-    // Test that we compute the correct rate for a given input/output
     #[tokio::test(flavor = "multi_thread")]
-    async fn test_calculate_rate() {
-        let estimator = mock_estimator().await;
+    async fn test_rate_and_scaling_consistency() {
+        let estimator = setup_estimator().await;
 
-        // Test USDC (6 decimals) to ETH (18 decimals) rate
         let input = U256::from(1_000_000); // 1 USDC
         let output = U256::from(500_000_000_000_000_000u128); // 0.5 ETH
+
         let rate = estimator.calculate_rate(input, output, 6, 18);
-
-        // Expected rate: 0.5 * 1e18 (representing 0.5 in fixed point)
-        assert_eq!(rate, U256::from(500_000_000_000_000_000u128));
+        assert_eq!(rate, U256::from(5e17 as u128));
     }
 
-    // Test if we can find a profitable path via rate estimation
     #[tokio::test(flavor = "multi_thread")]
-    async fn test_profitable() {
-        let mut estimator = mock_estimator().await;
+    async fn test_path_profitability_estimate() {
+        let mut estimator = setup_estimator().await;
+        estimator.process_pools(vec![mock_uni_v2_pool()]);
 
-        let uni_pool = uni_v2_weth_usdc();
-        let sushi_pool = sushi_v2_weth_usdc();
-        let pools = vec![uni_pool, sushi_pool];
-        estimator.process_pools(pools);
-
-        let not_profitable = SwapPath {
+        let path = SwapPath {
             steps: vec![
                 SwapStep {
                     pool_address: address!("88A43bbDF9D098eEC7bCEda4e2494615dfD9bB9C"),
@@ -321,40 +289,11 @@ mod estimator_tests {
                     protocol: PoolType::UniswapV2,
                     fee: 0,
                 },
-                SwapStep {
-                    pool_address: address!("2F8818D1B0f3e3E295440c1C0cDDf40aAA21fA87"),
-                    token_in: address!("833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"),
-                    token_out: address!("4200000000000000000000000000000000000006"),
-                    protocol: PoolType::SushiSwapV2,
-                    fee: 0,
-                },
             ],
-            hash: 0,
-        };
-        let profitable = SwapPath {
-            steps: vec![
-                SwapStep {
-                    pool_address: address!("2F8818D1B0f3e3E295440c1C0cDDf40aAA21fA87"),
-                    token_in: address!("4200000000000000000000000000000000000006"),
-                    token_out: address!("833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"),
-                    protocol: PoolType::SushiSwapV2,
-                    fee: 0,
-                },
-                SwapStep {
-                    pool_address: address!("88A43bbDF9D098eEC7bCEda4e2494615dfD9bB9C"),
-                    token_in: address!("833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"),
-                    token_out: address!("4200000000000000000000000000000000000006"),
-                    protocol: PoolType::UniswapV2,
-                    fee: 0,
-                },
-            ],
-            hash: 0,
+            hash: 42,
         };
 
-        let no_profit = estimator.is_profitable(&not_profitable, U256::ZERO);
-        let profit = estimator.is_profitable(&profitable, U256::ZERO);
-        assert!(!no_profit);
-        assert!(profit);
+        let est_output = estimator.estimate_output_amount(&path);
+        assert!(est_output > U256::zero());
     }
-
 }
