@@ -12,14 +12,7 @@ struct Point {
     y: i32,
 }
 
-// A full representation of a path that we can swap along with its hash
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Hash)]
-pub struct SwapPath {
-    pub steps: Vec<SwapStep>,
-    pub hash: u64,
-}
-
-// A step representing an individual swap
+/// Represents an individual swap step in a multi-hop path.
 #[derive(Debug, Clone, Serialize, Deserialize, Hash, PartialEq, Eq)]
 pub struct SwapStep {
     pub pool_address: Address,
@@ -29,36 +22,44 @@ pub struct SwapStep {
     pub fee: u32,
 }
 
-// Convert from Quoter format into SwapFormat. The same thing
+/// Full swap path that the bot will evaluate and potentially execute.
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Hash)]
+pub struct SwapPath {
+    pub steps: Vec<SwapStep>,
+    pub hash: u64,
+}
+
+/// Converts a [`FlashQuoter::SwapParams`] into a [`FlashSwap::SwapParams`] for execution.
+///
+/// This conversion is useful after estimating quotes from a flash quoter and preparing a swap call.
 impl From<FlashQuoter::SwapParams> for FlashSwap::SwapParams {
     fn from(params: FlashQuoter::SwapParams) -> Self {
         FlashSwap::SwapParams {
             pools: params.pools,
             poolVersions: params.poolVersions,
-            amountIn: params.amountIn
+            amountIn: params.amountIn,
         }
     }
 }
 
-// Convert from arb SwapPath into Quoter format
+/// Converts a [`SwapPath`] into a [`FlashQuoter::SwapParams`] for quote estimation.
+///
+/// This builds the vector of pool addresses and their corresponding protocol version
+/// (encoded as `u8` where V3 = 1 and others = 0).
 impl From<SwapPath> for FlashQuoter::SwapParams {
     fn from(path: SwapPath) -> Self {
-        let mut pools: Vec<Address> = Vec::new();
-        let mut protocol: Vec<u8> = Vec::new();
+        let mut pools: Vec<Address> = Vec::with_capacity(path.steps.len());
+        let mut protocols: Vec<u8> = Vec::with_capacity(path.steps.len());
+
         for step in path.steps {
             pools.push(step.pool_address);
-            if step.protocol.is_v3() {
-                protocol.push(1);
-            } else {
-                protocol.push(0);
-            }
+            protocols.push(if step.protocol.is_v3() { 1 } else { 0 });
         }
+
         FlashQuoter::SwapParams {
             pools,
-            poolVersions: protocol,
-            amountIn: AMOUNT
+            poolVersions: protocols,
+            amountIn: AMOUNT,
         }
     }
 }
-
-
