@@ -43,11 +43,10 @@ pub fn position(tick: i32) -> (i16, u8) {
     ((tick >> 8) as i16, (tick % 256) as u8)
 }
 
-impl<T, N, P> Calculator<T, N, P>
+impl<N, P> Calculator<N, P>
 where
-    T: Transport + Clone,
     N: Network,
-    P: Provider<T, N>,
+    P: Provider<N, P>,
 {
     // Calcualte the amount out for a uniswapv2 swap
     #[inline]
