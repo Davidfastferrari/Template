@@ -7,11 +7,10 @@ use std::ops::Neg;
 use std::str::FromStr;
 
 /// Balancer V2 swap formula implemented on top of AMM math.
-impl<T, N, P> Calculator<T, N, P>
+impl<N, P> Calculator<N, P>
 where
-    T: Transport + Clone,
     N: Network,
-    P: Provider<T, N>,
+    P: Provider<N, P>,
 {
     /// Calculate output for a Balancer V2 style swap using exponentiation invariant
     pub fn balancer_v2_out(
