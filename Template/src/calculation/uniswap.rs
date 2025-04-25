@@ -5,9 +5,19 @@ use alloy::providers::Provider;
 use alloy::transports::Transport;
 use anyhow::Result;
 use std::collections::HashMap;
+// tests/uniswap_fuzz.rs
+use super::*;
+use proptest::prelude::*;
 use uniswap_v3_math::tick_math::{MAX_SQRT_RATIO, MAX_TICK, MIN_SQRT_RATIO, MIN_TICK};
 
 pub const U256_1: U256 = U256::from_limbs([1, 0, 0, 0]);
+
+/// Mock DB access interface
+struct MockDB {
+    liquidity: u128,
+    sqrt_price_x_96: U256,
+    tick: i32,
+}
 
 pub struct CurrentState {
     amount_specified_remaining: I256,
@@ -200,5 +210,93 @@ where
         }
 
         Ok((-current_state.amount_calculated).into_raw())
+    }
+}
+
+impl MockDB {
+    fn build(liquidity: u128, tick: i32) -> Self {
+        let sqrt_price = tick_math::get_sqrt_ratio_at_tick(tick).unwrap_or(U256::from(1));
+        Self {
+            liquidity,
+            sqrt_price_x_96: sqrt_price,
+            tick,
+        }
+    }
+
+    fn simulate_v3_swap(
+        &self,
+        amount_in: U256,
+        zero_to_one: bool,
+        fee: u32,
+    ) -> Result<U256> {
+        let tick_spacing = 60;
+        let price_limit = if zero_to_one {
+            U256::from(MIN_SQRT_RATIO) + U256_ONE
+        } else {
+            MAX_SQRT_RATIO - U256_ONE
+        };
+
+        let mut state = CurrentState {
+            sqrt_price_x_96: self.sqrt_price_x_96,
+            tick: self.tick,
+            liquidity: self.liquidity,
+            amount_specified_remaining: I256::from_raw(amount_in),
+            amount_calculated: I256::ZERO,
+        };
+
+        while state.amount_specified_remaining != I256::ZERO
+            && state.sqrt_price_x_96 != price_limit
+        {
+            let mut step = StepComputations {
+                sqrt_price_start_x_96: state.sqrt_price_x_96,
+                ..Default::default()
+            };
+
+            let next_tick = if zero_to_one {
+                state.tick - tick_spacing
+            } else {
+                state.tick + tick_spacing
+            };
+
+            step.tick_next = next_tick.clamp(MIN_TICK, MAX_TICK);
+            step.sqrt_price_next_x96 = tick_math::get_sqrt_ratio_at_tick(step.tick_next)?;
+
+            let target = if zero_to_one {
+                step.sqrt_price_next_x96.min(price_limit)
+            } else {
+                step.sqrt_price_next_x96.max(price_limit)
+            };
+
+            let (sqrt_next, amt_in, amt_out, fee_amt) = swap_math::compute_swap_step(
+                state.sqrt_price_x_96,
+                target,
+                state.liquidity,
+                state.amount_specified_remaining,
+                fee,
+            )?;
+
+            state.amount_specified_remaining -= I256::from_raw(amt_in + fee_amt);
+            state.amount_calculated -= I256::from_raw(amt_out);
+            state.sqrt_price_x_96 = sqrt_next;
+            state.tick = step.tick_next;
+        }
+
+        Ok((-state.amount_calculated).into_raw())
+    }
+}
+
+/// Fuzz test for UniswapV3 simulation range
+proptest! {
+    #[test]
+    fn test_uniswap_v3_simulation_does_not_panic(
+        amount_in in 1u128..1_000_000_000_000_000_000u128,  // [0.000001 ETH .. 1 ETH]
+        liquidity in 1_000_000u128..1_000_000_000_000u128,   // simulate wide range
+        tick in -887272i32..887272i32,
+        fee in 1_000u32..10_000u32,
+        zero_to_one in any::<bool>()
+    ) {
+        let db = MockDB::build(liquidity, tick);
+        let result = db.simulate_v3_swap(U256::from(amount_in), zero_to_one, fee);
+        prop_assert!(result.is_ok(), "Simulation should not error or panic");
     }
 }
