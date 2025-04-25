@@ -14,11 +14,10 @@ sol! {
     }
 }
 
-impl<T, N, P> Calculator<T, N, P>
+impl<N, P> Calculator<N, P>
 where
-    T: alloy::transports::Transport + Clone,
     N: alloy::network::Network,
-    P: alloy::providers::Provider<T, N>,
+    P: alloy::providers::Provider<N, P>,
 {
     /// Simulates Curve's `get_dy` offchain to estimate swap output
     pub fn curve_out(
