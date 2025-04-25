@@ -1,88 +1,106 @@
+use std::sync::Arc;
+
 use alloy::network::Ethereum;
 use alloy::primitives::{address, U256};
 use alloy::providers::RootProvider;
 use alloy_sol_types::{SolCall, SolValue};
 use alloy_transports_http::{Http, Client};
 use anyhow::{anyhow, Result};
-use revm_primitives::{ExecutionResult, TransactTo};
+use log::{info, warn};
 use revm::Evm;
-use std::sync::Arc;
+use revm_primitives::{ExecutionResult, TransactTo};
 
 use crate::gen::FlashQuoter;
 use crate::market_state::MarketState;
 use crate::AMOUNT;
 
-
-// Quoter. This is used to get a simulation quote before sending off a transaction.
-// This will confirm that our offchain calculations are reasonable and make sure we can swap the tokens
+/// Quoter – runs an EVM simulation to quote arbitrage profitability.
 pub struct Quoter;
+
 impl Quoter {
-    // get a quote for the path
+    /// Runs a simulated EVM call on the provided quote path.
     pub fn quote_path(
         quote_params: FlashQuoter::SwapParams,
         market_state: Arc<MarketState<Http<Client>, Ethereum, RootProvider<Http<Client>>>>,
     ) -> Result<Vec<U256>> {
         let mut guard = market_state.db.write().unwrap();
-        // need to pass this as mut somehow
-        let mut evm = Evm::builder().with_db(&mut *guard).build();
+
+        let mut evm = Evm::builder()
+            .with_db(&mut *guard)
+            .build();
+
         evm.tx_mut().caller = address!("d8da6bf26964af9d7eed9e03e53415d37aa96045");
         evm.tx_mut().transact_to =
             TransactTo::Call(address!("0000000000000000000000000000000000001000"));
-        // get read access to the db
-        // setup the calldata
-        
-        let quote_calldata = FlashQuoter::quoteArbitrageCall {
+
+        let calldata = FlashQuoter::quoteArbitrageCall {
             params: quote_params,
-        }
-        .abi_encode();
-        evm.tx_mut().data = quote_calldata.into();
+        }.abi_encode();
 
-        // transact
-        let ref_tx = evm.transact().unwrap();
-        let result = ref_tx.result;
+        evm.tx_mut().data = calldata.into();
 
-        match result {
-            ExecutionResult::Success { output: value, .. } => {
-                if let Ok(amount) = Vec::<U256>::abi_decode(value.data(), false) {
-                    Ok(amount)
-                } else {
-                    Err(anyhow!("Failed to decode"))
+        // Run the transaction
+        match evm.transact().map(|tx| tx.result) {
+            Ok(ExecutionResult::Success { output, .. }) => {
+                match Vec::<U256>::abi_decode(output.data(), false) {
+                    Ok(decoded) => Ok(decoded),
+                    Err(e) => {
+                        warn!("❌ ABI decode failed: {e:?}");
+                        Err(anyhow!("Failed to decode EVM output"))
+                    }
                 }
             }
-            ExecutionResult::Revert { output, .. } => Err(anyhow!("Simulation reverted {output}")),
-            _ => Err(anyhow!("Failed to simulate")),
+            Ok(ExecutionResult::Revert { output, .. }) => {
+                warn!("🚫 Simulation reverted with output: {:?}", output);
+                Err(anyhow!("Simulation reverted"))
+            }
+            Ok(_) => {
+                warn!("🤔 Unexpected simulation result");
+                Err(anyhow!("Unexpected EVM result"))
+            }
+            Err(e) => {
+                warn!("🔥 Simulation transaction failed: {:?}", e);
+                Err(anyhow!("Simulation failure"))
+            }
         }
     }
 
-    /// Optimizes the input amount using binary search to find the maximum profitable input
-    /// Returns the optimal input amount and its corresponding output amounts
+    /// Optimizes the input amount via binary search to maximize profitability.
+    /// Returns a `(best_input, best_output)` pair.
     pub fn optimize_input(
-        quote_path: FlashQuoter::SwapParams,
+        mut quote_path: FlashQuoter::SwapParams,
         initial_out: U256,
         market_state: Arc<MarketState<Http<Client>, Ethereum, RootProvider<Http<Client>>>>,
     ) -> (U256, U256) {
-        let mut quote_path = quote_path.clone();
-        let mut curr_input = *AMOUNT;
         let mut best_input = *AMOUNT;
         let mut best_output = initial_out;
+        let mut curr_input = *AMOUNT;
+
+        let step = U256::from_dec_str("200000000000000").unwrap(); // ✅ precise 2e14 step
 
         for _ in 0..50 {
-            curr_input = curr_input + U256::from(2e14);
+            curr_input += step;
             quote_path.amountIn = curr_input;
 
             match Self::quote_path(quote_path.clone(), market_state.clone()) {
                 Ok(amounts) => {
-                    let output = *amounts.last().unwrap();
-                    if output > curr_input && output > best_output {
-                        best_output = output;
-                        best_input = curr_input;
-                    } else {
-                        break;
+                    if let Some(&output) = amounts.last() {
+                        if output > curr_input && output > best_output {
+                            best_output = output;
+                            best_input = curr_input;
+                            continue;
+                        }
                     }
-                } 
-                Err(_) => break
+                    // If output not better, stop early
+                    break;
+                }
+                Err(e) => {
+                    info!("Binary search early exit: {e}");
+                    break;
+                }
             }
         }
+
         (best_input, best_output)
     }
 }
