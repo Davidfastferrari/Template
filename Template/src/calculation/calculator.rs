@@ -5,56 +5,55 @@ use alloy::transports::Transport;
 use pool_sync::PoolType;
 use std::collections::HashSet;
 use std::sync::Arc;
+use revm::revm_database::alloydb::DBTransportError; // ✅ fix: valid DBErrorMarker implementor
 
 use crate::cache::Cache;
 use crate::market_state::MarketState;
 use crate::swap::{SwapPath, SwapStep};
 use crate::AMOUNT;
 
-fn uniswap_v2_out(&self, input: U256, pool: &Address, token: &Address, fee: U256) -> U256 {
+pub fn uniswap_v2_out(&self, input: U256, pool: &Address, token: &Address, fee: U256) -> U256 {
     // TODO: Actual implementation
     U256::ZERO
 }
 
-fn uniswap_v3_out(&self, input: U256, pool: &Address, token: &Address, fee: u32) -> Option<U256> {
+pub fn uniswap_v3_out(&self, input: U256, pool: &Address, token: &Address, fee: u32) -> Option<U256> {
     // TODO: Actual implementation
     Some(U256::ZERO)
 }
 
-fn aerodrome_out(&self, input: U256, token: Address, pool: Address) -> U256 {
+pub fn aerodrome_out(&self, input: U256, token: Address, pool: Address) -> U256 {
     // TODO: Actual implementation
     U256::ZERO
 }
 
-fn balancer_v2_out(&self, input: U256, token_in: Address, token_out: Address, pool: Address) -> U256 {
+pub fn balancer_v2_out(&self, input: U256, token_in: Address, token_out: Address, pool: Address) -> U256 {
     // TODO: Actual implementation
     U256::ZERO
 }
 
 /// Calculator handles swap output computations across supported AMM types.
-pub struct Calculator<T, N, P>
+/// Calculator handles swap output computations across supported AMM types.
+pub struct Calculator<N, P>
 where
-    T: Transport + Clone,
     N: Network,
-    P: Provider<T, N>,
+    P: Provider<N>,
 {
-    pub market_state: Arc<MarketState<T, N, P>>,
+    pub market_state: Arc<MarketState<N, P>>,
     pub cache: Arc<Cache>,
 }
 
-impl<T, N, P> Calculator<T, N, P>
+impl<N, P> Calculator<N, P>
 where
-    T: Transport + Clone,
     N: Network,
-    P: Provider<T, N>,
+    P: Provider<N>,
 {
     /// Create a new calculator instance with market state and internal cache.
-    pub fn new(market_state: Arc<MarketState<T, N, P>>) -> Self {
+     pub fn new(market_state: Arc<MarketState<N, P>>) -> Self {
         Self {
             market_state,
             cache: Arc::new(Cache::new(500)),
         }
-    }
 
     /// Perform output amount calculation for a given swap path
     #[inline(always)]
