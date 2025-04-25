@@ -45,7 +45,7 @@ pub struct BlockStateDB<T: Transport + Clone, N: Network, P: Provider<T, N>> {
     pub pool_info: HashMap<Address, Pool>,
     provider: P,
     runtime: HandleOrRuntime,
-    _marker: PhantomData<fn() -> (T, N)>,
+    _marker: PhantomData<fn() -> (N)>,
 }
 
 impl<N, P> BlockStateDB<N, P>
