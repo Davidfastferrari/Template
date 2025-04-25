@@ -19,6 +19,7 @@ use std::io::{BufReader, BufWriter};
 use std::path::Path;
 use std::str::FromStr;
 use revm_inspectors::access_list::AccessListInspector;
+use revm_inspectors::access_list::InspectEvm;
 use rayon::prelude::*;
 
 // Blacklisted tokens we don’t want to consider (e.g. scams, malicious)
@@ -115,7 +116,10 @@ fn read_addresses_from_file(filename: &str) -> Result<Vec<Address>> {
 }
 
 async fn fetch_top_volume_tokens(num_results: usize, chain: Chain) -> Vec<Address> {
-    let client = reqwest::Client::new();
+    let client = reqwest::Client::builder()
+    .timeout(std::time::Duration::from_secs(10))
+    .build()
+    .expect("Failed to build HTTP client");
     let mut headers = HeaderMap::new();
     let api_key = std::env::var("BIRDEYE_KEY").expect("BIRDEYE_KEY not set");
 
@@ -149,7 +153,10 @@ async fn fetch_top_volume_tokens(num_results: usize, chain: Chain) -> Vec<Addres
             .unwrap();
 
         if response.status().is_success() {
-            let parsed: BirdeyeResponse = response.json().await.unwrap();
+            let parsed: BirdeyeResponse = response
+    .json()
+    .await
+    .with_context(|| format!("Failed to decode Birdeye response at offset {}, limit {}", offset, limit))?;
             addresses.extend(parsed.data.tokens.into_iter().map(|t| t.address));
         }
     }
@@ -166,7 +173,11 @@ async fn filter_by_swap(pools: Vec<Pool>, slot_map: HashMap<Address, FixedBytes<
     let mut nodedb = NodeDB::new(&db_path).expect("Failed to open NodeDB");
 
     for pool in pools {
-        let (router, swap_type) = resolve_router_and_type(pool.pool_type());
+        let (router, swap_type) = match resolve_router_and_type(pool.pool_type()) {
+                  Some(x) => x,
+                 None => continue, // skip unknown pools
+              };
+
         let zero_to_one = determine_swap_direction(&pool);
 
         // Skip if slots unknown
@@ -245,14 +256,21 @@ fn simulate_swap(
 
 fn decode_swap_return(output: &Bytes, is_vec: bool) -> U256 {
     if is_vec {
-        let vec_out = <Vec<U256>>::abi_decode(output, false).expect("Failed vec decode");
+        let vec_out = match <Vec<U256>>::abi_decode(output, false) {
+           Ok(v) => v,
+           Err(e) => {
+           debug!("Vec decode failed: {:?}", e);
+        return U256::ZERO;
+        }
+      };
+
         *vec_out.last().unwrap()
     } else {
-        <U256>::abi_decode(output, false).expect("Failed single decode")
+        <U256>::abi_decode(output, false).unwrap()
     }
 }
 
-fn resolve_router_and_type(pt: PoolType) -> (Address, SwapType) {
+fn resolve_router_and_type(pt: PoolType) -> Option<(Address, SwapType)>{
     use PoolType::*;
     match pt {
         UniswapV2 => (address!("4752..."), SwapType::V2Basic),
@@ -262,7 +280,7 @@ fn resolve_router_and_type(pt: PoolType) -> (Address, SwapType) {
         SushiSwapV3 => (address!("FB7e..."), SwapType::V3Deadline),
         Aerodrome => (address!("cF77..."), SwapType::V2Aerodrome),
         Slipstream => (address!("BE6D..."), SwapType::V3DeadlineTick),
-        _ => panic!("Unsupported pool type: {:?}", pt),
+       _ => return None,
     }
 }
 
