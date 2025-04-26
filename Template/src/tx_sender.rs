@@ -90,8 +90,8 @@ impl TransactionSender {
         }
     }
 
-    pub async fn send_transactions(&mut self, tx_receiver: Receiver<Event>) {
-        while let Ok(Event::ValidPath((arb_path, profit, block_number))) = tx_receiver.recv() {
+pub async fn send_transactions(&mut self, mut tx_receiver: Receiver<Event>){
+    while let Some(Event::ValidPath((arb_path, profit, block_number))) = tx_receiver.recv().await{
             info!("Sending path...");
 
             let converted_path: FlashSwap::SwapParams = arb_path.clone().into();
