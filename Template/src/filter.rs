@@ -22,6 +22,16 @@ use revm_inspectors::access_list::AccessListInspector;
 use revm_inspectors::access_list::InspectEvm;
 use rayon::prelude::*;
 
+/// Represents the logical router + calldata type for different swap protocols
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum SwapType {
+    V2Basic,
+    V3Basic,
+    V3Deadline,
+    V2Aerodrome,
+    V3DeadlineTick,
+}
+
 // Blacklisted tokens we don’t want to consider (e.g. scams, malicious)
 lazy_static! {
     static ref BLACKLIST: Vec<Address> = vec![address!("be5614875952b1683cb0a2c20e6509be46d353a4")];
