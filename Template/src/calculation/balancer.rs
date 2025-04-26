@@ -5,6 +5,7 @@ use alloy::providers::Provider;
 use alloy::transports::Transport;
 use std::ops::Neg;
 use std::str::FromStr;
+use uniswap_v3_math::log_exp_math::LogExpMath;
 
 /// Balancer V2 swap formula implemented on top of AMM math.
 impl<N, P> Calculator<N, P>
