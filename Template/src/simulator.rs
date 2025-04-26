@@ -1,5 +1,4 @@
 use tracing::{info, error, debug, warn};
-use alloy_sol_types::sol;
 use serde::{Serialize, Deserialize};
 use serde_json::json;
 use alloy::network::Ethereum;
@@ -11,6 +10,12 @@ use std::collections::HashSet;
 use std::sync::{mpsc::{Receiver, Sender}, Arc};
 use std::str::FromStr;
 use crate::gen::{FlashQuoter, FlashSwap};
+use crate::events::Event;
+use crate::market_state::MarketState;
+use crate::simulator::Quoter;
+use uniswap_v3_math::{tick_math, swap_math, tick_bitmap};
+use alloy::sol;
+
 
 /// Simulates arbitrage paths passed from the searcher and sends viable ones to the tx sender.
 pub async fn simulate_paths(
