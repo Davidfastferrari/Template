@@ -2,7 +2,6 @@ use std::{
     collections::HashSet,
     sync::{
         atomic::{AtomicBool, Ordering},
-        mpsc::Sender,
         Arc, RwLock,
     },
     time::Instant,
@@ -22,7 +21,10 @@ use log::{debug, error, info};
 use pool_sync::{Pool, PoolInfo};
 use tokio::sync::{mpsc::{Sender, Receiver}, RwLock};
 use revm::{Evm, primitives::{keccak256, AccountInfo, Bytecode, TransactTo}};
-use tokio::sync::broadcast::Receiver;
+// use tokio::sync::broadcast::Receiver;
+// use tokio::sync::mpsc::Sender;
+use tokio::sync::mpsc::{Sender, Receiver};
+
 
 use crate::{
     events::Event,
@@ -48,8 +50,8 @@ where
 {
     pub async fn init_state_and_start_stream(
         pools: Vec<Pool>,
-        block_rx: Receiver<Event>,           // ✅ Must match tokio::sync::mpsc
-        address_tx: Sender<Event>,
+        block_rx: Receiver<Event>,   // ✅ Must match tokio::sync::mpsc
+        address_tx: Sender<Event>,  // <-- must be tokio::mpsc::Sender
         last_synced_block: u64,
         provider: P,
         caught_up: Arc<AtomicBool>,
