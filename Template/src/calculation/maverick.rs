@@ -22,7 +22,7 @@ sol! {
 impl<N, P> Calculator<N, P>
 where
     N: alloy::network::Network,
-    P: alloy::providers::Provider<T, N>,
+    P: alloy::providers::Provider<N>,
 {
     /// 🧠 Simulate Maverick V2 swap and return output amount
     pub fn maverick_v2_out(
