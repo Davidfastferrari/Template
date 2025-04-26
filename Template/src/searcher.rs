@@ -68,7 +68,12 @@ where
     }
 
     /// Search for profitable paths whenever a new block update is received
-pub async fn search_paths(&mut self, mut paths_tx: Sender<Event>, mut address_rx: Receiver<Event>) -> Result<()> {
+
+ pub async fn search_paths(
+    &mut self,
+    mut paths_tx: Sender<Event>,
+    mut address_rx: Receiver<Event>,
+   ) -> Result<()> {
         let _sim: bool = std::env::var("SIM").ok().and_then(|v| v.parse().ok()).unwrap_or(false);
 
         while let Some(Event::PoolsTouched(pools, block_number)) = address_rx.recv().await {
