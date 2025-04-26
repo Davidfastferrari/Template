@@ -38,7 +38,8 @@ mod history_db;
 pub const AMOUNT_USD: u64 = 100_000;
 
 /// Global U256 value representing the input amount in base units (used across modules)
-pub static AMOUNT: Lazy<RwLock<U256>> = Lazy::new(|| RwLock::new(U256::ZERO));
+//pub static AMOUNT: Lazy<RwLock<U256>> = Lazy::new(|| RwLock::new(U256::ZERO));
+pub static AMOUNT: Lazy<RwLock<U256>> = Lazy::new(|| RwLock::new(U256::from(1_000_000_000_000_000_000u128)));
 
 /// Token decimals map to convert $100k into base units
 pub static TOKEN_DECIMALS: Lazy<HashMap<&'static str, u8>> = Lazy::new(|| {
