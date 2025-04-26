@@ -36,7 +36,7 @@ impl HandleOrRuntime {
 }
 
 #[derive(Debug)]
-pub struct BlockStateDB< N: Network, P: Provider<T, N>> {
+pub struct BlockStateDB< N: Network, P: Provider<N, P>> {
     pub accounts: HashMap<Address, BlockStateDBAccount>,
     pub contracts: HashMap<B256, Bytecode>,
     pub _logs: Vec<Log>,
