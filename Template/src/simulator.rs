@@ -5,6 +5,7 @@ use alloy::primitives::U256;
 use log::{debug, info, warn};
 use std::collections::HashSet;
 use std::sync::{mpsc::{Receiver, Sender}, Arc};
+use std::str::FromStr;
 
 /// Simulates arbitrage paths passed from the searcher and sends viable ones to the tx sender.
 pub async fn simulate_paths(
@@ -57,7 +58,7 @@ pub async fn simulate_paths(
                     }
                 } else {
                     // Only continue if expected value is big enough
-                    if last_quote < U256::from_dec_str("1000000000000000000").unwrap() {
+                    if last_quote < U256::from_str("1000000000000000000").unwrap() {
                         continue;
                     }
 
