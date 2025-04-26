@@ -46,7 +46,7 @@ pub fn position(tick: i32) -> (i16, u8) {
 impl<N, P> Calculator<N, P>
 where
     N: Network,
-    P: Provider<N, P>,
+    P: Provider<N>,
 {
     // Calcualte the amount out for a uniswapv2 swap
     #[inline]
