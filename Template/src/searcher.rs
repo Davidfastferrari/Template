@@ -16,6 +16,7 @@ use crate::events::Event;
 use crate::market_state::MarketState;
 use crate::swap::SwapPath;
 use crate::AMOUNT;
+use std::str::FromStr;
 
 /// Top-level search engine for arbitrage cycles
 pub struct Searchoor<N, P>
@@ -92,7 +93,7 @@ where
                 .par_iter()
                 .filter_map(|path| {
                     let output_est = self.estimator.estimate_output_amount(path);
-                    if output_est >= self.min_profit && output_est < U256::from_dec_str("1000000000000000000").unwrap() {
+                    if output_est >= self.min_profit && output_est < U256::from_str("1000000000000000000").unwrap() {
                         Some(((*path).clone(), output_est))
                     } else {
                         None
