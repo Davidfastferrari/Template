@@ -33,7 +33,7 @@ pub fn balancer_v2_out(&self, input: U256, token_in: Address, token_out: Address
 }
 
 /// Calculator handles swap output computations across supported AMM types.
-/// Calculator handles swap output computations across supported AMM types.
+
 pub struct Calculator<N, P>
 where
     N: Network,
