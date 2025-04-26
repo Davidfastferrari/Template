@@ -143,7 +143,6 @@ async fn fetch_top_volume_tokens(num_results: usize, chain: Chain) -> Result<Vec
     headers.insert("x-chain", HeaderValue::from_str(match chain {
         Chain::Ethereum => "ethereum",
         Chain::Base => "base",
-        _ => "unknown",
     }).unwrap());
 
     let mut query_params = vec![];
@@ -256,7 +255,7 @@ async fn filter_by_swap(
         // Simulate forward + backward swap
         let amt_val = *AMOUNT.read().expect("Failed to read amount");
         let min_expected = amt_val * U256::from(MIN_OUTPUT_RATIO) / U256::from(100);
-        let forward = simulate_swap(&mut evm, &pool, swap_type, router, SIMULATED_ACCOUNT, amt, zero_to_one)
+        let forward = simulate_swap(&mut evm, &pool, swap_type, router, SIMULATED_ACCOUNT, amt_val, zero_to_one)?;
             .ok_or(anyhow!("Forward swap simulation failed"))?;
 
         let backward = simulate_swap(&mut evm, &pool, swap_type, router, SIMULATED_ACCOUNT, forward, !zero_to_one)
