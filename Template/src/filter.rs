@@ -177,7 +177,8 @@ async fn fetch_top_volume_tokens(num_results: usize, chain: Chain) -> Vec<Addres
         .collect()
 }
 
-async fn filter_by_swap(pools: Vec<Pool>, slot_map: HashMap<Address, FixedBytes<32>>) -> Vec<Pool> {
+async fn filter_by_swap(pools: Vec<Pool>, slot_map: HashMap<Address, FixedBytes<32>>) -> Result<Vec<Pool>> {
+{
     let mut filtered = Vec::with_capacity(pools.len());
     let db_path = std::env::var("DB_PATH").expect("DB_PATH must be set");
     let mut nodedb = NodeDB::new(&db_path).expect("Failed to open NodeDB");
@@ -202,7 +203,7 @@ async fn filter_by_swap(pools: Vec<Pool>, slot_map: HashMap<Address, FixedBytes<
 
         // Inject big balance into both tokens
         for (token, slot) in [(pool.token0_address(), slot0), (pool.token1_address(), slot1)] {
-            nodedb.insert_account_storage(token, slot.into(), FAKE_TOKEN_AMOUNT, InsertionType::OnChain).ok()?;
+             nodedb.insert_account_storage(token, slot.into(), FAKE_TOKEN_AMOUNT, InsertionType::OnChain)?;
         }
 
         // Prepare EVM
@@ -237,7 +238,7 @@ async fn filter_by_swap(pools: Vec<Pool>, slot_map: HashMap<Address, FixedBytes<
         }
     }
 
-    filtered
+   Ok(filtered)
 }
 
 fn simulate_swap(
