@@ -51,7 +51,7 @@ pub struct BlockStateDB< N: Network, P: Provider<T, N>> {
 impl<N, P> BlockStateDB<N, P>
 where
     N: Network,
-    P: Provider<N, P> + 'static,
+    P: Provider<N>,
 {
     /// Construct a new BlockStateDB with appropriate runtime handle
     pub fn new(provider: P) -> Option<Self> {
@@ -236,7 +236,7 @@ where
 impl<N, P> DatabaseRef for BlockStateDB<N, P>
 where
     N: Network,
-    P: Provider<T, N>,
+    P: Provider<N>,
 {
     type Error = DBTransportError;
 
@@ -291,7 +291,7 @@ where
 impl<N, P> BlockStateDB<N, P>
 where
     N: Network,
-    P: Provider<T, N>,
+    P: Provider<N>,
 {
     /// Commit post-execution state changes from the EVM
     pub fn commit(&mut self, changes: HashMap<Address, RevmAccount>) {
