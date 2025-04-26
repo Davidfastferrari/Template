@@ -95,10 +95,9 @@ where
             last_synced_block = current_block;
             current_block = http.get_block_number().await.unwrap();
         }
-
+        
         caught_up.store(true, Ordering::Relaxed);
-
-        while let Ok(Event::NewBlock(block_header)) = block_rx.recv().await {
+        while let Some(Event::NewBlock(block_header)) = block_rx.recv().await {
             let start = Instant::now();
             let block_number = block_header.inner.number;
 
