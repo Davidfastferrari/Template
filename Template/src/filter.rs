@@ -4,7 +4,6 @@ use crate::AMOUNT;
 
 use alloy::primitives::{address, Address, U160, U256};
 use alloy::sol_types::{SolCall, SolValue};
-use anyhow::{Context, Result};
 use lazy_static::lazy_static;
 use log::{info, debug};
 use node_db::{InsertionType, NodeDB};
@@ -21,6 +20,7 @@ use std::str::FromStr;
 use revm_inspectors::access_list::AccessListInspector;
 use revm_inspectors::access_list::InspectEvm;
 use rayon::prelude::*;
+use anyhow::{Result, anyhow, Context}; // add this if not already
 
 /// Represents the logical router + calldata type for different swap protocols
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -177,17 +177,20 @@ async fn fetch_top_volume_tokens(num_results: usize, chain: Chain) -> Vec<Addres
         .collect()
 }
 
-async fn filter_by_swap(pools: Vec<Pool>, slot_map: HashMap<Address, FixedBytes<32>>) -> Result<Vec<Pool>> {
-{
+
+async fn filter_by_swap(
+    pools: Vec<Pool>,
+    slot_map: HashMap<Address, FixedBytes<32>>
+) -> Result<Vec<Pool>> {
     let mut filtered = Vec::with_capacity(pools.len());
     let db_path = std::env::var("DB_PATH").expect("DB_PATH must be set");
     let mut nodedb = NodeDB::new(&db_path).expect("Failed to open NodeDB");
 
     for pool in pools {
         let (router, swap_type) = match resolve_router_and_type(pool.pool_type()) {
-                  Some(x) => x,
-                 None => continue, // skip unknown pools
-              };
+            Some(x) => x,
+            None => continue,
+        };
 
         let zero_to_one = determine_swap_direction(&pool);
 
@@ -203,7 +206,8 @@ async fn filter_by_swap(pools: Vec<Pool>, slot_map: HashMap<Address, FixedBytes<
 
         // Inject big balance into both tokens
         for (token, slot) in [(pool.token0_address(), slot0), (pool.token1_address(), slot1)] {
-             nodedb.insert_account_storage(token, slot.into(), FAKE_TOKEN_AMOUNT, InsertionType::OnChain)?;
+            nodedb.insert_account_storage(token, slot.into(), FAKE_TOKEN_AMOUNT, InsertionType::OnChain)
+                .map_err(|e| anyhow!("Failed to insert account storage: {}", e))?;
         }
 
         // Prepare EVM
@@ -222,23 +226,29 @@ async fn filter_by_swap(pools: Vec<Pool>, slot_map: HashMap<Address, FixedBytes<
                 spender: router,
                 amount: FAKE_TOKEN_AMOUNT,
             }.abi_encode().into();
+
             evm.tx_mut().transact_to = TransactTo::Call(token);
-            evm.transact_commit().ok()?;
+
+            evm.transact_commit()
+                .ok_or(anyhow!("Approval transaction failed"))?;
         }
 
         // Simulate forward + backward swap
         let amt = *AMOUNT;
         let min_expected = amt * U256::from(MIN_OUTPUT_RATIO) / U256::from(100);
 
-        let forward = simulate_swap(&mut evm, &pool, swap_type, router, SIMULATED_ACCOUNT, amt, zero_to_one)?;
-        let backward = simulate_swap(&mut evm, &pool, swap_type, router, SIMULATED_ACCOUNT, forward, !zero_to_one)?;
+        let forward = simulate_swap(&mut evm, &pool, swap_type, router, SIMULATED_ACCOUNT, amt, zero_to_one)
+            .ok_or(anyhow!("Forward swap simulation failed"))?;
+
+        let backward = simulate_swap(&mut evm, &pool, swap_type, router, SIMULATED_ACCOUNT, forward, !zero_to_one)
+            .ok_or(anyhow!("Backward swap simulation failed"))?;
 
         if backward >= min_expected {
             filtered.push(pool.clone());
         }
     }
 
-   Ok(filtered)
+    Ok(filtered)
 }
 
 fn simulate_swap(
