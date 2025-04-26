@@ -5,10 +5,10 @@ use std::{
     },
     time::Duration,
 };
-use tokio::sync::mpsc::{Sender, Receiver};
-use tokio::sync::broadcast;
+use tokio::sync::{mpsc::{Sender, Receiver, channel}, broadcast};
+use tokio::signal;
 use alloy::providers::ProviderBuilder;
-use log::info;
+use log::{info, error};
 use pool_sync::{Chain, Pool};
 
 use crate::{
@@ -26,31 +26,35 @@ use crate::{
 
 /// Bootstraps the entire system: syncing, simulation, and arbitrage search
 pub async fn start_workers(pools: Vec<Pool>, last_synced_block: u64) {
-    // --- Channel Setup ---
     let (block_sender, _) = broadcast::channel::<Event>(100);
     let (block_tx, mut block_rx): (Sender<Event>, Receiver<Event>) = channel(100);
     let (address_sender, address_receiver): (Sender<Event>, Receiver<Event>) = channel(100);
     let (paths_sender, paths_receiver): (Sender<Event>, Receiver<Event>) = channel(100);
     let (profitable_sender, profitable_receiver): (Sender<Event>, Receiver<Event>) = channel(100);
 
+    // Graceful shutdown channel
+    let (shutdown_tx, mut shutdown_rx) = tokio::sync::broadcast::channel::<()>(1);
+
     // --- Pool Filtering ---
     info!("Pool count before filtering: {}", pools.len());
     let pools = filter_pools(pools, 4000, Chain::Base).await;
     info!("Pool count after filtering: {}", pools.len());
 
-    // --- Block Subscription Proxy ---
+    // --- Block Event Proxy ---
     {
         let mut block_subscriber = block_sender.subscribe();
         let block_tx = block_tx.clone();
         tokio::spawn(async move {
             while let Ok(event) = block_subscriber.recv().await {
-                let _ = block_tx.send(event).await;
+                if block_tx.send(event).await.is_err() {
+                    break;
+                }
             }
         });
     }
 
-    // --- Block Streamer (pushes to broadcast) ---
-    tokio::spawn(stream_new_blocks(block_sender));
+    // --- Streamer to push new blocks into broadcast ---
+    tokio::spawn(stream_new_blocks(block_sender.clone()));
 
     // --- Gas Station ---
     let gas_station = Arc::new(GasStation::new());
@@ -65,7 +69,7 @@ pub async fn start_workers(pools: Vec<Pool>, last_synced_block: u64) {
     // --- State Catch-up Flag ---
     let caught_up = Arc::new(AtomicBool::new(false));
 
-    // --- Market State Initialization ---
+    // --- Market State ---
     info!("Initializing market state...");
     let http_url = std::env::var("FULL").unwrap().parse().unwrap();
     let provider = ProviderBuilder::new().on_http(http_url);
@@ -83,44 +87,58 @@ pub async fn start_workers(pools: Vec<Pool>, last_synced_block: u64) {
 
     info!("Market state initialized!");
 
-    // --- Estimator Initialization ---
+    // --- Wait for catch-up ---
     info!("Waiting for block sync before initializing estimator...");
     while !caught_up.load(Relaxed) {
         tokio::time::sleep(Duration::from_millis(100)).await;
     }
 
+    // --- Estimator Init ---
     info!("Calculating initial rates...");
     let mut estimator = Estimator::new(Arc::clone(&market_state));
     estimator.process_pools(pools.clone());
     info!("Initial rates calculated!");
 
-    // --- Arbitrage Graph + Cycles ---
+    // --- Arbitrage Cycles ---
     info!("Generating arbitrage cycles...");
     let cycles = ArbGraph::generate_cycles(pools.clone()).await;
     info!("Generated {} arbitrage cycles", cycles.len());
 
     // --- Simulator ---
-    info!("Starting the simulator...");
-    tokio::spawn(simulate_paths(
-        profitable_sender,
-        paths_receiver,
-        Arc::clone(&market_state),
-    ));
+    {
+        let ms = Arc::clone(&market_state);
+        let profitable_sender = profitable_sender.clone();
+        tokio::spawn(simulate_paths(profitable_sender, paths_receiver, ms));
+    }
 
-    // --- Arbitrage Searcher ---
-    info!("Starting arbitrage searcher...");
-    let mut searcher = Searchoor::new(cycles, Arc::clone(&market_state), estimator);
-    tokio::spawn(async move {
-        if let Err(e) = searcher.search_paths(paths_sender, address_receiver).await {
-            log::error!("Searcher failed: {:?}", e);
-        }
-    });
+    // --- Searcher ---
+    {
+        let mut searcher = Searchoor::new(cycles, Arc::clone(&market_state), estimator);
+        tokio::spawn(async move {
+            if let Err(e) = searcher.search_paths(paths_sender, address_receiver).await {
+                error!("Searcher failed: {:?}", e);
+            }
+        });
+    }
 
     // --- Transaction Sender ---
-    info!("Starting transaction sender...");
-    let mut tx_sender = TransactionSender::new(Arc::clone(&gas_station)).await;
+    {
+        let mut tx_sender = TransactionSender::new(Arc::clone(&gas_station)).await;
+        tokio::spawn(async move {
+            tx_sender.send_transactions(profitable_receiver).await;
+        });
+    }
+
+    // --- Graceful Shutdown Handler ---
     tokio::spawn(async move {
-        tx_sender.send_transactions(profitable_receiver).await;
+        if let Err(err) = signal::ctrl_c().await {
+            error!("Failed to listen for shutdown: {:?}", err);
+        }
+        info!("🛑 Ctrl-C detected. Shutting down...");
+        let _ = shutdown_tx.send(());
     });
-}
+
+    // --- Await Shutdown Signal ---
+    let _ = shutdown_rx.recv().await;
+    info!("🚪 All workers will now terminate.");
 }
