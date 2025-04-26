@@ -55,10 +55,15 @@ where
             cache: Arc::new(Cache::new(500)),
         }
      }
- }
 
+      /// Invalidate the internal cache for a set of pool addresses
+    pub fn invalidate_cache(&self, pools: &HashSet<Address>) {
+        for pool in pools {
+            self.cache.invalidate(*pool);
+        }
+    }
 
-    /// Perform output amount calculation for a given swap path
+/// Perform output amount calculation for a given swap path
     #[inline(always)]
     pub fn calculate_output(&self, path: &SwapPath) -> U256 {
         let mut amount = *AMOUNT;
@@ -173,12 +178,8 @@ pub fn invalidate_cache(&self, updated_pools: &HashSet<Address>) {
         }
     }
 
-impl<N, P> Calculator<N, P>
-where
-    N: Network,
-    P: Provider<N>,
-{
-    /// Simulate sandwich backrun MEV strategy
+
+/// Simulate sandwich backrun MEV strategy
     ///
     /// A -> B (user trade) -> A' (MEV backrun)
     pub fn simulate_sandwich_mev(
@@ -217,14 +218,8 @@ where
             hash: original.hash,
         }
     }
-}
 
-impl<N, P> Calculator<N, P>
-where
-    N: Network,
-    P: Provider<N>,
-{
-    /// Calculate output amount for a given SwapPath
+ /// Calculate output amount for a given SwapPath
     pub fn calculate_output(&self, path: &SwapPath) -> U256 {
         let mut amount = *AMOUNT;
 
@@ -254,4 +249,21 @@ where
 
         amount
     }
-}
+
+ }
+    
+// impl<N, P> Calculator<N, P>
+// where
+//     N: Network,
+//     P: Provider<N>,
+// {
+    
+// }
+
+// impl<N, P> Calculator<N, P>
+// where
+//     N: Network,
+//     P: Provider<N>,
+// {
+   
+// }
