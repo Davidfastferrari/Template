@@ -5,6 +5,7 @@ use alloy::hex;
 use alloy::network::Ethereum;
 use alloy::primitives::{Address, Bytes as AlloyBytes, FixedBytes};
 use alloy::providers::{Provider, ProviderBuilder, RootProvider};
+use alloy::alloy_network::TransactionBuilder;
 use alloy::rpc::types::TransactionRequest;
 use alloy_signer_wallet::LocalWallet;
 use alloy_signer::local::PrivateKeySigner;
@@ -97,7 +98,7 @@ impl TransactionSender {
 
             let (max_fee, priority_fee) = self.gas_station.get_gas_fees(profit);
 
-            let tx = TransactionRequest::default()
+            let tx = TransactionBuilder::default()
                 .with_to(self.contract_address)
                 .with_nonce(self.nonce)
                 .with_gas_limit(2_000_000)
