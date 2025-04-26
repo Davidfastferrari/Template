@@ -8,7 +8,7 @@ use std::str::FromStr;
 use uniswap_v3_math::log_exp_math::LogExpMath;
 
 /// Balancer V2 swap formula implemented on top of AMM math.
-impl<N> Calculator<N>
+impl<N, P> Calculator<N, P>
 where
     N: Network,
     P: Provider<N>,
