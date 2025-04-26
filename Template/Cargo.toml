@@ -46,6 +46,15 @@ alloy-network = "0.14.0"
 alloy-signer = "0.1.0"
 enr = "0.13.0"
 zerocopy = "0.8.25-alpha.3"
+# Macro, Logging, Error handling
+tracing = "0.1.40"
+tracing-subscriber = "0.3.18"
+serde_derive = "1.0.197"
+thiserror = "1.0.50"
+
+# Alloy additional crates (sol-types + http transports)
+alloy-sol-types = { version = "0.4.2", features = ["std"] }
+alloy-transport-http = { version = "0.4.2", features = ["reqwest"] }
 
 # REVM + Precompile Logic
 revm = { version = "22.0.1", features = ["alloydb"] }
