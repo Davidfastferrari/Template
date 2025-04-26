@@ -1,17 +1,15 @@
 use std::{
     sync::{
         atomic::{AtomicBool, Ordering::Relaxed},
-        mpsc, Arc,
+        Arc,
     },
-    thread,
     time::Duration,
 };
-use tokio::sync::mpsc::{Sender, Receiver};
+use tokio::sync::mpsc::{self, Sender, Receiver};
+use tokio::sync::broadcast;
 use alloy::providers::ProviderBuilder;
 use log::info;
 use pool_sync::{Chain, Pool};
-use std::sync::mpsc::{Sender, Receiver};
-
 
 use crate::{
     events::Event,
@@ -29,10 +27,10 @@ use crate::{
 /// Bootstraps the entire system: syncing, simulation, and arbitrage search
 pub async fn start_workers(pools: Vec<Pool>, last_synced_block: u64) {
     // --- Channel Setup ---
-    let (block_sender, block_receiver) = tokio::sync::broadcast::channel::<Event>(100);
-    let (address_sender, address_receiver) = mpsc::channel::<Event>();
-    let (paths_sender, paths_receiver) = mpsc::channel::<Event>();
-    let (profitable_sender, profitable_receiver) = mpsc::channel::<Event>();
+    let (block_sender, block_receiver) = broadcast::channel::<Event>(100);
+    let (address_sender, address_receiver): (Sender<Event>, Receiver<Event>) = mpsc::channel(100);
+    let (paths_sender, paths_receiver): (Sender<Event>, Receiver<Event>) = mpsc::channel(100);
+    let (profitable_sender, profitable_receiver): (Sender<Event>, Receiver<Event>) = mpsc::channel(100);
 
     // --- Pool Filtering ---
     info!("Pool count before filtering: {}", pools.len());
@@ -62,7 +60,7 @@ pub async fn start_workers(pools: Vec<Pool>, last_synced_block: u64) {
     let market_state = MarketState::init_state_and_start_stream(
         pools.clone(),
         block_receiver,
-        address_sender,
+        address_sender.clone(),
         last_synced_block,
         provider,
         Arc::clone(&caught_up),
@@ -98,8 +96,10 @@ pub async fn start_workers(pools: Vec<Pool>, last_synced_block: u64) {
     // --- Arbitrage Searcher ---
     info!("Starting arbitrage searcher...");
     let mut searcher = Searchoor::new(cycles, Arc::clone(&market_state), estimator);
-    thread::spawn(move || {
-        searcher.search_paths(paths_sender, address_receiver);
+    tokio::spawn(async move {
+        if let Err(e) = searcher.search_paths(paths_sender, address_receiver).await {
+            log::error!("Searcher failed: {:?}", e);
+        }
     });
 
     // --- Transaction Sender ---
