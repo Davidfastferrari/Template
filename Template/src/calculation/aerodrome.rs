@@ -5,10 +5,19 @@ use alloy::primitives::{Address, U256};
 use alloy::providers::Provider;
 use alloy::transports::Transport;
 use std::collections::{HashMap, HashSet};
+use once_cell::sync::Lazy;
 
-pub weth = Address::from_str("...").unwrap();
-pub usdc = Address::from_str("...").unwrap();
-pub initial_amt = U256::from(10u64.pow(18)); // 1 ETH
+pub static WETH: Lazy<Address> = Lazy::new(|| {
+    Address::from_str("0x4200000000000000000000000000000000000006").expect("Invalid WETH address")
+});
+
+pub static USDC: Lazy<Address> = Lazy::new(|| {
+    Address::from_str("0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913").expect("Invalid USDC address")
+});
+
+pub static INITIAL_AMT: Lazy<U256> = Lazy::new(|| {
+    U256::from_dec_str("1000000000000000000").unwrap() // 1 ETH
+});
 
 sol! {
     #[sol(rpc)]
@@ -280,9 +289,9 @@ pub fn find_best_route(
 
 // Sandwich simulation
 let profit = calculator.simulate_mev_bundle(
-    initial_amt,
-    weth,
-    usdc,
+    *INITIAL_AMT,
+    *WETH, 
+    *USDC,
     aerodrome_pool_address,
     uniswap_pool_address,
 );
