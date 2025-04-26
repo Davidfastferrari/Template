@@ -31,6 +31,7 @@ enum SwapType {
     V2Aerodrome,
     V3DeadlineTick,
 }
+//pub static AMOUNT: Lazy<RwLock<U256>> = Lazy::new(|| RwLock::new(U256::from(1_000_000_000_000_000_000u128)));
 
 // Blacklisted tokens we don’t want to consider (e.g. scams, malicious)
 lazy_static! {
@@ -44,9 +45,7 @@ const SIMULATED_ACCOUNT: Address = address!("00000000000000000000000000000000000
 const MIN_OUTPUT_RATIO: u64 = 95;
 const SIMULATED_GAS_LIMIT: u64 = 500_000;
 
-pub static FAKE_TOKEN_AMOUNT: Lazy<U256> = Lazy::new(|| {
-    U256::from_str("10000000000000000000000000000000000000000").unwrap()
-});
+pub static FAKE_TOKEN_AMOUNT: Lazy<U256> = Lazy::new(|| { U256::from_str("10000000000000000000000000000000000000000").unwrap()});
 
 
 /// Filter and validate pools based on volume and simulated liquidity
@@ -110,11 +109,10 @@ async fn get_top_volume_tokens(chain: Chain, num_results: usize) -> Result<Vec<A
             .context("Failed to read cached volume tokens");
     }
 
-    let tokens = fetch_top_volume_tokens(num_results, chain).await;
-    create_dir_all("cache")?;
-    write_addresses_to_file(&tokens, &cache_file)?;
-
-    Ok(tokens)
+      let tokens = fetch_top_volume_tokens(num_results, chain).await?;
+     create_dir_all("cache")?;
+     write_addresses_to_file(&tokens, &cache_file)?;
+     Ok(tokens)
 }
 
 fn write_addresses_to_file(addresses: &[Address], filename: &str) -> std::io::Result<()> {
@@ -185,6 +183,22 @@ async fn fetch_top_volume_tokens(num_results: usize, chain: Chain) -> Result<Vec
         .collect())
 }
 
+fn construct_slot_map(pools: &[Pool]) -> HashMap<Address, FixedBytes<32>> {
+    let mut slot_map = HashMap::new();
+
+    for pool in pools {
+        for &token in &[pool.token0_address(), pool.token1_address()] {
+            if !slot_map.contains_key(&token) {
+                // Use token address low 32 bytes as a mock slot, or customize
+                let slot: FixedBytes<32> = FixedBytes::from_slice(&token.0[..32]);
+                slot_map.insert(token, slot);
+            }
+        }
+    }
+
+    slot_map
+}
+
 async fn filter_by_swap(
     pools: Vec<Pool>,
     slot_map: HashMap<Address, FixedBytes<32>>
@@ -239,11 +253,9 @@ async fn filter_by_swap(
             evm.transact_commit()
                 .ok_or(anyhow!("Approval transaction failed"))?;
         }
-
         // Simulate forward + backward swap
-        let amt = *AMOUNT;
-        let min_expected = amt * U256::from(MIN_OUTPUT_RATIO) / U256::from(100);
-
+        let amt_val = *AMOUNT.read().expect("Failed to read amount");
+        let min_expected = amt_val * U256::from(MIN_OUTPUT_RATIO) / U256::from(100);
         let forward = simulate_swap(&mut evm, &pool, swap_type, router, SIMULATED_ACCOUNT, amt, zero_to_one)
             .ok_or(anyhow!("Forward swap simulation failed"))?;
 
