@@ -18,7 +18,7 @@ lazy_static! {
 impl<N, P> BlockStateDB<N, P>
 where
     N: Network,
-    P: Provider<N, P>,
+    P: Provider<N>,
 {
     /// Inserts UniswapV2-style pool into the simulated state DB
     pub fn insert_v2(&mut self, pool: Pool) {
