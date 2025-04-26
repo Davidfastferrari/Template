@@ -57,12 +57,10 @@ where
      }
  }
 
-
     /// Perform output amount calculation for a given swap path
     #[inline(always)]
     pub fn calculate_output(&self, path: &SwapPath) -> U256 {
         let mut amount = *AMOUNT;
-
         for swap_step in &path.steps {
             let pool_address = swap_step.pool_address;
 
@@ -168,12 +166,11 @@ where
 
     /// Invalidate cache for specific pools (e.g. after state mutation)
     #[inline(always)]
-    pub fn invalidate_cache(&self, updated_pools: &HashSet<Address>) {
+pub fn invalidate_cache(&self, updated_pools: &HashSet<Address>) {
         for pool in updated_pools {
             self.cache.invalidate(*pool)
         }
     }
-}
 
 impl<N, P> Calculator<N, P>
 where
