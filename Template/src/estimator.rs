@@ -17,7 +17,7 @@ use crate::AMOUNT;
 const RATE_SCALE: u32 = 18;
 
 // Using once_cell instead of lazy_static (more idiomatic and simpler)
-pub static RATE_SCALE_VALUE: Lazy<U256> = Lazy::new(|| U256::exp10(RATE_SCALE as usize));
+pub static RATE_SCALE_VALUE: Lazy<U256> = Lazy::new(|| U256::from(10).pow(U256::from(RATE_SCALE)));
 
 /// The `Estimator` is used to estimate profitability of paths via pre-calculated exchange rates.
 pub struct Estimator<N, P>
