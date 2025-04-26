@@ -1,6 +1,7 @@
 use std::collections::{HashMap, HashSet};
 use std::sync::Arc;
 use std::time::Instant;
+use tokio::sync::mpsc::{Sender, Receiver}; // correct version!
 
 use alloy::network::Network;
 use alloy::primitives::{Address, U256};
@@ -8,7 +9,6 @@ use alloy::providers::Provider;
 use alloy::transports::Transport;
 use log::{debug, info};
 use rayon::prelude::*;
-use tokio::sync::mpsc::{Receiver, Sender}; // ✅ Prefer async channels
 
 use crate::calculation::Calculator;
 use crate::estimator::Estimator;
@@ -68,7 +68,7 @@ where
     }
 
     /// Search for profitable paths whenever a new block update is received
-    pub async fn search_paths(&mut self, mut paths_tx: Sender<Event>, mut address_rx: Receiver<Event>) {
+pub async fn search_paths(&mut self, mut paths_tx: Sender<Event>, mut address_rx: Receiver<Event>) -> Result<()> {
         let _sim: bool = std::env::var("SIM").ok().and_then(|v| v.parse().ok()).unwrap_or(false);
 
         while let Some(Event::PoolsTouched(pools, block_number)) = address_rx.recv().await {
