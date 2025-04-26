@@ -6,6 +6,7 @@ use log::{debug, info, warn};
 use std::collections::HashSet;
 use std::sync::{mpsc::{Receiver, Sender}, Arc};
 use std::str::FromStr;
+use crate::gen::{FlashQuoter, FlashSwap};
 
 /// Simulates arbitrage paths passed from the searcher and sends viable ones to the tx sender.
 pub async fn simulate_paths(
