@@ -15,6 +15,7 @@ use alloy::{
     rpc::types::BlockNumberOrTag,
     transports::Transport,
 };
+use anyhow::Context;
 use alloy_sol_types::{SolCall, SolValue};
 use alloy_transports_http::{Client, Http};
 use anyhow::Result;
@@ -46,33 +47,33 @@ where
     P: Provider<N>,
 {
     pub async fn init_state_and_start_stream(
-        pools: Vec<Pool>,
-        block_rx: Receiver<Event>,
-        address_tx: Sender<Event>,
-        last_synced_block: u64,
-        provider: P,
-        caught_up: Arc<AtomicBool>,
-    ) -> Result<Arc<Self>> {
-        debug!("Populating the db with {} pools", pools.len());
+    pools: Vec<Pool>,
+    block_rx: Receiver<Event>,
+    address_tx: Sender<Event>,
+    last_synced_block: u64,
+    provider: P,
+    caught_up: Arc<AtomicBool>,
+) -> Result<Arc<Self>> {
+    debug!("Populating the db with {} pools", pools.len());
 
-        let mut db = BlockStateDB::new(provider)?;
-        Self::warm_up_database(&pools, &mut db);
-        Self::populate_db_with_pools(pools, &mut db);
+    let mut db = BlockStateDB::new(provider).context("Failed to initialize BlockStateDB")?;
+    Self::warm_up_database(&pools, &mut db);
+    Self::populate_db_with_pools(pools, &mut db);
 
-        let market_state = Arc::new(Self {
-            db: RwLock::new(db),
-        });
+    let market_state = Arc::new(Self {
+        db: RwLock::new(db),
+    });
 
-        tokio::spawn(Self::state_updater(
-            market_state.clone(),
-            block_rx,
-            address_tx,
-            last_synced_block,
-            caught_up,
-        ));
+    tokio::spawn(Self::state_updater(
+        market_state.clone(),
+        block_rx,
+        address_tx,
+        last_synced_block,
+        caught_up,
+    ));
 
-        Ok(market_state)
-    }
+    Ok(market_state)
+}
 
     async fn state_updater(
         self: Arc<Self>,
