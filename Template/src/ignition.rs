@@ -6,7 +6,7 @@ use std::{
     thread,
     time::Duration,
 };
-
+use tokio::sync::mpsc::{Sender, Receiver};
 use alloy::providers::ProviderBuilder;
 use log::info;
 use pool_sync::{Chain, Pool};
