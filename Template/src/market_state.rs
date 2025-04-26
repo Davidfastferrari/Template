@@ -110,7 +110,7 @@ where
             info!("New block received: {}", block_number);
             let updated = self.update_state(http.clone(), block_number).await;
 
-            if let Err(e) = address_tx.send(Event::PoolsTouched(updated.clone(), block_number)) {
+             if let Err(e) = address_tx.send(Event::PoolsTouched(updated.clone(), block_number)).await {
                 error!("Error sending updates: {}", e);
             } else {
                 info!("Block {} processed in {:?}", block_number, start.elapsed());
