@@ -200,7 +200,7 @@ fn construct_slot_map(pools: &[Pool]) -> HashMap<Address, FixedBytes<32>> {
 
 async fn filter_by_swap(
     pools: Vec<Pool>,
-    slot_map: HashMap<Address, FixedBytes<32>>
+    slot_map: HashMap<Address, FixedBytes<32>>,
 ) -> Result<Vec<Pool>> {
     let mut filtered = Vec::with_capacity(pools.len());
     let db_path = std::env::var("DB_PATH").expect("DB_PATH must be set");
@@ -214,23 +214,15 @@ async fn filter_by_swap(
 
         let zero_to_one = determine_swap_direction(&pool);
 
-        // Skip if slots unknown
-        let slot0 = match slot_map.get(&pool.token0_address()) {
-            Some(s) => *s,
-            None => continue,
-        };
-        let slot1 = match slot_map.get(&pool.token1_address()) {
-            Some(s) => *s,
-            None => continue,
-        };
+        let slot0 = slot_map.get(&pool.token0_address()).copied().ok_or_else(|| anyhow::anyhow!("Missing slot0"))?;
+        let slot1 = slot_map.get(&pool.token1_address()).copied().ok_or_else(|| anyhow::anyhow!("Missing slot1"))?;
 
-        // Inject big balance into both tokens
+        // Insert fake balances
         for (token, slot) in [(pool.token0_address(), slot0), (pool.token1_address(), slot1)] {
             nodedb.insert_account_storage(token, slot.into(), FAKE_TOKEN_AMOUNT, InsertionType::OnChain)
-                .map_err(|e| anyhow!("Failed to insert account storage: {}", e))?;
+                .map_err(|e| anyhow::anyhow!("Failed to insert account storage: {}", e))?;
         }
 
-        // Prepare EVM
         let mut evm = InspectEvm::builder()
             .with_db(&mut nodedb)
             .modify_tx_env(|tx| {
@@ -240,26 +232,26 @@ async fn filter_by_swap(
             })
             .build();
 
-        // Approve router for token0 and token1
         for token in [pool.token0_address(), pool.token1_address()] {
             evm.tx_mut().data = approveCall {
                 spender: router,
                 amount: FAKE_TOKEN_AMOUNT,
-            }.abi_encode().into();
+            }
+            .abi_encode()
+            .into();
 
             evm.tx_mut().transact_to = TransactTo::Call(token);
-
-            evm.transact_commit()
-                .ok_or(anyhow!("Approval transaction failed"))?;
+            evm.transact_commit().ok_or_else(|| anyhow::anyhow!("Approval failed"))?;
         }
-        // Simulate forward + backward swap
+
         let amt_val = *AMOUNT.read().expect("Failed to read amount");
         let min_expected = amt_val * U256::from(MIN_OUTPUT_RATIO) / U256::from(100);
-        let forward = simulate_swap(&mut evm, &pool, swap_type, router, SIMULATED_ACCOUNT, amt_val, zero_to_one)?;
-            .ok_or(anyhow!("Forward swap simulation failed"))?;
+
+        let forward = simulate_swap(&mut evm, &pool, swap_type, router, SIMULATED_ACCOUNT, amt_val, zero_to_one)
+            .ok_or_else(|| anyhow::anyhow!("Forward swap simulation failed"))?;
 
         let backward = simulate_swap(&mut evm, &pool, swap_type, router, SIMULATED_ACCOUNT, forward, !zero_to_one)
-            .ok_or(anyhow!("Backward swap simulation failed"))?;
+            .ok_or_else(|| anyhow::anyhow!("Backward swap simulation failed"))?;
 
         if backward >= min_expected {
             filtered.push(pool.clone());
