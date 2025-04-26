@@ -57,6 +57,7 @@ where
      }
  }
 
+
     /// Perform output amount calculation for a given swap path
     #[inline(always)]
     pub fn calculate_output(&self, path: &SwapPath) -> U256 {
@@ -215,5 +216,42 @@ where
             steps: reversed_steps,
             hash: original.hash,
         }
+    }
+}
+
+impl<N, P> Calculator<N, P>
+where
+    N: Network,
+    P: Provider<N>,
+{
+    /// Calculate output amount for a given SwapPath
+    pub fn calculate_output(&self, path: &SwapPath) -> U256 {
+        let mut amount = *AMOUNT;
+
+        for swap_step in &path.steps {
+            let pool_address = swap_step.pool_address;
+
+            // Check cache first
+            if let Some(cached_amount) = self.cache.get(amount, pool_address) {
+                amount = cached_amount;
+            } else {
+                let output_amount = self.compute_amount_out(
+                    amount,
+                    pool_address,
+                    swap_step.token_in,
+                    swap_step.protocol,
+                    swap_step.fee,
+                );
+
+                self.cache.set(amount, pool_address, output_amount);
+                amount = output_amount;
+            }
+
+            if amount.is_zero() {
+                return U256::ZERO;
+            }
+        }
+
+        amount
     }
 }
