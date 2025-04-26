@@ -62,7 +62,7 @@ pub async fn start_workers(pools: Vec<Pool>, last_synced_block: u64) {
         let gas_station = Arc::clone(&gas_station);
         let mut block_gas_sub = block_sender.subscribe();
         tokio::spawn(async move {
-            gas_station.update_gas(&mut block_gas_sub).await;
+              gas_station.update_gas(block_gas_sub).await;
         });
     }
 
