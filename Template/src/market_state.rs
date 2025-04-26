@@ -32,20 +32,18 @@ use crate::{
 };
 
 // State manager for live blockchain pool information
-pub struct MarketState<T, N, P>
+pub struct MarketState< N, P>
 where
-    T: Transport + Clone,
     N: Network,
     P: Provider<N>,
 {
-    pub db: RwLock<BlockStateDB<T, N, P>>,
+    pub db: RwLock<BlockStateDB<N, P>>,
 }
 
-impl<T, N, P> MarketState<T, N, P>
+impl<N, P> MarketState<N, P>
 where
-    T: Transport + Clone,
-    N: Network + Clone,
-    P: Provider<N> + 'static + Clone,
+    N: Network,
+    P: Provider<N>,
 {
     pub async fn init_state_and_start_stream(
         pools: Vec<Pool>,
