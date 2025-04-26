@@ -43,7 +43,7 @@ sol!(
 impl<N, P> BlockStateDB<N, P>
 where
     N: Network,
-    P: Provider<N, P>,
+    P: Provider<N>,
 {
     pub fn insert_v3(&mut self, pool: Pool) -> Result<()> {
         trace!("Inserting V3 Pool: {}", pool.address());
