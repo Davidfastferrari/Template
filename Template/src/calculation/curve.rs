@@ -17,7 +17,7 @@ sol! {
 impl<N, P> Calculator<N, P>
 where
     N: alloy::network::Network,
-    P: alloy::providers::Provider<N, P>,
+    P: alloy::providers::Provider<N>,
 {
     /// Simulates Curve's `get_dy` offchain to estimate swap output
     pub fn curve_out(
@@ -119,7 +119,7 @@ where
     fn analyze_state_changes(
         &self,
         pre: &std::collections::HashMap<Address, crate::state_db::BlockStateDBAccount>,
-        post: &crate::state_db::BlockStateDB<T, N, P>,
+        post: &crate::state_db::BlockStateDB<N, P>,
         pool: Address,
     ) {
         if let Some(post_acc) = post.accounts.get(&pool) {
