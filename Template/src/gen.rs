@@ -1,4 +1,4 @@
-use alloy::sol;
+use alloy::alloy_sol_types::SolCall;
 
 // define our flash swap contract
 sol!(
