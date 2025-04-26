@@ -26,33 +26,39 @@ use crate::{
 
 /// Bootstraps the entire system: syncing, simulation, and arbitrage search
 pub async fn start_workers(pools: Vec<Pool>, last_synced_block: u64) {
+    // --- Channel Setup ---
     let (block_sender, _) = broadcast::channel::<Event>(100);
-    let (block_tx, block_rx) = mpsc::channel::<Event>(100);
-    let (address_sender, address_receiver): (Sender<Event>, Receiver<Event>) = mpsc::channel(100);
-    let (paths_sender, paths_receiver): (Sender<Event>, Receiver<Event>) = mpsc::channel(100);
-    let (profitable_sender, profitable_receiver): (Sender<Event>, Receiver<Event>) = mpsc::channel(100);
+    let (block_tx, mut block_rx): (Sender<Event>, Receiver<Event>) = channel(100);
+    let (address_sender, address_receiver): (Sender<Event>, Receiver<Event>) = channel(100);
+    let (paths_sender, paths_receiver): (Sender<Event>, Receiver<Event>) = channel(100);
+    let (profitable_sender, profitable_receiver): (Sender<Event>, Receiver<Event>) = channel(100);
 
     // --- Pool Filtering ---
     info!("Pool count before filtering: {}", pools.len());
     let pools = filter_pools(pools, 4000, Chain::Base).await;
     info!("Pool count after filtering: {}", pools.len());
-     // --- Block Streamer ---
-   tokio::spawn(async move {
-        let mut block_subscriber = block_sender.subscribe();
-        while let Ok(event) = block_subscriber.recv().await {
-        let _ = block_tx.send(event).await;
-       }
-   });
 
-  tokio::spawn(stream_new_blocks(block_sender));
+    // --- Block Subscription Proxy ---
+    {
+        let mut block_subscriber = block_sender.subscribe();
+        let block_tx = block_tx.clone();
+        tokio::spawn(async move {
+            while let Ok(event) = block_subscriber.recv().await {
+                let _ = block_tx.send(event).await;
+            }
+        });
+    }
+
+    // --- Block Streamer (pushes to broadcast) ---
+    tokio::spawn(stream_new_blocks(block_sender));
 
     // --- Gas Station ---
     let gas_station = Arc::new(GasStation::new());
     {
         let gas_station = Arc::clone(&gas_station);
-        let block_rx = block_receiver.resubscribe();
+        let mut block_gas_sub = block_sender.subscribe();
         tokio::spawn(async move {
-            gas_station.update_gas(block_rx).await;
+            gas_station.update_gas(&mut block_gas_sub).await;
         });
     }
 
@@ -63,17 +69,19 @@ pub async fn start_workers(pools: Vec<Pool>, last_synced_block: u64) {
     info!("Initializing market state...");
     let http_url = std::env::var("FULL").unwrap().parse().unwrap();
     let provider = ProviderBuilder::new().on_http(http_url);
+
     let market_state = MarketState::init_state_and_start_stream(
-       pools.clone(),
-       block_rx,
-       address_sender.clone(),
-       last_synced_block,
-       provider,
-       Arc::clone(&caught_up),
+        pools.clone(),
+        block_rx,
+        address_sender.clone(),
+        last_synced_block,
+        provider,
+        Arc::clone(&caught_up),
     )
-   .await
-   .expect("Failed to initialize market state");
-  info!("Market state initialized!");
+    .await
+    .expect("Failed to initialize market state");
+
+    info!("Market state initialized!");
 
     // --- Estimator Initialization ---
     info!("Waiting for block sync before initializing estimator...");
@@ -114,4 +122,5 @@ pub async fn start_workers(pools: Vec<Pool>, last_synced_block: u64) {
     tokio::spawn(async move {
         tx_sender.send_transactions(profitable_receiver).await;
     });
+}
 }
