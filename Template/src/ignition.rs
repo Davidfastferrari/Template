@@ -10,6 +10,8 @@ use tokio::sync::mpsc::{Sender, Receiver};
 use alloy::providers::ProviderBuilder;
 use log::info;
 use pool_sync::{Chain, Pool};
+use std::sync::mpsc::{Sender, Receiver};
+
 
 use crate::{
     events::Event,
