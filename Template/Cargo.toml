@@ -9,7 +9,7 @@ path = "src/main.rs"
 
 [dependencies]
 anyhow = "1.0.79"
-tokio = { version = "1", features = ["sync", "rt-multi-thread", "macros"] }
+tokio = { version = "1.36", features = ["macros", "signal", "rt-multi-thread", "sync"] }
 eyre = "0.6.12"
 log = "0.4.21"
 env_logger = "0.11.3"
