@@ -58,16 +58,16 @@ pub async fn start_workers(pools: Vec<Pool>, last_synced_block: u64) {
     let http_url = std::env::var("FULL").unwrap().parse().unwrap();
     let provider = ProviderBuilder::new().on_http(http_url);
     let market_state = MarketState::init_state_and_start_stream(
-        pools.clone(),
-        block_receiver,
-        address_sender.clone(),
-        last_synced_block,
-        provider,
-        Arc::clone(&caught_up),
-    )
-    .await
-    .expect("Failed to initialize market state");
-    info!("Market state initialized!");
+         pools.clone(),
+         block_receiver,
+         address_sender.clone(), // ✅ tokio::sync::mpsc::Sender<Event>
+         last_synced_block,
+         provider,
+         Arc::clone(&caught_up),
+      )
+     .await
+     .expect("Failed to initialize market state");
+      info!("Market state initialized!");
 
     // --- Estimator Initialization ---
     info!("Waiting for block sync before initializing estimator...");
