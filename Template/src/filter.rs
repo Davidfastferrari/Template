@@ -1,10 +1,10 @@
 use crate::gen::ERC20Token::{self, approveCall};
 use crate::gen::{V2Aerodrome, V2Swap, V3Swap, V3SwapDeadline, V3SwapDeadlineTick};
 use crate::AMOUNT;
-
 use alloy::primitives::{address, Address, U160, U256};
 use alloy::sol_types::{SolCall, SolValue};
 use lazy_static::lazy_static;
+use once_cell::sync::Lazy;
 use log::{info, debug};
 use node_db::{InsertionType, NodeDB};
 use pool_sync::{Chain, Pool, PoolInfo, PoolType};
@@ -41,12 +41,33 @@ lazy_static! {
 // Common constants
 const DEFAULT_PRIORITY_DIVISOR: usize = 50;
 const SIMULATED_ACCOUNT: Address = address!("0000000000000000000000000000000000000001");
-const FAKE_TOKEN_AMOUNT: U256 = U256::from_str("10000000000000000000000000000000000000000").unwrap(); // 1e70
 const MIN_OUTPUT_RATIO: u64 = 95;
 const SIMULATED_GAS_LIMIT: u64 = 500_000;
 
+pub static FAKE_TOKEN_AMOUNT: Lazy<U256> = Lazy::new(|| {
+    U256::from_str("10000000000000000000000000000000000000000").unwrap()
+});
+
 
 /// Filter and validate pools based on volume and simulated liquidity
+#[derive(Serialize, Deserialize)]
+struct TopVolumeAddresses(Vec<Address>);
+
+#[derive(Debug, Deserialize)]
+struct BirdeyeResponse {
+    data: ResponseData,
+}
+
+#[derive(Debug, Deserialize)]
+struct ResponseData {
+    tokens: Vec<Token>,
+}
+
+#[derive(Debug, Deserialize)]
+struct Token {
+    address: String,
+}
+
 pub async fn filter_pools(pools: Vec<Pool>, num_results: usize, chain: Chain) -> Vec<Pool> {
     info!("Initial pool count before filter: {}", pools.len());
 
@@ -69,30 +90,16 @@ pub async fn filter_pools(pools: Vec<Pool>, num_results: usize, chain: Chain) ->
     info!("Pool count after token match filter: {}", filtered_by_token.len());
 
     let slot_map = construct_slot_map(&filtered_by_token);
-    let pools = filter_by_swap(filtered_by_token, slot_map).await;
+    let pools_result = filter_by_swap(filtered_by_token, slot_map).await;
 
-    debug!("Pool count after simulated swap filter: {}", pools.len());
+    debug!(
+        "Pool count after simulated swap filter: {}",
+        pools_result.as_ref().map(|p| p.len()).unwrap_or(0)
+    );
 
-    pools
+    pools_result.expect("filter_by_swap failed")
 }
 
-#[derive(Serialize, Deserialize)]
-struct TopVolumeAddresses(Vec<Address>);
-
-#[derive(Debug, Deserialize)]
-struct BirdeyeResponse {
-    data: ResponseData,
-}
-
-#[derive(Debug, Deserialize)]
-struct ResponseData {
-    tokens: Vec<Token>,
-}
-
-#[derive(Debug, Deserialize)]
-struct Token {
-    address: String,
-}
 
 /// Get top volume tokens from Birdeye or cache
 async fn get_top_volume_tokens(chain: Chain, num_results: usize) -> Result<Vec<Address>> {
@@ -125,11 +132,12 @@ fn read_addresses_from_file(filename: &str) -> Result<Vec<Address>> {
     Ok(address_set.0)
 }
 
-async fn fetch_top_volume_tokens(num_results: usize, chain: Chain) -> Vec<Address> {
+async fn fetch_top_volume_tokens(num_results: usize, chain: Chain) -> Result<Vec<Address>> {
     let client = reqwest::Client::builder()
-    .timeout(std::time::Duration::from_secs(10))
-    .build()
-    .expect("Failed to build HTTP client");
+        .timeout(std::time::Duration::from_secs(10))
+        .build()
+        .expect("Failed to build HTTP client");
+
     let mut headers = HeaderMap::new();
     let api_key = std::env::var("BIRDEYE_KEY").expect("BIRDEYE_KEY not set");
 
@@ -160,23 +168,22 @@ async fn fetch_top_volume_tokens(num_results: usize, chain: Chain) -> Vec<Addres
             ])
             .send()
             .await
-            .unwrap();
+            .with_context(|| format!("Failed to send Birdeye request at offset {}, limit {}", offset, limit))?;
 
         if response.status().is_success() {
             let parsed: BirdeyeResponse = response
-    .json()
-    .await
-    .with_context(|| format!("Failed to decode Birdeye response at offset {}, limit {}", offset, limit))?;
+                .json()
+                .await
+                .with_context(|| format!("Failed to decode Birdeye response at offset {}, limit {}", offset, limit))?;
             addresses.extend(parsed.data.tokens.into_iter().map(|t| t.address));
         }
     }
 
-    addresses
+    Ok(addresses
         .into_iter()
         .filter_map(|addr| Address::from_str(&addr).ok())
-        .collect()
+        .collect())
 }
-
 
 async fn filter_by_swap(
     pools: Vec<Pool>,
