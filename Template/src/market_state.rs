@@ -139,7 +139,7 @@ where
         updated_pools
     }
 
-    fn populate_db_with_pools(pools: Vec<Pool>, db: &mut BlockStateDB<T, N, P>) {
+    fn populate_db_with_pools(pools: Vec<Pool>, db: &mut BlockStateDB<N, P>) {
         for pool in pools {
             if pool.is_v2() {
                 db.insert_v2(pool);
@@ -149,7 +149,7 @@ where
         }
     }
 
-    fn warm_up_database(pools: &[Pool], db: &mut BlockStateDB<T, N, P>) {
+    fn warm_up_database(pools: &[Pool], db: &mut BlockStateDB<N, P>) {
         let account = address!("d8da6bf26964af9d7eed9e03e53415d37aa96045");
         let quoter = address!("0000000000000000000000000000000000001000");
 
