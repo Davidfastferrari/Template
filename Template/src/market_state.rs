@@ -7,7 +7,6 @@ use std::{
     },
     time::Instant,
 };
-
 use alloy::{
     network::Network,
     primitives::{address, Address, U256},
@@ -21,6 +20,7 @@ use alloy_transports_http::{Client, Http};
 use anyhow::Result;
 use log::{debug, error, info};
 use pool_sync::{Pool, PoolInfo};
+use tokio::sync::{mpsc::{Sender, Receiver}, RwLock};
 use revm::{Evm, primitives::{keccak256, AccountInfo, Bytecode, TransactTo}};
 use tokio::sync::broadcast::Receiver;
 
@@ -44,36 +44,36 @@ where
 impl<N, P> MarketState<N, P>
 where
     N: Network,
-    P: Provider<N>,
+    P: Provider<N> + Clone + Send + Sync + 'static,
 {
     pub async fn init_state_and_start_stream(
-    pools: Vec<Pool>,
-    block_rx: Receiver<Event>,
-    address_tx: Sender<Event>,
-    last_synced_block: u64,
-    provider: P,
-    caught_up: Arc<AtomicBool>,
-) -> Result<Arc<Self>> {
-    debug!("Populating the db with {} pools", pools.len());
+        pools: Vec<Pool>,
+        block_rx: Receiver<Event>,           // ✅ Must match tokio::sync::mpsc
+        address_tx: Sender<Event>,
+        last_synced_block: u64,
+        provider: P,
+        caught_up: Arc<AtomicBool>,
+    ) -> Result<Arc<Self>> {
+        debug!("Populating the db with {} pools", pools.len());
 
-    let mut db = BlockStateDB::new(provider).context("Failed to initialize BlockStateDB")?;
-    Self::warm_up_database(&pools, &mut db);
-    Self::populate_db_with_pools(pools, &mut db);
+        let mut db = BlockStateDB::new(provider).context("Failed to initialize BlockStateDB")?;
+        Self::warm_up_database(&pools, &mut db);
+        Self::populate_db_with_pools(pools, &mut db);
 
-    let market_state = Arc::new(Self {
-        db: RwLock::new(db),
-    });
+        let market_state = Arc::new(Self {
+            db: RwLock::new(db),
+        });
 
-    tokio::spawn(Self::state_updater(
-        market_state.clone(),
-        block_rx,
-        address_tx,
-        last_synced_block,
-        caught_up,
-    ));
+        tokio::spawn(Self::state_updater(
+            market_state.clone(),
+            block_rx,
+            address_tx,
+            last_synced_block,
+            caught_up,
+        ));
 
-    Ok(market_state)
-}
+        Ok(market_state)
+    }
 
     async fn state_updater(
         self: Arc<Self>,
