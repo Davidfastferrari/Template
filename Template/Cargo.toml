@@ -9,6 +9,7 @@ path = "src/main.rs"
 
 [dependencies]
 anyhow = "1.0.79"
+tokio = { version = "1", features = ["sync", "rt-multi-thread", "macros"] }
 eyre = "0.6.12"
 log = "0.4.21"
 env_logger = "0.11.3"
@@ -20,7 +21,6 @@ lazy_static = "1.4.0"
 block-db = "0.2.0"
 blockstate = "0.1.0"
 winit = "0.30.9"
-tokio = { version = "1.44.2", features = ["full"] }
 futures = { version = "0.3.31", features = ["executor"] }
 reqwest = { version = "0.12.3", features = ["json", "gzip", "blocking", "stream"] }
 hyper = { version = "1.3.0", features = ["client"] }
