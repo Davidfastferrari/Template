@@ -24,7 +24,6 @@ use revm::{Evm, primitives::{keccak256, AccountInfo, Bytecode, TransactTo}};
 use tokio::sync::broadcast;
 use tokio::sync::mpsc::{Sender, Receiver};
 
-
 use crate::{
     events::Event,
     gen::{ERC20Token, FlashQuoter},
