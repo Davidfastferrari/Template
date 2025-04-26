@@ -1,5 +1,4 @@
 use std::sync::Arc;
-
 use alloy::network::Ethereum;
 use alloy::primitives::{address, U256};
 use alloy::providers::RootProvider;
@@ -21,7 +20,7 @@ impl Quoter {
     /// Runs a simulated EVM call on the provided quote path.
     pub fn quote_path(
         quote_params: FlashQuoter::SwapParams,
-        market_state: Arc<MarketState<Http<Client>, Ethereum, RootProvider<Http<Client>>>>,
+        market_state: Arc<MarketState<Ethereum, RootProvider<Http<Client>>>>,
     ) -> Result<Vec<U256>> {
         let mut guard = market_state.db.write().unwrap();
 
@@ -70,7 +69,7 @@ impl Quoter {
     pub fn optimize_input(
         mut quote_path: FlashQuoter::SwapParams,
         initial_out: U256,
-        market_state: Arc<MarketState<Http<Client>, Ethereum, RootProvider<Http<Client>>>>,
+        market_state: Arc<MarketState<Ethereum, RootProvider<Http<Client>>>>,
     ) -> (U256, U256) {
         let mut best_input = *AMOUNT;
         let mut best_output = initial_out;
