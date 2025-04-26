@@ -20,27 +20,25 @@ const RATE_SCALE: u32 = 18;
 pub static RATE_SCALE_VALUE: Lazy<U256> = Lazy::new(|| U256::exp10(RATE_SCALE as usize));
 
 /// The `Estimator` is used to estimate profitability of paths via pre-calculated exchange rates.
-pub struct Estimator<T, N, P>
+pub struct Estimator<N, P>
 where
-    T: Transport + Clone,
     N: Network,
     P: Provider<N>,
 {
     rates: HashMap<Address, HashMap<Address, U256>>,
     weth_based: HashMap<Address, bool>,
-    market_state: Arc<MarketState<T, N, P>>,
-    calculator: Calculator<T, N, P>,
+    market_state: Arc<MarketState< N, P>>,
+    calculator: Calculator<N, P>,
     aggregated_weth_rate: HashMap<Address, U256>,
     token_decimals: HashMap<Address, u32>,
 }
 
-impl<T, N, P> Estimator<T, N, P>
+impl<N, P> Estimator<N, P>
 where
-    T: Transport + Clone,
     N: Network,
     P: Provider<N>,
 {
-    pub fn new(market_state: Arc<MarketState<T, N, P>>) -> Self {
+    pub fn new(market_state: Arc<MarketState<N, P>>) -> Self {
         Self {
             rates: HashMap::new(),
             weth_based: HashMap::new(),
