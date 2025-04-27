@@ -18,7 +18,6 @@ use alloy::sol;
 use serde::{Serialize, Deserialize};
 use serde_json::json;
 use anyhow::Context;
-use alloy_sol_types::{SolCall, SolValue, sol};
 use alloy_transports_http::{Client, Http};
 use anyhow::Result;
 use log::{debug, error, info};
