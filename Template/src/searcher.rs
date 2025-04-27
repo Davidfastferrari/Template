@@ -1,17 +1,18 @@
-use tracing::{info, error, debug, warn};
+use tracing::{info, debug, warn};
 use alloy::sol;
-use serde::{Serialize, Deserialize};
+use serde::{ Serialize, Deserialize };
 use serde_json::json;
-use std::collections::{HashMap, HashSet};
+use std::collections::{ HashMap, HashSet };
 use std::sync::Arc;
 use std::time::Instant;
-use tokio::sync::mpsc::{Sender, Receiver}; // correct version!
+use tokio::sync::mpsc::{ Sender, Receiver }; // correct version!
 use alloy::network::Network;
 use alloy::primitives::{Address, U256};
 use alloy::providers::Provider;
 use alloy::transports::Transport;
 use log::{debug, info};
 use rayon::prelude::*;
+
 use crate::calculation::Calculator;
 use crate::estimator::Estimator;
 use crate::events::Event;
