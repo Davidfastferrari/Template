@@ -1,19 +1,19 @@
 use tracing::{info, debug, warn};
 use alloy::sol;
-use alloy::sol_types::SolCall; // ✅ Correct
+use alloy::sol_types::SolCall;
 use serde::{Serialize, Deserialize};
 use serde_json::json;
-use super::BlockStateDB;
 use alloy::network::Network;
 use alloy::primitives::{keccak256, Address, Signed, Uint, I256, U160, U256};
 use alloy::providers::Provider;
 use alloy::transports::Transport;
 use anyhow::Result;
-use lazy_static::lazy_static;
 use log::trace;
 use pool_sync::{Pool, PoolInfo};
 use revm::DatabaseRef;
 use std::ops::{BitAnd, Shl, Shr};
+
+use super::BlockStateDB;
 use crate::state_db::blockstate_db::{InsertionType, BlockStateDBSlot};
 
 // === Bitmasks used for packing slot0 ===
