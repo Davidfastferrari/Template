@@ -2,9 +2,6 @@ use tracing::{info, debug, warn};
 use alloy::sol;
 use serde::{ Serialize, Deserialize };
 use serde_json::json;
-use crate::events::Event;
-use crate::gas_station::GasStation;
-use crate::gen::FlashSwap;
 use alloy::hex;
 use alloy::network::Ethereum;
 use alloy::primitives::{Address, Bytes as AlloyBytes, FixedBytes};
@@ -26,6 +23,9 @@ use std::{
         Arc,
     },
 };
+use crate::events::Event;
+use crate::gas_station::GasStation;
+use crate::gen::FlashSwap;
 
 #[derive(Serialize, Deserialize, Debug)]
 struct Point {
