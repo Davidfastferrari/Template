@@ -1,4 +1,5 @@
 use tracing::{info, error, debug, warn};
+use alloy::sol;
 use alloy_sol_types::sol;
 use serde::{Serialize, Deserialize};
 use serde_json::json;
@@ -17,7 +18,7 @@ use crate::estimator::Estimator;
 use crate::events::Event;
 use crate::market_state::MarketState;
 use crate::swap::SwapPath;
-use crate::AMOUNT;
+use crate::main::AMOUNT;
 use std::str::FromStr;
 
 /// Top-level search engine for arbitrage cycles
