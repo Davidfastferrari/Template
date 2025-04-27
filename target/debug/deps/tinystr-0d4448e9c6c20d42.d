@@ -1,0 +1,12 @@
+C:\Users\Damulak\Template\target\debug\deps\libtinystr-0d4448e9c6c20d42.rmeta: C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tinystr-0.7.6\src\lib.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tinystr-0.7.6\src\macros.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tinystr-0.7.6\src\ascii.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tinystr-0.7.6\src\asciibyte.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tinystr-0.7.6\src\error.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tinystr-0.7.6\src\int_ops.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tinystr-0.7.6\src\unvalidated.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tinystr-0.7.6\src\ule.rs
+
+C:\Users\Damulak\Template\target\debug\deps\tinystr-0d4448e9c6c20d42.d: C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tinystr-0.7.6\src\lib.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tinystr-0.7.6\src\macros.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tinystr-0.7.6\src\ascii.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tinystr-0.7.6\src\asciibyte.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tinystr-0.7.6\src\error.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tinystr-0.7.6\src\int_ops.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tinystr-0.7.6\src\unvalidated.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tinystr-0.7.6\src\ule.rs
+
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tinystr-0.7.6\src\lib.rs:
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tinystr-0.7.6\src\macros.rs:
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tinystr-0.7.6\src\ascii.rs:
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tinystr-0.7.6\src\asciibyte.rs:
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tinystr-0.7.6\src\error.rs:
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tinystr-0.7.6\src\int_ops.rs:
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tinystr-0.7.6\src\unvalidated.rs:
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tinystr-0.7.6\src\ule.rs:

@@ -1,0 +1,157 @@
+cargo:rustc-cfg=feature="std"
+cargo:rerun-if-env-changed=BLST_TEST_NO_STD
+Using blst source directory C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\blst-0.3.14\blst
+cargo:rerun-if-changed=C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\blst-0.3.14\blst\src
+cargo:rerun-if-changed=C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\blst-0.3.14\blst\build
+OPT_LEVEL = Some(0)
+OUT_DIR = Some(C:\Users\Damulak\Template\target\debug\build\blst-cf4a4e8c56360a65\out)
+TARGET = Some(x86_64-pc-windows-msvc)
+cargo:rerun-if-env-changed=VCINSTALLDIR
+VCINSTALLDIR = None
+cargo:rerun-if-env-changed=VSTEL_MSBuildProjectFullPath
+VSTEL_MSBuildProjectFullPath = None
+cargo:rerun-if-env-changed=VSCMD_ARG_VCVARS_SPECTRE
+VSCMD_ARG_VCVARS_SPECTRE = None
+cargo:rerun-if-env-changed=WindowsSdkDir
+WindowsSdkDir = None
+cargo:rerun-if-env-changed=WindowsSDKVersion
+WindowsSDKVersion = None
+cargo:rerun-if-env-changed=LIB
+LIB = None
+PATH = Some(C:\Users\Damulak\Template\target\debug\deps;C:\Users\Damulak\Template\target\debug;C:\Users\Damulak\.rustup\toolchains\stable-x86_64-pc-windows-msvc\lib\rustlib\x86_64-pc-windows-msvc\lib;C:\Python312\Scripts\;C:\Python312\;C:\Program Files\Eclipse Adoptium\jdk-21.0.4.7-hotspot\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Gradle\gradle-8.10\bin;C:\Users\Damulak\Documents\ghidra\ghidra-Ghidra_11.1.2_build\ghidra-Ghidra_11.1.2_build;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files\Docker\Docker\resources\bin;C:\Program Files\Git\cmd;C:\Ruby33-x64\bin;C:\Users\Damulak\.cargo\bin;C:\Users\Damulak\AppData\Local\Microsoft\WindowsApps;C:\Users\Damulak\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Damulak\AppData\Local\Microsoft\WinGet\Packages\Schniz.fnm_Microsoft.Winget.Source_8wekyb3d8bbwe;C:\Users\Damulak\AppData\Roaming\npm)
+cargo:rerun-if-env-changed=INCLUDE
+INCLUDE = None
+HOST = Some(x86_64-pc-windows-msvc)
+cargo:rerun-if-env-changed=CC_x86_64-pc-windows-msvc
+CC_x86_64-pc-windows-msvc = None
+cargo:rerun-if-env-changed=CC_x86_64_pc_windows_msvc
+CC_x86_64_pc_windows_msvc = None
+cargo:rerun-if-env-changed=HOST_CC
+HOST_CC = None
+cargo:rerun-if-env-changed=CC
+CC = None
+cargo:rerun-if-env-changed=CRATE_CC_NO_DEFAULTS
+CRATE_CC_NO_DEFAULTS = None
+CARGO_CFG_TARGET_FEATURE = Some(cmpxchg16b,fxsr,sse,sse2,sse3)
+DEBUG = Some(true)
+cargo:rerun-if-env-changed=CFLAGS
+CFLAGS = None
+cargo:rerun-if-env-changed=HOST_CFLAGS
+HOST_CFLAGS = None
+cargo:rerun-if-env-changed=CFLAGS_x86_64_pc_windows_msvc
+CFLAGS_x86_64_pc_windows_msvc = None
+cargo:rerun-if-env-changed=CFLAGS_x86_64-pc-windows-msvc
+CFLAGS_x86_64-pc-windows-msvc = None
+CARGO_ENCODED_RUSTFLAGS = Some()
+Compiling in portable mode without ISA extensions
+OUT_DIR = Some(C:\Users\Damulak\Template\target\debug\build\blst-cf4a4e8c56360a65\out)
+cargo:rerun-if-env-changed=CC_ENABLE_DEBUG_OUTPUT
+cargo:rerun-if-env-changed=CRATE_CC_NO_DEFAULTS
+CRATE_CC_NO_DEFAULTS = None
+TARGET = Some(x86_64-pc-windows-msvc)
+CARGO_CFG_TARGET_FEATURE = Some(cmpxchg16b,fxsr,sse,sse2,sse3)
+HOST = Some(x86_64-pc-windows-msvc)
+cargo:rerun-if-env-changed=CFLAGS
+CFLAGS = None
+cargo:rerun-if-env-changed=HOST_CFLAGS
+HOST_CFLAGS = None
+cargo:rerun-if-env-changed=CFLAGS_x86_64_pc_windows_msvc
+CFLAGS_x86_64_pc_windows_msvc = None
+cargo:rerun-if-env-changed=CFLAGS_x86_64-pc-windows-msvc
+CFLAGS_x86_64-pc-windows-msvc = None
+OUT_DIR = Some(C:\Users\Damulak\Template\target\debug\build\blst-cf4a4e8c56360a65\out)
+cargo:rerun-if-env-changed=CC_ENABLE_DEBUG_OUTPUT
+cargo:rerun-if-env-changed=CRATE_CC_NO_DEFAULTS
+CRATE_CC_NO_DEFAULTS = None
+TARGET = Some(x86_64-pc-windows-msvc)
+CARGO_CFG_TARGET_FEATURE = Some(cmpxchg16b,fxsr,sse,sse2,sse3)
+HOST = Some(x86_64-pc-windows-msvc)
+cargo:rerun-if-env-changed=CFLAGS
+CFLAGS = None
+cargo:rerun-if-env-changed=HOST_CFLAGS
+HOST_CFLAGS = None
+cargo:rerun-if-env-changed=CFLAGS_x86_64_pc_windows_msvc
+CFLAGS_x86_64_pc_windows_msvc = None
+cargo:rerun-if-env-changed=CFLAGS_x86_64-pc-windows-msvc
+CFLAGS_x86_64-pc-windows-msvc = None
+OUT_DIR = Some(C:\Users\Damulak\Template\target\debug\build\blst-cf4a4e8c56360a65\out)
+cargo:rerun-if-env-changed=CC_ENABLE_DEBUG_OUTPUT
+cargo:rerun-if-env-changed=CRATE_CC_NO_DEFAULTS
+CRATE_CC_NO_DEFAULTS = None
+TARGET = Some(x86_64-pc-windows-msvc)
+CARGO_CFG_TARGET_FEATURE = Some(cmpxchg16b,fxsr,sse,sse2,sse3)
+HOST = Some(x86_64-pc-windows-msvc)
+cargo:rerun-if-env-changed=CFLAGS
+CFLAGS = None
+cargo:rerun-if-env-changed=HOST_CFLAGS
+HOST_CFLAGS = None
+cargo:rerun-if-env-changed=CFLAGS_x86_64_pc_windows_msvc
+CFLAGS_x86_64_pc_windows_msvc = None
+cargo:rerun-if-env-changed=CFLAGS_x86_64-pc-windows-msvc
+CFLAGS_x86_64-pc-windows-msvc = None
+OUT_DIR = Some(C:\Users\Damulak\Template\target\debug\build\blst-cf4a4e8c56360a65\out)
+cargo:rerun-if-env-changed=CC_ENABLE_DEBUG_OUTPUT
+cargo:rerun-if-env-changed=CRATE_CC_NO_DEFAULTS
+CRATE_CC_NO_DEFAULTS = None
+TARGET = Some(x86_64-pc-windows-msvc)
+CARGO_CFG_TARGET_FEATURE = Some(cmpxchg16b,fxsr,sse,sse2,sse3)
+HOST = Some(x86_64-pc-windows-msvc)
+cargo:rerun-if-env-changed=CFLAGS
+CFLAGS = None
+cargo:rerun-if-env-changed=HOST_CFLAGS
+HOST_CFLAGS = None
+cargo:rerun-if-env-changed=CFLAGS_x86_64_pc_windows_msvc
+CFLAGS_x86_64_pc_windows_msvc = None
+cargo:rerun-if-env-changed=CFLAGS_x86_64-pc-windows-msvc
+CFLAGS_x86_64-pc-windows-msvc = None
+cargo:rerun-if-env-changed=CC_ENABLE_DEBUG_OUTPUT
+server.c
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\blst-0.3.14\blst\src\vect.h(316): warning C4210: nonstandard extension used: function given file scope
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\blst-0.3.14\blst\src\vect.h(337): warning C4210: nonstandard extension used: function given file scope
+ Assembling: C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\blst-0.3.14\blst\build\win64\add_mod_256-x86_64.asm
+ Assembling: C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\blst-0.3.14\blst\build\win64\add_mod_384-x86_64.asm
+ Assembling: C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\blst-0.3.14\blst\build\win64\add_mod_384x384-x86_64.asm
+ Assembling: C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\blst-0.3.14\blst\build\win64\ct_inverse_mod_256-x86_64.asm
+ Assembling: C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\blst-0.3.14\blst\build\win64\ct_is_square_mod_384-x86_64.asm
+ Assembling: C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\blst-0.3.14\blst\build\win64\ctq_inverse_mod_384-x86_64.asm
+ Assembling: C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\blst-0.3.14\blst\build\win64\ctx_inverse_mod_384-x86_64.asm
+ Assembling: C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\blst-0.3.14\blst\build\win64\div3w-x86_64.asm
+ Assembling: C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\blst-0.3.14\blst\build\win64\mulq_mont_256-x86_64.asm
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+ Assembling: C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\blst-0.3.14\blst\build\win64\mulq_mont_384-x86_64.asm
+ Assembling: C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\blst-0.3.14\blst\build\win64\mulx_mont_256-x86_64.asm
+ Assembling: C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\blst-0.3.14\blst\build\win64\mulx_mont_384-x86_64.asm
+ Assembling: C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\blst-0.3.14\blst\build\win64\sha256-x86_64.asm
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+cargo:rerun-if-env-changed=AR_x86_64-pc-windows-msvc
+AR_x86_64-pc-windows-msvc = None
+cargo:rerun-if-env-changed=AR_x86_64_pc_windows_msvc
+AR_x86_64_pc_windows_msvc = None
+cargo:rerun-if-env-changed=HOST_AR
+HOST_AR = None
+cargo:rerun-if-env-changed=AR
+AR = None
+cargo:rerun-if-env-changed=ARFLAGS
+ARFLAGS = None
+cargo:rerun-if-env-changed=HOST_ARFLAGS
+HOST_ARFLAGS = None
+cargo:rerun-if-env-changed=ARFLAGS_x86_64_pc_windows_msvc
+ARFLAGS_x86_64_pc_windows_msvc = None
+cargo:rerun-if-env-changed=ARFLAGS_x86_64-pc-windows-msvc
+ARFLAGS_x86_64-pc-windows-msvc = None
+cargo:rustc-link-lib=static=blst
+cargo:rustc-link-search=native=C:\Users\Damulak\Template\target\debug\build\blst-cf4a4e8c56360a65\out
+cargo:BINDINGS=C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\blst-0.3.14\blst\bindings
+cargo:C_SRC=C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\blst-0.3.14\blst\src

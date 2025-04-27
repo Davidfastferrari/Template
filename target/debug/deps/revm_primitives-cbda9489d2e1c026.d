@@ -1,0 +1,10 @@
+C:\Users\Damulak\Template\target\debug\deps\librevm_primitives-cbda9489d2e1c026.rmeta: C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\revm-primitives-18.0.0\src\lib.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\revm-primitives-18.0.0\src\constants.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\revm-primitives-18.0.0\src\eip170.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\revm-primitives-18.0.0\src\eip4844.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\revm-primitives-18.0.0\src\eip7702.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\revm-primitives-18.0.0\src\hardfork.rs
+
+C:\Users\Damulak\Template\target\debug\deps\revm_primitives-cbda9489d2e1c026.d: C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\revm-primitives-18.0.0\src\lib.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\revm-primitives-18.0.0\src\constants.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\revm-primitives-18.0.0\src\eip170.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\revm-primitives-18.0.0\src\eip4844.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\revm-primitives-18.0.0\src\eip7702.rs C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\revm-primitives-18.0.0\src\hardfork.rs
+
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\revm-primitives-18.0.0\src\lib.rs:
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\revm-primitives-18.0.0\src\constants.rs:
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\revm-primitives-18.0.0\src\eip170.rs:
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\revm-primitives-18.0.0\src\eip4844.rs:
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\revm-primitives-18.0.0\src\eip7702.rs:
+C:\Users\Damulak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\revm-primitives-18.0.0\src\hardfork.rs:
