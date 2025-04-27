@@ -1,11 +1,12 @@
 # Stage 1 - Build
 FROM rust:1.86 as builder
 
-WORKDIR /usr/src/Template
+WORKDIR /usr/src/
 
 # Install minimal required system tools
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    pkg-config libssl-dev build-essential clang cmake git && \
+    pkg-config libssl-dev build-essential clang cmake git \
+    llvm-dev libclang-dev && \
     rm -rf /var/lib/apt/lists/*
 
 # Cache dependencies early
@@ -30,7 +31,7 @@ RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/
 WORKDIR /app
 
 # Copy compiled binary
-COPY --from=builder /usr/src/Template/target/release/Template .
+COPY --from=builder /usr/src/target/release/Template .
 
 # Define binary entrypoint
 ENTRYPOINT ["./Template"]
