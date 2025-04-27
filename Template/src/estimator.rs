@@ -15,7 +15,7 @@ use std::sync::Arc;
 use crate::calculation::Calculator;
 use crate::market_state::MarketState;
 use crate::swap::SwapPath;
-use crate::AMOUNT;
+use crate::main::AMOUNT;
 
 // Constants
 const RATE_SCALE: u32 = 18;
