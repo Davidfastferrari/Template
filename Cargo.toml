@@ -66,6 +66,7 @@ alloy-rpc-types-any = "0.15.6"
 alloy-rpc-types-debug = "0.15.6"
 alloy-rpc-types-txpool = "0.15.6"
 alloy-core = "1.0.0"
+alloy-primitives = { version = "1.0.0", features = ["std"], default-features = false }
 alloy-sol-type-parser = "1.0.0"
 alloy-transport = "0.15.6"
 syn-solidity = "1.0.0"
@@ -107,11 +108,11 @@ revm-database = "3.0.0"
 revm-database-interface = "3.0.0"
 
 # Reth Crates
-reth = { git = "https://github.com/paradigmxyz/reth", package = "reth", rev = "6f8e725" }
-reth-db = { git = "https://github.com/paradigmxyz/reth", package = "reth-db", rev = "6f8e725" }
-reth-node-ethereum = { git = "https://github.com/paradigmxyz/reth", package = "reth-node-ethereum", rev = "6f8e725" }
-reth-chainspec = { git = "https://github.com/paradigmxyz/reth", package = "reth-chainspec", rev = "6f8e725" }
-reth-provider = { git = "https://github.com/paradigmxyz/reth", package = "reth-provider", rev = "6f8e725" }
+reth = { git = "https://github.com/Davidfastferrari/reth", package = "reth", rev = "501fadc5d630b1ac21232de3f9447c675d31435b" }
+reth-db = { git = "https://github.com/Davidfastferrari/reth", package = "reth-db", rev = "501fadc5d630b1ac21232de3f9447c675d31435b" }
+reth-node-ethereum = { git = "https://github.com/Davidfastferrari/reth", package = "reth-node-ethereum", rev = "501fadc5d630b1ac21232de3f9447c675d31435b" }
+reth-chainspec = { git = "https://github.com/Davidfastferrari/reth", package = "reth-chainspec", rev = "501fadc5d630b1ac21232de3f9447c675d31435b" }
+reth-provider = { git = "https://github.com/Davidfastferrari/reth", package = "reth-provider", rev = "501fadc5d630b1ac21232de3f9447c675d31435b" }
 
 # Other utilities
 rayon = "1.0.0"
