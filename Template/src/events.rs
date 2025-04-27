@@ -1,14 +1,15 @@
-use alloy::sol;
-use tracing::{info, debug, warn};
-use serde::{Serialize, Deserialize};
-use serde_json::json;
 use std::collections::HashSet;
 
 use alloy::primitives::{Address, U256};
 use alloy::rpc::types::Header;
+use tracing::{info, debug, warn};
+use serde::{Serialize, Deserialize};
+use serde_json::json;
+use alloy::sol;
 
 use crate::gen::FlashQuoter::SwapParams;
 use crate::swap::SwapPath;
+
 
 /// Represents messages passed across the bot's internal event pipeline
 #[derive(Debug, Clone)]
