@@ -2,14 +2,14 @@ use std::{
     collections::HashSet,
     sync::{
         atomic::{AtomicBool, Ordering},
-        Arc, RwLock,
+        Arc,
     },
     time::Instant,
 };
 use alloy::{
     network::Network,
     primitives::{address, Address, U256},
-    providers::{Provider, ProviderBuilder},
+    providers::{Provider, ProviderBuilder, keccak256, AccountInfo, Bytecode, TransactTo},
     rpc::types::BlockNumberOrTag,
     transports::Transport,
 };
@@ -21,10 +21,9 @@ use serde_json::json;
 use anyhow::Context;
 use alloy_transports_http::{Client, Http};
 use anyhow::Result;
-use log::{debug, error, info};
 use pool_sync::{Pool, PoolInfo};
 use tokio::sync::{mpsc::{Sender, Receiver}, RwLock};
-use revm::{Evm, primitives::{keccak256, AccountInfo, Bytecode, TransactTo}};
+use revm::Evm;
 use tokio::sync::broadcast;
 use tokio::sync::mpsc::{Sender, Receiver};
 use alloy::providers::HttpClient;
