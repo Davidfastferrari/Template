@@ -10,11 +10,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Cache dependencies early
 COPY Cargo.toml Cargo.lock .
-COPY src ./src
-COPY benches ./benches
-COPY abi ./abi
-COPY calculation ./calculation
-COPY state_db ./state_db
+COPY . .
+# COPY src ./src
+# COPY benches ./benches
+# COPY abi ./abi
+# COPY calculation ./calculation
+# COPY state_db ./state_db
 
 # Build your project in release mode
 RUN cargo fetch
