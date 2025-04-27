@@ -1,6 +1,8 @@
 use alloy::sol;
 use tracing::{info, error, debug, warn};
-use alloy::alloy_sol_types::SolCall;
+use alloy_sol_types::sol;
+use serde::{Serialize, Deserialize};
+use serde_json::json;
 
 // define our flash swap contract
 sol!(
