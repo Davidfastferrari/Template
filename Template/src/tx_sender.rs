@@ -1,28 +1,21 @@
 use tracing::{info, debug};
-use alloy::sol;
-use alloy::sol_types::SolCall;
-use serde::{ Serialize, Deserialize };
+use serde::{Serialize, Deserialize};
 use serde_json::json;
-use alloy::hex;
-use alloy::network::Ethereum;
-use alloy::primitives::{Address, Bytes as AlloyBytes, FixedBytes};
-use alloy::providers::{Provider, ProviderBuilder, RootProvider};
-use alloy::alloy_network::TransactionBuilder;
-use alloy::rpc::types::TransactionRequest;
-use alloy_signer_wallet::LocalWallet;
+use alloy::sol;
+use alloy_sol_types::SolCall;
+use alloy::primitives::{Address, Bytes as AlloyBytes, FixedBytes, U256};
+use alloy::providers::Provider;
+use alloy::providers::ProviderBuilder;
+use alloy::providers::RootProvider;
+use alloy_rpc_types::TransactionRequest;
+use alloy_signer::wallet::LocalWallet;
 use alloy_signer::local::PrivateKeySigner;
-use alloy_signer::k256::SecretKey;
-use alloy_transports_http::{Http, Client as AlloyClient};
-use tokio::sync::mpsc::{Sender, Receiver}; 
+use alloy_transport_http::{Http, Client as AlloyClient};
+use tokio::sync::mpsc::{Sender, Receiver};
+use std::{sync::Arc, str::FromStr, time::{Duration, Instant}};
 use reqwest::Client;
 use serde_json::Value;
-use std::str::FromStr;
-use std::time::{Duration, Instant};
-use std::{
-    sync::{
-        Arc,
-    },
-};
+
 use crate::events::Event;
 use crate::gas_station::GasStation;
 use crate::gen::FlashSwap;
