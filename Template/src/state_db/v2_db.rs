@@ -1,5 +1,6 @@
 use tracing::{info, debug, warn};
 use alloy::sol;
+use alloy::sol_types::SolCall; // ✅ Correct
 use serde::{Serialize, Deserialize};
 use serde_json::json;
 use super::BlockStateDB;
