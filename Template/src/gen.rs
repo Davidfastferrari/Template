@@ -1,3 +1,4 @@
+use alloy::sol;
 use tracing::{info, error, debug, warn};
 use alloy::alloy_sol_types::SolCall;
 
