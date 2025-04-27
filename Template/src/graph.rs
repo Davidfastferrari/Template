@@ -1,10 +1,12 @@
-use crate::swap::{SwapPath, SwapStep};
+use alloy::primitives::Address;
+use alloy::sol;
 use alloy::primitives::Address;
 use petgraph::graph::UnGraph;
 use petgraph::prelude::*;
 use pool_sync::{BalancerV2Pool, CurveTriCryptoPool, Pool};
 use std::collections::HashSet;
 use std::hash::{Hash, Hasher, DefaultHasher};
+use crate::swap::{SwapPath, SwapStep};
 
 pub struct ArbGraph;
 
