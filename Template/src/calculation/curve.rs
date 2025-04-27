@@ -1,10 +1,10 @@
-use tracing::{info, error, debug, warn};
+use tracing::{info, debug, warn};
 use alloy::sol;
+use alloy::sol_types::SolCall; // ✅ Correct
 use serde::{Serialize, Deserialize};
 use serde_json::json;
 use super::Calculator;
 use alloy::primitives::{address, Address, U256};
-use alloy::sol;
 use revm::primitives::{ExecutionResult, TransactTo};
 use revm::Evm;
 use std::sync::Arc;
