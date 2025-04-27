@@ -41,7 +41,6 @@ chrono = "0.4.38"
 # Alloy (Ethereum Types, EIPs, Primitives, etc.)
 
 alloy = { version = "0.14.0", features = ["full"] }
-alloy-primitives = { version = "1.0.0", features = ["std"], default-features = false }
 alloy-sol-types = { version = "0.4.2", features = ["std"] }
 alloy-transport-http = { version = "0.4.2", features = ["reqwest"] }
 alloy-signer = "0.1.0"
