@@ -5,8 +5,6 @@ use alloy::providers::Provider;
 use alloy::transports::Transport;
 use anyhow::Result;
 use std::collections::HashMap;
-// tests/uniswap_fuzz.rs
-use super::*;
 use proptest::prelude::*;
 use uniswap_v3_math::tick_math::{MAX_SQRT_RATIO, MAX_TICK, MIN_SQRT_RATIO, MIN_TICK};
 
