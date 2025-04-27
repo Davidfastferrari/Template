@@ -28,6 +28,7 @@ use crate::gen::{V2Aerodrome, V2Swap, V3Swap, V3SwapDeadline, V3SwapDeadlineTick
 use crate::gen::AMOUNT;
 use crate::node_db::NodeDB;
 
+mod node_db;
 /// Represents the logical router + calldata type for different swap protocols
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum SwapType {
