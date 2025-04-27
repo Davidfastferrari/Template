@@ -1,27 +1,27 @@
-use tracing::{info, error, debug, warn};
-use serde::{Serialize, Deserialize};
-use serde_json::json;
-use alloy::network::Ethereum;
-use alloy::providers::RootProvider;
-use alloy_transports_http::{Http, Client};
-use alloy::primitives::U256;
-use log::{debug, info, warn};
-use std::collections::HashSet;
-use std::sync::{mpsc::{Receiver, Sender}, Arc};
-use std::str::FromStr;
+use tokio::sync::mpsc::{Sender, Receiver}; // async Sender/Receiver!
 use crate::gen::{FlashQuoter, FlashSwap};
 use crate::events::Event;
 use crate::market_state::MarketState;
 use crate::simulator::Quoter;
+use crate::calculator::Calculator;
+use crate::AMOUNT;
 use uniswap_v3_math::{tick_math, swap_math, tick_bitmap};
 use alloy::sol;
+use alloy::network::Ethereum;
+use alloy::providers::HttpClient;
+use alloy::primitives::U256;
+use tracing::{info, error, debug, warn};
+
+use std::collections::HashSet;
+use std::sync::Arc;
+use std::str::FromStr;
 
 
 /// Simulates arbitrage paths passed from the searcher and sends viable ones to the tx sender.
 pub async fn simulate_paths(
     tx_sender: Sender<Event>,
     mut arb_receiver: Receiver<Event>,
-    market_state: Arc<MarketState<Http<Client>, Ethereum, RootProvider<Http<Client>>>>,
+    market_state: Arc<MarketState<HttpClient, Ethereum>>,
 ) {
     let sim: bool = match std::env::var("SIM") {
         Ok(v) => v.parse().unwrap_or(false),
@@ -30,7 +30,7 @@ pub async fn simulate_paths(
 
     let mut blacklisted_paths: HashSet<u64> = HashSet::new();
 
-    while let Some(Event::ArbPath((arb_path, expected_out, block_number))) = arb_receiver.recv().await {
+    wwhile let Some(Event::ArbPath((arb_path, expected_out, block_number))) = arb_receiver.recv().await {
         if blacklisted_paths.contains(&arb_path.hash) {
             continue;
         }
@@ -84,13 +84,13 @@ pub async fn simulate_paths(
                     );
                     info!("💰 Optimized input: {}, output: {}", optimized.0, optimized.1);
 
-                    let profit = expected_out.saturating_sub(*AMOUNT); // ✅ Prevent underflow
+                    let profit = expected_out.saturating_sub(*AMOUNT.read().unwrap()); // ✅ Prevent underflow
                     converted_path.amountIn = optimized.0;
 
-                    match tx_sender.send(Event::ValidPath((converted_path, profit, block_number))).await {
-                        Ok(_) => debug!("✔️ Sent to tx sender"),
-                        Err(_) => warn!("⚠️ Failed to send to tx sender"),
-                    }
+                   match tx_sender.send(Event::ValidPath((converted_path, profit, block_number))).await {
+                      Ok(_) => debug!("✔️ Sent to tx sender"),
+                      Err(e) => warn!("⚠️ Failed to send to tx sender: {:?}", e),
+                   }
                 }
             }
             Err(err) => {
