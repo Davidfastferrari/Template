@@ -1,17 +1,17 @@
-use alloy::sol;
-use tracing::{info, debug, warn};
-use serde::{Serialize, Deserialize};
-use serde_json::json;
+use std::collections::{HashMap, HashSet};
+use std::sync::Arc;
+
 use alloy::network::Network;
 use alloy::primitives::{Address, U256};
 use alloy::providers::Provider;
 use alloy::transports::Transport;
-use log::debug;
+use alloy::sol;
+use tracing::{info, debug, warn};
 use once_cell::sync::Lazy;
-use pool_sync::{Pool, PoolInfo};
-use std::collections::{HashMap, HashSet};
-use std::sync::Arc;
+use serde::{Serialize, Deserialize};
+use serde_json::json;
 
+use pool_sync::{Pool, PoolInfo};
 use crate::calculation::Calculator;
 use crate::market_state::MarketState;
 use crate::swap::SwapPath;
