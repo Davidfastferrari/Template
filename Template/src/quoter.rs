@@ -1,20 +1,22 @@
 use tracing::{info, debug, warn};
-use alloy::sol;
-use alloy::sol_types::SolCall;
 use serde::{Serialize, Deserialize};
 use serde_json::json;
 use std::sync::Arc;
+use std::str::FromStr;
+
+use alloy::sol;
+use alloy_sol_types::SolCall;
 use alloy::network::Ethereum;
 use alloy::primitives::{address, U256};
 use alloy::providers::RootProvider;
-use alloy_transports_http::{Http, Client};
+use alloy_transport_http::{Http, Client as AlloyClient};
 use anyhow::{anyhow, Result};
-use revm::Evm;
-use revm_primitives::{ExecutionResult, TransactTo};
+use revm::{Evm, primitives::{ExecutionResult, TransactTo}};
 
 use crate::gen::FlashQuoter;
 use crate::market_state::MarketState;
-use crate::AMOUNT;
+use crate::constants::AMOUNT;
+
 
 /// Quoter – runs an EVM simulation to quote arbitrage profitability.
 pub struct Quoter;
