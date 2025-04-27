@@ -114,7 +114,7 @@ reth-chainspec = { git = "https://github.com/paradigmxyz/reth", package = "reth-
 reth-provider = { git = "https://github.com/paradigmxyz/reth", package = "reth-provider", rev = "6f8e725" }
 
 # Other utilities
-rayon = "1.10.0"
+rayon = "1.8.0"
 petgraph = "0.8.1"
 dashmap = "6.1.0"
 foldhash = "0.1.3"
