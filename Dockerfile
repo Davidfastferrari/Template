@@ -20,6 +20,8 @@ COPY . .
 
 # Build your project in release mode
 RUN cargo fetch
+RUN cargo fix
+RUN cargo clippy
 RUN cargo build --release
 
 # Stage 2 - Minimal Runtime
