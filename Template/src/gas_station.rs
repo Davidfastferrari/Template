@@ -1,10 +1,11 @@
-use tracing::{info, debug, warn};
-use serde::{Serialize, Deserialize};
-use serde_json::json;
 use std::sync::atomic::{AtomicU64, Ordering};
+
 use tokio::sync::broadcast::Receiver;
 use alloy::primitives::U256;
 use alloy::eips::eip1559::{BaseFeeParams, calc_next_block_base_fee};
+use tracing::{info, debug, warn};
+use serde::{Serialize, Deserialize};
+use serde_json::json;
 
 use crate::events::Event;
 
