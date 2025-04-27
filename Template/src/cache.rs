@@ -103,39 +103,3 @@ impl Cache {
         self.entries.is_empty()
     }
 }
-
-// #[cfg(test)]
-// mod tests {
-//     use super::*;
-//     use alloy::primitives::{address, U256};
-
-//     #[test]
-//     fn test_insert_get_invalidate() {
-//         let cache = Cache::new(10);
-//         let pool = address!("4200000000000000000000000000000000000006");
-//         let amount = U256::from(1000);
-//         let output = U256::from(2000);
-
-//         assert!(cache.get(amount, pool).is_none());
-//         cache.insert(amount, pool, output);
-//         assert_eq!(cache.get(amount, pool), Some(output));
-
-//         cache.invalidate(pool);
-//         assert!(cache.get(amount, pool).is_none());
-//     }
-
-//     #[test]
-//     fn test_clear_and_len() {
-//         let cache = Cache::new(2);
-//         let addr = address!("0000000000000000000000000000000000000001");
-
-//         for i in 0..5 {
-//             cache.insert(U256::from(i), addr, U256::from(i * 10));
-//         }
-
-//         assert_eq!(cache.len(), 5);
-//         cache.clear();
-//         assert_eq!(cache.len(), 0);
-//         assert!(cache.is_empty());
-//     }
-// }
