@@ -37,6 +37,8 @@ mod tests;
 mod tracing;
 mod tx_sender;
 mod history_db;
+pub mod constants;
+
 
 pub const AMOUNT_USD: u64 = 100_000;
 pub static AMOUNT: Lazy<RwLock<U256>> = Lazy::new(|| RwLock::new(U256::from(1_000_000_000_000_000_000u128)));
