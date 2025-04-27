@@ -66,6 +66,7 @@ alloy-rpc-types-any = "0.15.6"
 alloy-rpc-types-debug = "0.15.6"
 alloy-rpc-types-txpool = "0.15.6"
 alloy-core = "1.0.0"
+alloy-primitives = { version = "1.0.0", features = ["std"], default-features = false }
 alloy-sol-type-parser = "1.0.0"
 alloy-transport = "0.15.6"
 syn-solidity = "1.0.0"
