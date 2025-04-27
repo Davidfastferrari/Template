@@ -3,8 +3,10 @@ use std::{
     path::Path,
     sync::{atomic::{AtomicU64, Ordering}, Arc, RwLock},
 };
+
 use alloy::primitives::{Address, B256, StorageKey, U256};
 use eyre::{Context, Result};
+
 use reth::api::NodeTypesWithDBAdapter;
 use reth::providers::{
     providers::StaticFileProvider,
@@ -19,6 +21,7 @@ use revm::{
     db::{AccountState, Database, DatabaseCommit, DatabaseRef},
     primitives::{Account, AccountInfo, Bytecode, KECCAK_EMPTY},
 };
+
 
 /// Core struct that provides access to historical state from Reth database.
 pub struct HistoryDB {
