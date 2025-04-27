@@ -1,6 +1,5 @@
 use tracing::{info, error, debug, warn};
 use alloy::sol;
-use alloy_sol_types::sol;
 use serde::{Serialize, Deserialize};
 use serde_json::json;
 use alloy::primitives::B256;
