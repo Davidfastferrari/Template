@@ -76,10 +76,7 @@ where
         Ok(market_state)
     }
 
-}
-
-
-    fn warm_up_database(pools: &[Pool], db: &mut BlockStateDB<N, P>) {
+fn warm_up_database(pools: &[Pool], db: &mut BlockStateDB<N, P>) {
         let account = address!("d8da6bf26964af9d7eed9e03e53415d37aa96045");
         let quoter = address!("0000000000000000000000000000000000001000");
 
@@ -210,3 +207,6 @@ where
         updated_pools
     }
 
+
+
+}
