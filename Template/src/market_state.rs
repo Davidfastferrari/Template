@@ -23,13 +23,16 @@ use tokio::sync::{mpsc::{Sender, Receiver}, RwLock};
 use revm::{Evm, primitives::{keccak256, AccountInfo, Bytecode, TransactTo}};
 use tokio::sync::broadcast;
 use tokio::sync::mpsc::{Sender, Receiver};
+use alloy::providers::HttpClient;
+use alloy::signers::wallet::EthereumWallet;
+
 
 use crate::{
     events::Event,
     gen::{ERC20Token, FlashQuoter},
     state_db::{BlockStateDB, InsertionType},
     tracing::debug_trace_block,
-    AMOUNT,
+    gen::AMOUNT,
 };
 
 // State manager for live blockchain pool information
