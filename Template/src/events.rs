@@ -1,6 +1,5 @@
 use alloy::sol;
 use tracing::{info, error, debug, warn};
-use alloy_sol_types::sol;
 use serde::{Serialize, Deserialize};
 use serde_json::json;
 use std::collections::HashSet;
