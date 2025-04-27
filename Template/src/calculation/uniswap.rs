@@ -1,16 +1,17 @@
-use super::Calculator;
 use tracing::{info, debug, warn};
 use alloy::sol;
-use alloy::sol_types::SolCall; // ✅ Correct
+use alloy::sol_types::SolCall;
 use serde::{Serialize, Deserialize};
 use alloy::network::Network;
 use alloy::primitives::{Address, I256, U256};
 use alloy::providers::Provider;
 use alloy::transports::Transport;
 use anyhow::Result;
-use std::collections::HashMap;
 use proptest::prelude::*;
 use uniswap_v3_math::tick_math::{MAX_SQRT_RATIO, MAX_TICK, MIN_SQRT_RATIO, MIN_TICK};
+use std::collections::HashMap;
+
+use super::Calculator;
 
 pub const U256_1: U256 = U256::from_limbs([1, 0, 0, 0]);
 
