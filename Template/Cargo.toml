@@ -3,9 +3,6 @@ name = "Template"
 version = "0.1.0"
 edition = "2021"
 
-[lib]
-proc-macro = true
-
 [[bin]]
 name = "Template"
 path = "src/main.rs"
@@ -78,7 +75,8 @@ dashmap = "6.1.0"
 foldhash = "0.1.3"
 dotenv = "0.15.0"
 procmac = "0.1.0"
-
+proc-macro-crate = "3.3.0"
+proc-macro-error2 = "2.0.1"
 # External project used
 pool-sync = { git = "https://github.com/Zacholme7/PoolSync" }
 
