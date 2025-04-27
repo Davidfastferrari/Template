@@ -1,16 +1,17 @@
 use tracing::{info, debug, warn};
 use alloy::sol;
-use alloy::sol_types::SolCall; // ✅ Correct
+use alloy::sol_types::SolCall;
 use serde::{Serialize, Deserialize};
 use serde_json::json;
-use super::Calculator;
-use alloy::primitives::{Address, I256, U256};
 use alloy::network::Network;
+use alloy::primitives::{Address, I256, U256};
 use alloy::providers::Provider;
 use alloy::transports::Transport;
-use std::ops::Neg;
 use std::str::FromStr;
+use std::ops::Neg;
 use uniswap_v3_math::log_exp_math::LogExpMath;
+
+use super::Calculator;
 
 /// Balancer V2 swap formula implemented on top of AMM math.
 impl<N, P> Calculator<N, P>
