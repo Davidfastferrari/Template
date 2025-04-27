@@ -1,27 +1,22 @@
-use tracing::{info, error, debug, warn};
+use tracing::{info, debug, warn, error};
 use alloy::sol;
-use alloy::sol_types::SolCall; // ✅ Correct
+use alloy::sol_types::SolCall;
 use serde::{Serialize, Deserialize};
 use serde_json::json;
-use super::Calculator;
 use alloy::network::Network;
 use alloy::primitives::{Address, U256};
 use alloy::providers::Provider;
 use alloy::transports::Transport;
-use std::collections::{HashMap, HashSet};
 use once_cell::sync::Lazy;
+use std::collections::{HashMap, HashSet};
+use std::str::FromStr;
 
-pub static WETH: Lazy<Address> = Lazy::new(|| {
-    Address::from_str("0x4200000000000000000000000000000000000006").expect("Invalid WETH address")
-});
+use super::Calculator;
 
-pub static USDC: Lazy<Address> = Lazy::new(|| {
-    Address::from_str("0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913").expect("Invalid USDC address")
-});
+pub static WETH: Lazy<Address> = Lazy::new(|| Address::from_str("0x4200000000000000000000000000000000000006").unwrap());
+pub static USDC: Lazy<Address> = Lazy::new(|| Address::from_str("0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913").unwrap());
+pub static INITIAL_AMT: Lazy<U256> = Lazy::new(|| U256::from_dec_str("1000000000000000000").unwrap());
 
-pub static INITIAL_AMT: Lazy<U256> = Lazy::new(|| {
-    U256::from_dec_str("1000000000000000000").unwrap() // 1 ETH
-});
 
 sol! {
     #[sol(rpc)]
