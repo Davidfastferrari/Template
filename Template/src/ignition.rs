@@ -5,7 +5,7 @@ use std::{
     },
     time::Duration,
 };
-use tokio::sync::mpsc::{Sender, Receiver};
+use tokio::sync::mpsc::{ Sender, Receiver };
 use tokio::sync::mpsc:: broadcast;
 use tokio::signal;
 use alloy::providers::ProviderBuilder;
