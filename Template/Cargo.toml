@@ -77,7 +77,7 @@ dotenv = "0.15.0"
 procmac = "0.1.0"
 proc-macro-crate = "3.3.0"
 proc-macro-error2 = "2.0.1"
-proc-macro2 = "=1.0.67"
+proc-macro2 = "1.0.67"
 proc-macro-error-attr = "1.0.4"
 # External project used
 pool-sync = { git = "https://github.com/Zacholme7/PoolSync" }
