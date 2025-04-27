@@ -1,4 +1,4 @@
-use tracing::{info, error, debug, warn};
+use tracing::{info, debug, warn};
 use alloy::sol;
 use serde::{Serialize, Deserialize};
 use serde_json::json;
@@ -74,9 +74,9 @@ impl Quoter {
         initial_out: U256,
         market_state: Arc<MarketState<Ethereum, RootProvider<Http<Client>>>>,
     ) -> (U256, U256) {
-        let mut best_input = *AMOUNT;
+        let mut best_input = *AMOUNT.read().unwrap();
         let mut best_output = initial_out;
-        let mut curr_input = *AMOUNT;
+        let mut curr_input = *AMOUNT.read().unwrap();
 
         let step = U256::from_dec_str("200000000000000").unwrap(); // ✅ precise 2e14 step
 
