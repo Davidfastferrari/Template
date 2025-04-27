@@ -1,29 +1,32 @@
+use std::{
+    collections::{HashMap, HashSet},
+    fs::{create_dir_all, File},
+    io::{BufReader, BufWriter},
+    path::Path,
+    str::FromStr,
+};
+
+use alloy::primitives::{address, Address, U160, U256};
 use alloy::sol_types::SolCall;
+use lazy_static::lazy_static;
+use once_cell::sync::Lazy;
+use log::{info, debug};
+use rayon::prelude::*;
+use reqwest::header::{HeaderMap, HeaderValue};
+use revm::{Evm, inspector_handle_register};
+use revm::primitives::{Bytes, ExecutionResult, FixedBytes, TransactTo};
+use revm_inspectors::access_list::{AccessListInspector, InspectEvm};
+use anyhow::{Result, anyhow, Context};
 use tracing::{info, debug, warn};
 use serde::{Serialize, Deserialize};
 use serde_json::json;
-use alloy::primitives::{ address, Address, U160, U256 };
-use lazy_static::lazy_static;
-use once_cell::sync::Lazy;
-use log::{ info, debug };
-use node_db::{ InsertionType, NodeDB };
+
 use pool_sync::{Chain, Pool, PoolInfo, PoolType};
-use reqwest::header::{HeaderMap, HeaderValue};
-use revm::primitives::{ Bytes, ExecutionResult, FixedBytes, TransactTo };
-use revm::{ inspector_handle_register, Evm };
-use std::collections::{HashMap, HashSet};
-use std::fs::{ create_dir_all, File };
-use std::io::{BufReader, BufWriter};
-use std::path::Path;
-use std::str::FromStr;
-use revm_inspectors::access_list::AccessListInspector;
-use revm_inspectors::access_list::InspectEvm;
-use rayon::prelude::*;
-use anyhow::{Result, anyhow, Context}; // add this if not already
 
 use crate::gen::ERC20Token::{self, approveCall};
-use crate::gen::{ V2Aerodrome, V2Swap, V3Swap, V3SwapDeadline, V3SwapDeadlineTick };
+use crate::gen::{V2Aerodrome, V2Swap, V3Swap, V3SwapDeadline, V3SwapDeadlineTick};
 use crate::gen::AMOUNT;
+
 
 /// Represents the logical router + calldata type for different swap protocols
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
