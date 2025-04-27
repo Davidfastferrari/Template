@@ -9,7 +9,6 @@ use alloy::primitives::{address, U256};
 use alloy::providers::RootProvider;
 use alloy_transports_http::{Http, Client};
 use anyhow::{anyhow, Result};
-use log::{info, warn};
 use revm::Evm;
 use revm_primitives::{ExecutionResult, TransactTo};
 
