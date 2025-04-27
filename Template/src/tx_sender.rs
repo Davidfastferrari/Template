@@ -1,6 +1,6 @@
-use tracing::{info, error, debug, warn};
+use tracing::{info, debug, warn};
 use alloy::sol;
-use serde::{Serialize, Deserialize};
+use serde::{ Serialize, Deserialize };
 use serde_json::json;
 use crate::events::Event;
 use crate::gas_station::GasStation;
