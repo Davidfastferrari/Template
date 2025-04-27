@@ -4,7 +4,7 @@ use serde::{Serialize, Deserialize};
 use serde_json::json;
 use crate::gen::ERC20Token::{self, approveCall};
 use crate::gen::{V2Aerodrome, V2Swap, V3Swap, V3SwapDeadline, V3SwapDeadlineTick};
-use crate::AMOUNT;
+use crate::gen::AMOUNT;
 use alloy::primitives::{address, Address, U160, U256};
 use alloy::sol_types::{SolCall, SolValue};
 use lazy_static::lazy_static;
@@ -50,7 +50,6 @@ const MIN_OUTPUT_RATIO: u64 = 95;
 const SIMULATED_GAS_LIMIT: u64 = 500_000;
 
 pub static FAKE_TOKEN_AMOUNT: Lazy<U256> = Lazy::new(|| { U256::from_str("10000000000000000000000000000000000000000").unwrap()});
-
 
 /// Filter and validate pools based on volume and simulated liquidity
 #[derive(Serialize, Deserialize)]
@@ -144,9 +143,11 @@ async fn fetch_top_volume_tokens(num_results: usize, chain: Chain) -> Result<Vec
     let api_key = std::env::var("BIRDEYE_KEY").expect("BIRDEYE_KEY not set");
 
     headers.insert("X-API-KEY", HeaderValue::from_str(&api_key).unwrap());
+
     headers.insert("x-chain", HeaderValue::from_str(match chain {
-        Chain::Ethereum => "ethereum",
-        Chain::Base => "base",
+       Chain::Ethereum => "ethereum",
+       Chain::Base => "base",
+       // remove `_ => "unknown",` — it's unreachable!
     }).unwrap());
 
     let mut query_params = vec![];
