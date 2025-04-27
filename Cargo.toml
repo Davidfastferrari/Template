@@ -20,7 +20,6 @@ criterion = "0.5"
 lazy_static = "1.4.0"
 block-db = "0.2.0"
 blockstate = "0.1.0"
-libproc = "0.14.10"
 winit = "0.30.9"
 futures = { version = "0.3.31", features = ["executor"] }
 reqwest = { version = "0.12.3", features = ["json", "gzip", "blocking", "stream"] }
