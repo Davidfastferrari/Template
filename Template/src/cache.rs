@@ -1,11 +1,12 @@
+use std::hash::{BuildHasherDefault, Hash, Hasher};
+
 use tracing::{info, debug, warn};
 use alloy::sol;
+use alloy::primitives::{Address, U256};
 use serde::{Serialize, Deserialize};
 use serde_json::json;
-use alloy::primitives::{Address, U256};
 use dashmap::DashMap;
 use rustc_hash::FxHasher;
-use std::hash::{BuildHasherDefault, Hash, Hasher};
 
 /// Custom hasher based on `FxHasher` (fast non-cryptographic hashing)
 #[derive(Default)]
