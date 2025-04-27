@@ -1,5 +1,6 @@
 use alloy::primitives::Address;
 use alloy::sol;
+use alloy::sol_types::SolCall;
 use petgraph::graph::UnGraph;
 use petgraph::prelude::*;
 use pool_sync::{BalancerV2Pool, CurveTriCryptoPool, Pool};
