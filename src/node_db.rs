@@ -5,7 +5,7 @@ use std::path::Path;
 use anyhow::Result;
 
 pub struct NodeDB {
-    env: DatabaseEnv<WriteMap>,
+    env: DatabaseEnv<>,
 }
 
 impl NodeDB {
