@@ -1,0 +1,11 @@
+C:\Users\Damulak\Template\target\debug\deps\libreth_prune_types-c67464ff7fee5c15.rmeta: C:\Users\Damulak\.cargo\git\checkouts\reth-e231042ee7db3fb7\6f8e725\crates\prune\types\src\lib.rs C:\Users\Damulak\.cargo\git\checkouts\reth-e231042ee7db3fb7\6f8e725\crates\prune\types\src\checkpoint.rs C:\Users\Damulak\.cargo\git\checkouts\reth-e231042ee7db3fb7\6f8e725\crates\prune\types\src\event.rs C:\Users\Damulak\.cargo\git\checkouts\reth-e231042ee7db3fb7\6f8e725\crates\prune\types\src\mode.rs C:\Users\Damulak\.cargo\git\checkouts\reth-e231042ee7db3fb7\6f8e725\crates\prune\types\src\pruner.rs C:\Users\Damulak\.cargo\git\checkouts\reth-e231042ee7db3fb7\6f8e725\crates\prune\types\src\segment.rs C:\Users\Damulak\.cargo\git\checkouts\reth-e231042ee7db3fb7\6f8e725\crates\prune\types\src\target.rs
+
+C:\Users\Damulak\Template\target\debug\deps\reth_prune_types-c67464ff7fee5c15.d: C:\Users\Damulak\.cargo\git\checkouts\reth-e231042ee7db3fb7\6f8e725\crates\prune\types\src\lib.rs C:\Users\Damulak\.cargo\git\checkouts\reth-e231042ee7db3fb7\6f8e725\crates\prune\types\src\checkpoint.rs C:\Users\Damulak\.cargo\git\checkouts\reth-e231042ee7db3fb7\6f8e725\crates\prune\types\src\event.rs C:\Users\Damulak\.cargo\git\checkouts\reth-e231042ee7db3fb7\6f8e725\crates\prune\types\src\mode.rs C:\Users\Damulak\.cargo\git\checkouts\reth-e231042ee7db3fb7\6f8e725\crates\prune\types\src\pruner.rs C:\Users\Damulak\.cargo\git\checkouts\reth-e231042ee7db3fb7\6f8e725\crates\prune\types\src\segment.rs C:\Users\Damulak\.cargo\git\checkouts\reth-e231042ee7db3fb7\6f8e725\crates\prune\types\src\target.rs
+
+C:\Users\Damulak\.cargo\git\checkouts\reth-e231042ee7db3fb7\6f8e725\crates\prune\types\src\lib.rs:
+C:\Users\Damulak\.cargo\git\checkouts\reth-e231042ee7db3fb7\6f8e725\crates\prune\types\src\checkpoint.rs:
+C:\Users\Damulak\.cargo\git\checkouts\reth-e231042ee7db3fb7\6f8e725\crates\prune\types\src\event.rs:
+C:\Users\Damulak\.cargo\git\checkouts\reth-e231042ee7db3fb7\6f8e725\crates\prune\types\src\mode.rs:
+C:\Users\Damulak\.cargo\git\checkouts\reth-e231042ee7db3fb7\6f8e725\crates\prune\types\src\pruner.rs:
+C:\Users\Damulak\.cargo\git\checkouts\reth-e231042ee7db3fb7\6f8e725\crates\prune\types\src\segment.rs:
+C:\Users\Damulak\.cargo\git\checkouts\reth-e231042ee7db3fb7\6f8e725\crates\prune\types\src\target.rs:
