@@ -4,8 +4,9 @@ use alloy::primitives::Address;
 use pool_sync::PoolType;
 use std::convert::From;
 use std::hash::Hash;
+
 use crate::gen::{FlashQuoter, FlashSwap};
-use crate::main::AMOUNT;
+use crate::constants::AMOUNT;
 
 #[derive(Serialize, Deserialize, Debug)]
 struct Point {
