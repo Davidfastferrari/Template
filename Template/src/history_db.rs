@@ -3,7 +3,6 @@ use std::{
     path::Path,
     sync::{atomic::{AtomicU64, Ordering}, Arc, RwLock},
 };
-
 use alloy::primitives::{Address, B256, StorageKey, U256};
 use eyre::{Context, Result};
 use reth::api::NodeTypesWithDBAdapter;
@@ -39,7 +38,7 @@ impl HistoryDB {
         ).wrap_err("Failed to open DB in read-only mode")?);
 
         // Construct the mainnet ChainSpec
-        let spec = Arc::new(ChainSpecBuilder::mainnet().build());
+         spec = Arc::new(ChainSpecBuilder::mainnet().build());
 
         // Load static file provider (used for history lookups)
         let static_provider = StaticFileProvider::read_only(db_path.join("static_files"), true)
