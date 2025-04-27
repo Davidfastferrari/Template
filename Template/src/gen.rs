@@ -1,5 +1,5 @@
 use alloy::sol;
-use alloy::alloy_sol_types::SolCall;
+use alloy::sol_types::SolCall;
 use tracing::{info, debug, warn};
 use serde::{Serialize, Deserialize};
 use serde_json::json;
