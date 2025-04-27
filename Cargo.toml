@@ -108,11 +108,11 @@ revm-database = "3.0.0"
 revm-database-interface = "3.0.0"
 
 # Reth Crates
-reth = { git = "https://github.com/Davidfastferrari/reth", package = "reth", rev = "501fadc5d630b1ac21232de3f9447c675d31435b" }
-reth-db = { git = "https://github.com/Davidfastferrari/reth", package = "reth-db", rev = "501fadc5d630b1ac21232de3f9447c675d31435b" }
-reth-node-ethereum = { git = "https://github.com/Davidfastferrari/reth", package = "reth-node-ethereum", rev = "501fadc5d630b1ac21232de3f9447c675d31435b" }
-reth-chainspec = { git = "https://github.com/Davidfastferrari/reth", package = "reth-chainspec", rev = "501fadc5d630b1ac21232de3f9447c675d31435b" }
-reth-provider = { git = "https://github.com/Davidfastferrari/reth", package = "reth-provider", rev = "501fadc5d630b1ac21232de3f9447c675d31435b" }
+reth = { git = "https://github.com/Davidfastferrari/reth", package = "reth", rev = "09f39b62a8a492213a26c0f172988b0c0843dfde" }
+reth-db = { git = "https://github.com/Davidfastferrari/reth", package = "reth-db", rev = "09f39b62a8a492213a26c0f172988b0c0843dfde" }
+reth-node-ethereum = { git = "https://github.com/Davidfastferrari/reth", package = "reth-node-ethereum", rev = "09f39b62a8a492213a26c0f172988b0c0843dfde" }
+reth-chainspec = { git = "https://github.com/Davidfastferrari/reth", package = "reth-chainspec", rev = "09f39b62a8a492213a26c0f172988b0c0843dfde" }
+reth-provider = { git = "https://github.com/Davidfastferrari/reth", package = "reth-provider", rev = "09f39b62a8a492213a26c0f172988b0c0843dfde" }
 
 # Other utilities
 rayon = "1.0.0"
