@@ -1,12 +1,10 @@
-use tracing::{info, error, debug, warn};
+use tracing::{i nfo, debug, warn };
 use alloy::sol;
-use alloy_sol_types::sol;
-use serde::{Serialize, Deserialize};
+use serde::{ Serialize, Deserialize };
 use serde_json::json;
 use alloy::network::Network;
 use alloy::primitives::Address;
-use alloy::providers::ext::DebugApi;
-use alloy::providers::Provider;
+use alloy::providers::ext::{ DebugApi, Provider };
 use alloy::rpc::types::trace::{common::TraceResult, geth::*};
 use alloy::rpc::types::BlockNumberOrTag;
 use alloy::transports::Transport;
