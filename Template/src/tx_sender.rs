@@ -14,7 +14,6 @@ use alloy::rpc::types::TransactionRequest;
 use alloy_signer_wallet::LocalWallet;
 use alloy_signer::local::PrivateKeySigner;
 use alloy_signer::k256::SecretKey;
-use alloy_sol_types::SolCall,sol;
 use alloy_transports_http::{Http, Client as AlloyClient};
 use tokio::sync::mpsc::{Sender, Receiver}; 
 use log::info;
