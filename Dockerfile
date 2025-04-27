@@ -1,5 +1,5 @@
 # Stage 1 - Build
-FROM rust:1.77-slim-buster as builder
+FROM rust:1.70+ as builder
 
 WORKDIR /usr/src/Template
 
