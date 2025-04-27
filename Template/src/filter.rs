@@ -223,7 +223,7 @@ async fn filter_by_swap(
 
         // Insert fake balances
         for (token, slot) in [(pool.token0_address(), slot0), (pool.token1_address(), slot1)] {
-            nodedb.insert_account_storage(token, slot.into(), FAKE_TOKEN_AMOUNT, InsertionType::OnChain)
+            nodedb.insert_account_storage(token, slot.into(), *FAKE_TOKEN_AMOUNT, InsertionType::OnChain)
                 .map_err(|e| anyhow::anyhow!("Failed to insert account storage: {}", e))?;
         }
 
@@ -239,7 +239,7 @@ async fn filter_by_swap(
         for token in [pool.token0_address(), pool.token1_address()] {
             evm.tx_mut().data = approveCall {
                 spender: router,
-                amount: FAKE_TOKEN_AMOUNT,
+                amount: *FAKE_TOKEN_AMOUNT,
             }
             .abi_encode()
             .into();
