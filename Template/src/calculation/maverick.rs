@@ -1,13 +1,14 @@
-use super::Calculator;
 use tracing::{info, debug, warn};
 use alloy::sol;
-use alloy::sol_types::SolCall; // ✅ Correct
+use alloy::sol_types::SolCall;
 use serde::{Serialize, Deserialize};
 use serde_json::json;
 use alloy::primitives::{address, Address, U256};
 use revm::primitives::{ExecutionResult, TransactTo};
 use revm::Evm;
-use log::{warn, debug, info};
+use log::{info, debug, warn};
+
+use super::Calculator;
 
 sol! {
     #[sol(rpc)]
