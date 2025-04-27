@@ -4,7 +4,7 @@ use std::{
     time::Duration,
 };
 use tracing::{info, error, debug, warn};
-use alloy_sol_types::sol;
+use alloy::sol;
 use serde::{Serialize, Deserialize};
 use serde_json::json;
 use alloy::primitives::U256;
