@@ -1,27 +1,22 @@
 use tracing::{info, debug, warn};
 use alloy::sol;
-use alloy::sol_types::SolCall; // ✅ Correct
+use alloy::sol_types::SolCall;
 use serde::{Serialize, Deserialize};
 use serde_json::json;
 use alloy::network::Network;
 use alloy::primitives::{Address, BlockNumber, B256, U256};
 use alloy::providers::Provider;
-use alloy::rpc::types::{BlockId};
+use alloy::rpc::types::BlockId;
 use alloy::rpc::types::trace::geth::AccountState as GethAccountState;
-use alloy::transports::{Transport, TransportError};
+use alloy::transports::Transport;
 use anyhow::Result;
-use log::{debug, trace, warn};
 use pool_sync::{Pool, PoolInfo};
-use revm::{Database, DatabaseCommit, DatabaseRef};
+use revm::{Database, DatabaseCommit, DatabaseRef, Evm};
 use revm::db::AccountState;
 use revm::primitives::{Account, AccountInfo, Bytecode, Log, KECCAK_EMPTY};
 use std::collections::{HashMap, HashSet};
 use std::marker::PhantomData;
 use tokio::runtime::{Handle, Runtime};
-use revm::primitives::Account as RevmAccount;
-use revm::revm_database::alloydb::DBTransportError; // ✅ fix: valid DBErrorMarker implementor
-
-type Error = DBTransportError;
 
 // Handles either a current thread Handle or a dedicated Runtime
 #[derive(Debug)]
