@@ -5,9 +5,8 @@ use std::{
     },
     time::Duration,
 };
-use tokio::sync::mpsc::{ Sender, Receiver };
-use tokio::sync::mpsc:: broadcast;
-use tokio::signal;
+
+use tokio::sync::{broadcast, mpsc::{Sender, Receiver}};
 use alloy::providers::ProviderBuilder;
 use log::{info, error};
 use pool_sync::{Chain, Pool};
@@ -24,6 +23,7 @@ use crate::{
     stream::stream_new_blocks,
     tx_sender::TransactionSender,
 };
+
 
 /// Bootstraps the entire system: syncing, simulation, and arbitrage search
 pub async fn start_workers(pools: Vec<Pool>, last_synced_block: u64) {
