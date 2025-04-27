@@ -11,7 +11,6 @@ use alloy::network::Network;
 use alloy::primitives::{Address, U256};
 use alloy::providers::Provider;
 use alloy::transports::Transport;
-use log::{debug, info};
 use rayon::prelude::*;
 
 use crate::calculation::Calculator;
