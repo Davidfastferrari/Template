@@ -1,19 +1,17 @@
 use tracing::{info, debug, warn};
 use alloy::sol;
-use alloy::sol_types::SolCall; // ✅ Correct
+use alloy::sol_types::SolCall;
 use serde::{Serialize, Deserialize};
 use serde_json::json;
-use super::BlockStateDB;
 use alloy::network::Network;
 use alloy::primitives::{Address, U256};
 use alloy::providers::Provider;
 use alloy::transports::Transport;
-use lazy_static::lazy_static;
 use log::trace;
 use pool_sync::{Pool, PoolInfo};
 use revm::DatabaseRef;
 
-use crate::state_db::blockstate_db::{InsertionType, BlockStateDBSlot};
+use super::BlockStateDB;
 
 lazy_static! {
     // Uniswap V2 reserves are stored as two packed U112 values
