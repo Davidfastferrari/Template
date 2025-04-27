@@ -1,18 +1,15 @@
 use tracing::{info, debug, warn};
-use alloy::sol;
-use alloy::sol_types::SolCall;
 use serde::{Serialize, Deserialize};
 use serde_json::json;
-use alloy::network::Network;
+use alloy::sol;
+use alloy_sol_types::SolCall;
 use alloy::primitives::Address;
-use alloy::providers::ext::{DebugApi, Provider};
-use alloy::rpc::types::trace::{common::TraceResult, geth::*};
-use alloy::rpc::types::BlockNumberOrTag;
-use alloy::transports::Transport;
+use alloy::providers::Provider;
+use alloy_rpc_types::trace::{common::TraceResult, geth::*};
+use alloy_rpc_types::BlockNumberOrTag;
 use std::collections::BTreeMap;
 use std::sync::Arc;
 
-/// # Returns:
 /// Vector of address-to-account-state maps representing post-trace changes.
 pub async fn debug_trace_block<N>(
     client: Arc<impl DebugApi<N> + Send + Sync>,
