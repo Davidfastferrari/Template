@@ -1,6 +1,7 @@
 use super::Calculator;
-use tracing::{info, error, debug, warn};
+use tracing::{info, debug, warn};
 use alloy::sol;
+use alloy::sol_types::SolCall; // ✅ Correct
 use serde::{Serialize, Deserialize};
 use serde_json::json;
 use alloy::primitives::{address, Address, U256};
