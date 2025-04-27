@@ -125,7 +125,7 @@ trevm = "0.20.10"
 mevlog = "0.4.1"
 arbiter-derive = "0.1.3"
 revm-interpreter = "18.0.0"
-revm-precompile = "19.0.0"
+
 revm-primitives = "18.0.0"
 revm-state = "3.0.0"
 revm-database = "3.0.0"
