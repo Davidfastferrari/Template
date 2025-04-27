@@ -20,7 +20,7 @@ COPY . .
 
 # Build your project in release mode
 RUN cargo fetch
-RUN cargo fix `--allow-no-vcs
+RUN cargo fix --allow-no-vcs
 RUN cargo clippy
 RUN cargo build --release
 
