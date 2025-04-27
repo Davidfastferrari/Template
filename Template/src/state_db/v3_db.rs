@@ -1,12 +1,11 @@
 use tracing::{info, error, debug, warn};
-use alloy_sol_types::sol;
+use alloy::sol;
 use serde::{Serialize, Deserialize};
 use serde_json::json;
 use super::BlockStateDB;
 use alloy::network::Network;
 use alloy::primitives::{keccak256, Address, Signed, Uint, I256, U160, U256};
 use alloy::providers::Provider;
-use alloy::sol;
 use alloy::transports::Transport;
 use anyhow::Result;
 use lazy_static::lazy_static;
