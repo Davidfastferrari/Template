@@ -1,10 +1,9 @@
 use super::Calculator;
 use tracing::{info, error, debug, warn};
-use alloy_sol_types::sol;
+use alloy::sol;
 use serde::{Serialize, Deserialize};
 use serde_json::json;
 use alloy::primitives::{address, Address, U256};
-use alloy::sol_types::{SolCall, SolValue};
 use revm::primitives::{ExecutionResult, TransactTo};
 use revm::Evm;
 use log::{warn, debug, info};
