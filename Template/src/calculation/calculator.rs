@@ -1,6 +1,6 @@
-use tracing::{info, error, debug, warn};
+use tracing::{info, debug, warn, error};
 use alloy::sol;
-use alloy::sol_types::SolCall; // ✅ Correct
+use alloy::sol_types::SolCall;
 use serde::{Serialize, Deserialize};
 use serde_json::json;
 use alloy::network::Network;
@@ -10,7 +10,6 @@ use alloy::transports::Transport;
 use pool_sync::PoolType;
 use std::collections::HashSet;
 use std::sync::Arc;
-use revm::revm_database::alloydb::DBTransportError; // ✅ fix: valid DBErrorMarker implementor
 
 use crate::cache::Cache;
 use crate::market_state::MarketState;
