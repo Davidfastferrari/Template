@@ -6,36 +6,31 @@ use std::{
     },
     time::Instant,
 };
-use alloy::{
-    network::Network,
-    primitives::{address, Address, U256},
-    providers::{Provider, ProviderBuilder, keccak256, AccountInfo, Bytecode, TransactTo},
-    rpc::types::BlockNumberOrTag,
-    transports::Transport,
-};
+
 use tracing::{info, debug, warn};
-use alloy::sol;
-use alloy::sol_types::SolCall;
 use serde::{Serialize, Deserialize};
 use serde_json::json;
-use anyhow::Context;
-use alloy_transports_http::{Client, Http};
-use anyhow::Result;
-use pool_sync::{Pool, PoolInfo};
-use tokio::sync::{mpsc::{Sender, Receiver}, RwLock};
-use revm::Evm;
-use tokio::sync::broadcast;
-use tokio::sync::mpsc::{Sender, Receiver};
-use alloy::providers::HttpClient;
-use alloy::signers::wallet::EthereumWallet;
+use anyhow::{Context, Result};
+use tokio::sync::{mpsc::{Sender, Receiver}, RwLock, broadcast};
+use uniswap_v3_math::{tick_math, swap_math, tick_bitmap};
 
+use alloy::network::Network;
+use alloy::primitives::{address, Address, U256};
+use alloy::providers::{Provider, ProviderBuilder};
+use alloy_rpc_types::BlockNumberOrTag;
+use alloy_transport_http::{Client, Http};
+
+use revm::{Evm, primitives::{AccountInfo, Bytecode, ExecutionResult, TransactTo}};
+use revm_inspectors::access_list::AccessListInspector;
+
+use pool_sync::{Pool, PoolInfo};
 
 use crate::{
     events::Event,
     gen::{ERC20Token, FlashQuoter},
     state_db::{BlockStateDB, InsertionType},
     tracing::debug_trace_block,
-    gen::AMOUNT,
+    constants::AMOUNT,
 };
 
 // State manager for live blockchain pool information
