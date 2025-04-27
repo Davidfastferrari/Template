@@ -1,25 +1,26 @@
 use tracing::{info, debug, warn};
-use alloy::sol;
-use alloy::sol_types::SolCall;
-use serde::{ Serialize, Deserialize };
+use serde::{Serialize, Deserialize};
 use serde_json::json;
-use std::collections::{ HashMap, HashSet };
+use std::collections::{HashMap, HashSet};
 use std::sync::Arc;
 use std::time::Instant;
-use tokio::sync::mpsc::{ Sender, Receiver }; // correct version!
+use tokio::sync::mpsc::{Sender, Receiver};
+use rayon::prelude::*;
+use std::str::FromStr;
+
+use alloy::sol;
+use alloy_sol_types::SolCall;
 use alloy::network::Network;
 use alloy::primitives::{Address, U256};
 use alloy::providers::Provider;
-use alloy::transports::Transport;
-use rayon::prelude::*;
 
 use crate::calculation::Calculator;
 use crate::estimator::Estimator;
 use crate::events::Event;
 use crate::market_state::MarketState;
 use crate::swap::SwapPath;
-use crate::main::AMOUNT;
-use std::str::FromStr;
+use crate::constants::AMOUNT;
+
 
 /// Top-level search engine for arbitrage cycles
 pub struct Searchoor<N, P>
