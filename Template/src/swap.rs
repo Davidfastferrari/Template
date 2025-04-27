@@ -1,7 +1,7 @@
-use tracing::{info, error, debug, warn};
+use tracing::{info, debug, warn};
 use serde::{Deserialize, Serialize};
 use crate::gen::{FlashQuoter, FlashSwap};
-use crate::AMOUNT;
+use crate::main::AMOUNT;
 use alloy::primitives::Address;
 use pool_sync::PoolType;
 use std::convert::From;
