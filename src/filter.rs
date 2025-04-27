@@ -210,8 +210,8 @@ async fn filter_by_swap(
     slot_map: HashMap<Address, FixedBytes<32>>,
 ) -> Result<Vec<Pool>> {
     let mut filtered = Vec::with_capacity(pools.len());
-    let db_path = std::env::var("DB_PATH").expect("DB_PATH must be set");
-    let mut nodedb = NodeDB::new(&db_path).expect("Failed to open NodeDB");
+
+     let nodedb = NodeDB::open("./node_db.rs")?;
 
     for pool in pools {
         let (router, swap_type) = match resolve_router_and_type(pool.pool_type()) {
@@ -231,7 +231,7 @@ async fn filter_by_swap(
         }
 
         let mut evm = InspectEvm::builder()
-            .with_db(&mut nodedb)
+            .with_db(& nodedb)
             .modify_tx_env(|tx| {
                 tx.caller = SIMULATED_ACCOUNT;
                 tx.value = U256::ZERO;
