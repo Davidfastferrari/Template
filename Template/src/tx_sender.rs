@@ -1,4 +1,4 @@
-use tracing::{info, debug, warn};
+use tracing::{info, debug};
 use alloy::sol;
 use alloy::sol_types::SolCall;
 use serde::{ Serialize, Deserialize };
@@ -14,7 +14,6 @@ use alloy_signer::local::PrivateKeySigner;
 use alloy_signer::k256::SecretKey;
 use alloy_transports_http::{Http, Client as AlloyClient};
 use tokio::sync::mpsc::{Sender, Receiver}; 
-use log::info;
 use reqwest::Client;
 use serde_json::Value;
 use std::str::FromStr;
