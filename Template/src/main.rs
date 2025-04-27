@@ -37,6 +37,7 @@ mod tests;
 mod tracing;
 mod tx_sender;
 mod history_db;
+mod node_db;
 pub mod constants;
 
 
