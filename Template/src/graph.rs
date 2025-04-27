@@ -1,15 +1,18 @@
+use std::collections::HashSet;
+use std::hash::{Hash, Hasher, DefaultHasher};
+
 use alloy::primitives::Address;
 use alloy::sol;
 use alloy::sol_types::SolCall;
 use petgraph::graph::UnGraph;
 use petgraph::prelude::*;
+
 use pool_sync::{BalancerV2Pool, CurveTriCryptoPool, Pool};
-use std::collections::HashSet;
-use std::hash::{Hash, Hasher, DefaultHasher};
 
 use crate::swap::{SwapPath, SwapStep};
 
 pub struct ArbGraph;
+
 
 impl ArbGraph {
     /// Generate arbitrage cycles using known pools
