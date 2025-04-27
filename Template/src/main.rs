@@ -3,18 +3,18 @@ use std::{
     sync::RwLock,
     time::Duration,
 };
+
 use tracing::{info, debug, warn};
-use alloy::sol;
-use alloy::sol_types::SolCall;
-use serde::{ Serialize, Deserialize };
+use serde::{Serialize, Deserialize};
 use serde_json::json;
-use alloy::primitives::U256;
 use anyhow::Result;
-use ignition::start_workers;
-use lazy_static::lazy_static;
-use log::{info, LevelFilter};
 use once_cell::sync::Lazy;
 use pool_sync::{Chain, PoolSync, PoolType};
+use alloy::sol;
+use alloy_sol_types::SolCall;
+use alloy::primitives::U256;
+use ignition::start_workers;
+use log::LevelFilter;
 
 mod bytecode;
 mod cache;
@@ -38,12 +38,9 @@ mod tracing;
 mod tx_sender;
 mod history_db;
 
-/// $100,000 in USD base units
 pub const AMOUNT_USD: u64 = 100_000;
-
-/// Global U256 value representing the input amount in base units (used across modules)
-//pub static AMOUNT: Lazy<RwLock<U256>> = Lazy::new(|| RwLock::new(U256::ZERO));
 pub static AMOUNT: Lazy<RwLock<U256>> = Lazy::new(|| RwLock::new(U256::from(1_000_000_000_000_000_000u128)));
+
 
 /// Token decimals map to convert $100k into base units
 pub static TOKEN_DECIMALS: Lazy<HashMap<&'static str, u8>> = Lazy::new(|| {
