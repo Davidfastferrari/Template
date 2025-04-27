@@ -21,7 +21,6 @@ dependencies = [
  "alloy-json-rpc 0.15.6",
  "alloy-network-primitives 0.15.6",
  "alloy-node-bindings",
- "alloy-primitives 1.0.0",
  "alloy-pubsub 0.15.6",
  "alloy-rlp",
  "alloy-rlp-derive",
