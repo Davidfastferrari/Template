@@ -1,42 +1,34 @@
-# -------- STAGE 1: BUILD --------
-FROM rust:1.86.0 as builder
+# Stage 1 - Build
+FROM rust:1.77-slim-buster as builder
 
-WORKDIR /app
+WORKDIR /usr/src/Template
 
-RUN apt-get update && apt-get install -y \
-    clang \
-    llvm-dev \
-    libclang-dev \
-    pkg-config \
-    build-essential \
-    cmake \
-    curl \
-    git \
-    ca-certificates \
- && rm -rf /var/lib/apt/lists/*
+# Install minimal required system tools
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    pkg-config libssl-dev build-essential clang cmake git && \
+    rm -rf /var/lib/apt/lists/*
 
-# 👇 Match the inner Template folder
-# Copy the actual crate code into /app/Template
-# COPY Template/ ./Template/
+# Cache dependencies early
+COPY Cargo.toml Cargo.lock .
+COPY src ./src
+COPY benches ./benches
+COPY abi ./abi
+COPY calculation ./calculation
+COPY state_db ./state_db
 
-COPY . .
-
-# Move into the actual Rust project directory
-WORKDIR /app/Template
-
+# Build your project in release mode
 RUN cargo build --release
 
-# -------- STAGE 2: RUNTIME --------
-FROM debian:bookworm-slim
+# Stage 2 - Minimal Runtime
+FROM debian:buster-slim
 
-RUN apt-get update && apt-get install -y \
-    libssl3 \
-    ca-certificates \
- && rm -rf /var/lib/apt/lists/*
+# Install only runtime dependencies
+RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# Copy the final built binary
-COPY --from=builder /app/Template/target/release/Template .
+# Copy compiled binary
+COPY --from=builder /usr/src/Template/target/release/Template .
 
-CMD ["./Template"]
+# Define binary entrypoint
+ENTRYPOINT ["./Template"]
