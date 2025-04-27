@@ -1,13 +1,13 @@
-use tokio::sync::mpsc::{Sender, Receiver}; // async Sender/Receiver!
+use tokio::sync::mpsc::{Sender, Receiver};
+use tracing::{info, debug, warn};
+use serde::{Serialize, Deserialize};
+use serde_json::json;
 use uniswap_v3_math::{tick_math, swap_math, tick_bitmap};
 use alloy::sol;
-use alloy::sol_types::SolCall;
-use tracing::{info, debug, warn};
-use alloy_sol_types::sol;
-use serde::{ Serialize, Deserialize };
-use serde_json::json;
+use alloy_sol_types::SolCall;
 use alloy::network::Ethereum;
-use alloy::providers::HttpClient;
+use alloy::providers::RootProvider;
+use alloy_transport_http::{Http, Client as AlloyClient};
 use alloy::primitives::U256;
 
 use std::collections::HashSet;
@@ -19,7 +19,8 @@ use crate::events::Event;
 use crate::market_state::MarketState;
 use crate::simulator::Quoter;
 use crate::calculator::Calculator;
-use crate::main::AMOUNT;
+use crate::constants::AMOUNT;
+
 
 /// Simulates arbitrage paths passed from the searcher and sends viable ones to the tx sender.
 pub async fn simulate_paths(
