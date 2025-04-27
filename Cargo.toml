@@ -39,17 +39,20 @@ uniswap-v3-sdk = "4.3.0"
 chrono = "0.4.38"
 
 # Alloy (Ethereum Types, EIPs, Primitives, etc.)
+
 alloy = { version = "0.14.0", features = ["full"] }
+alloy-primitives = { version = "1.0.0", features = ["std"], default-features = false }
+alloy-sol-types = { version = "0.4.2", features = ["std"] }
+alloy-transport-http = { version = "0.4.2", features = ["reqwest"] }
+alloy-signer = "0.1.0"
 alloy-eip5792 = "0.15.6"
 alloy-eip7547 = "0.15.6"
 alloy-hardforks = "0.2.0"
 alloy-genesis = "0.15.6"
 alloy-node-bindings = "0.15.6"
-alloy-sol-types = "1.0.0"
 alloy-rpc-client = "0.15.6"
 alloy-rpc-types = "0.15.6"
 alloy-rpc-trace-types = "0.0.0-reserved"
-alloy-primitives = "1.0.0"
 alloy-rpc-types-engine = "0.15.6"
 alloy-sol-macro = "1.0.0"
 alloy-sol-macro-input = "1.0.0"
@@ -63,7 +66,6 @@ alloy-signer-local = "0.15.6"
 alloy-rpc-types-any = "0.15.6"
 alloy-rpc-types-debug = "0.15.6"
 alloy-rpc-types-txpool = "0.15.6"
-alloy-signer = "0.1.0"
 alloy-core = "1.0.0"
 alloy-sol-type-parser = "1.0.0"
 alloy-transport = "0.15.6"
@@ -89,7 +91,6 @@ serde_derive = "1.0.197"
 thiserror = "1.0.50"
 
 # Alloy additional crates (sol-types + http transports)
-alloy-transport-http = { version = "0.4.2", features = ["reqwest"] }
 alloy-transport-ws = "0.15.6"
 alloy-transport-ipc = "0.15.6"
 
