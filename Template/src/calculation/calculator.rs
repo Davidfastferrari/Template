@@ -1,5 +1,6 @@
 use tracing::{info, error, debug, warn};
 use alloy::sol;
+use alloy::sol_types::SolCall; // ✅ Correct
 use serde::{Serialize, Deserialize};
 use serde_json::json;
 use alloy::network::Network;
@@ -14,7 +15,7 @@ use revm::revm_database::alloydb::DBTransportError; // ✅ fix: valid DBErrorMar
 use crate::cache::Cache;
 use crate::market_state::MarketState;
 use crate::swap::{SwapPath, SwapStep};
-use crate::AMOUNT;
+use crate::main::AMOUNT;
 
 pub fn uniswap_v2_out(&self, input: U256, pool: &Address, token: &Address, fee: U256) -> U256 {
     // TODO: Actual implementation
