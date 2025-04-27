@@ -1,7 +1,7 @@
 [package]
 name = "Template"
 version = "0.1.0"
-edition = "2024"
+edition = "2021"
 
 [[bin]]
 name = "Template"
@@ -39,49 +39,12 @@ uniswap-v3-sdk = "4.3.0"
 chrono = "0.4.38"
 
 # Alloy (Ethereum Types, EIPs, Primitives, etc.)
-
 alloy = { version = "0.14.0", features = ["full"] }
-alloy-sol-types = { version = "0.4.2", features = ["std"] }
-alloy-transport-http = { version = "0.4.2", features = ["reqwest"] }
+alloy-consensus = "0.14.0"
+alloy-eips = "0.14.0"
+alloy-primitives = "1.0.0"
+alloy-network = "0.14.0"
 alloy-signer = "0.1.0"
-alloy-eip5792 = "0.15.6"
-alloy-eip7547 = "0.15.6"
-alloy-hardforks = "0.2.0"
-alloy-genesis = "0.15.6"
-alloy-node-bindings = "0.15.6"
-alloy-rpc-client = "0.15.6"
-alloy-rpc-types = "0.15.6"
-alloy-rpc-trace-types = "0.0.0-reserved"
-alloy-rpc-types-engine = "0.15.6"
-alloy-sol-macro = "1.0.0"
-alloy-sol-macro-input = "1.0.0"
-alloy-json-abi = "1.0.0"
-alloy-json-rpc = "0.15.6"
-alloy-chains = "0.2.0"
-alloy-rpc-types-mev = "0.15.6"
-alloy-rpc-types-eth = "0.15.6"
-alloy-rpc-types-trace = "0.15.6"
-alloy-signer-local = "0.15.6"
-alloy-rpc-types-any = "0.15.6"
-alloy-rpc-types-debug = "0.15.6"
-alloy-rpc-types-txpool = "0.15.6"
-alloy-core = "1.0.0"
-alloy-primitives = { version = "1.0.0", features = ["std"], default-features = false }
-alloy-sol-type-parser = "1.0.0"
-alloy-transport = "0.15.6"
-syn-solidity = "1.0.0"
-alloy-sol-macro-expander = "1.0.0"
-alloy-pubsub = "0.15.6"
-alloy-compat = "0.2.0"
-alloy-abi = "0.1.0"
-alloy-signer-wallet = "0.0.0-reserved"
-alloy-rlp = "0.3.11"
-alloy_serde_macro = "0.1.2"
-alloy-contract = "0.15.6"
-alloy-evm = "0.6.0"
-alloy-network-primitives = "0.15.6"
-alloy-rlp-derive = "0.3.11"
-alloy-u256-literal = "0.1.0"
 enr = "0.13.0"
 zerocopy = "0.8.25-alpha.3"
 # Macro, Logging, Error handling
@@ -91,31 +54,22 @@ serde_derive = "1.0.197"
 thiserror = "1.0.50"
 
 # Alloy additional crates (sol-types + http transports)
-alloy-transport-ws = "0.15.6"
-alloy-transport-ipc = "0.15.6"
+alloy-sol-types = { version = "0.4.2", features = ["std"] }
+alloy-transport-http = { version = "0.4.2", features = ["reqwest"] }
 
 # REVM + Precompile Logic
-revm = "22.0.1"
-revm-context = "3.0.1"
-revm-context-interface = "3.0.0"
-revm-inspector = "3.0.1"
-revm-statetest-types = "3.0.1"
-revm-bytecode = "3.0.0"
-revm-specification = "1.0.0-alpha.1"
-revme = "4.0.2"
-revm-state = "3.0.0"
-revm-database = "3.0.0"
-revm-database-interface = "3.0.0"
+revm = { version = "22.0.1", features = ["alloydb"] }
+revm-inspectors = "0.19.1"
 
 # Reth Crates
-reth = { git = "https://github.com/Davidfastferrari/reth", package = "reth", rev = "09f39b62a8a492213a26c0f172988b0c0843dfde" }
-reth-db = { git = "https://github.com/Davidfastferrari/reth", package = "reth-db", rev = "09f39b62a8a492213a26c0f172988b0c0843dfde" }
-reth-node-ethereum = { git = "https://github.com/Davidfastferrari/reth", package = "reth-node-ethereum", rev = "09f39b62a8a492213a26c0f172988b0c0843dfde" }
-reth-chainspec = { git = "https://github.com/Davidfastferrari/reth", package = "reth-chainspec", rev = "09f39b62a8a492213a26c0f172988b0c0843dfde" }
-reth-provider = { git = "https://github.com/Davidfastferrari/reth", package = "reth-provider", rev = "09f39b62a8a492213a26c0f172988b0c0843dfde" }
+reth = { git = "https://github.com/paradigmxyz/reth", package = "reth", rev = "6f8e725" }
+reth-db = { git = "https://github.com/paradigmxyz/reth", package = "reth-db", rev = "6f8e725" }
+reth-node-ethereum = { git = "https://github.com/paradigmxyz/reth", package = "reth-node-ethereum", rev = "6f8e725" }
+reth-chainspec = { git = "https://github.com/paradigmxyz/reth", package = "reth-chainspec", rev = "6f8e725" }
+reth-provider = { git = "https://github.com/paradigmxyz/reth", package = "reth-provider", rev = "6f8e725" }
 
 # Other utilities
-rayon = "1.0.0"
+rayon = "1.10.0"
 petgraph = "0.8.1"
 dashmap = "6.1.0"
 foldhash = "0.1.3"
