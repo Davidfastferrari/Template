@@ -3,9 +3,9 @@ use std::{
     sync::RwLock,
     time::Duration,
 };
-use tracing::{info, error, debug, warn};
+use tracing::{info, debug, warn};
 use alloy::sol;
-use serde::{Serialize, Deserialize};
+use serde::{ Serialize, Deserialize };
 use serde_json::json;
 use alloy::primitives::U256;
 use anyhow::Result;
