@@ -1,5 +1,4 @@
 use tracing::{info, debug, warn, error};
-use alloy::sol;
 use alloy::sol_types::SolCall;
 use serde::{Serialize, Deserialize};
 use serde_json::json;
@@ -69,7 +68,16 @@ where
 
 /// Perform output amount calculation for a given swap path
     #[inline(always)]
-    pub fn calculate_output(&self, path: &SwapPath) -> U256 {
+   pub fn compute_pool_output(
+    &self,
+    pool_addr: Address,
+    token_in: Address,
+    protocol: PoolType,
+    fee: u32,
+    input: U256,
+) -> U256 {
+ {
+    
         let mut amount = *AMOUNT;
         for swap_step in &path.steps {
             let pool_address = swap_step.pool_address;
@@ -95,6 +103,7 @@ where
                 return U256::ZERO;
             }
         }
+   self.compute_amount_out(input, pool_addr, token_in, protocol, fee)
 
         amount
     }
@@ -121,15 +130,15 @@ where
 
     /// Calculate pool output with arguments unwrapped from path logic
     pub fn compute_pool_output(
-        &self,
-        pool_addr: Address,
-        token_in: Address,
-        protocol: PoolType,
-        fee: u32,
-        input: U256,
-    ) -> U256 {
-        self.compute_amount_out(input, pool_addr, token_in, protocol, fee)
-    }
+    &self,
+    pool_addr: Address,
+    token_in: Address,
+    protocol: PoolType,
+    fee: u32,
+    input: U256,
+) -> U256 {
+    self.compute_amount_out(input, pool_addr, token_in, protocol, fee)
+}
 
     /// Main dispatcher for computing output amount based on AMM type
     pub fn compute_amount_out(
