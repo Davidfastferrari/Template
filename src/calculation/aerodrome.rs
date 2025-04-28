@@ -9,13 +9,13 @@ use alloy::providers::Provider;
 use alloy::transports::Transport;
 use once_cell::sync::Lazy;
 use std::collections::{HashMap, HashSet};
-use std::str::FromStr;
+use std::str::FromStr; // ✅ Make sure this is imported
 
 use super::Calculator;
 
+pub static INITIAL_AMT: Lazy<U256> = Lazy::new(|| U256::from_str("1000000000000000000").unwrap()); // ✅ fixed
 pub static WETH: Lazy<Address> = Lazy::new(|| Address::from_str("0x4200000000000000000000000000000000000006").unwrap());
 pub static USDC: Lazy<Address> = Lazy::new(|| Address::from_str("0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913").unwrap());
-pub static INITIAL_AMT: Lazy<U256> = Lazy::new(|| U256::from_dec_str("1000000000000000000").unwrap()); // 1 ETH
 
 // --- Aerodrome V2State contract
 sol! {
@@ -29,12 +29,14 @@ sol! {
     }
 }
 
+
 impl<N, P> Calculator<N, P>
 where
     N: Network,
-    P: Provider<N, P>,
+    P: Provider<N>, // ✅ FIXED
 {
-    pub fn aerodrome_out(&self, amount_in: U256, token_in: Address, pool_address: Address) -> U256 {
+
+pub fn aerodrome_out(&self, amount_in: U256, token_in: Address, pool_address: Address) -> U256 {
         let db = self.market_state.db.read().expect("DB read poisoned");
 
         let (reserve0, reserve1) = db.get_reserves(&pool_address);
@@ -129,8 +131,8 @@ where
 // === Extra Utility Functions ===
 
 /// Simulate a MEV sandwich attack on Aerodrome + Uniswap
-pub fn simulate_bundle_profit(
-    calculator: &Calculator,
+pub fn simulate_bundle_profit<N, P>(
+    calculator: &Calculator<N, P>,
     aerodrome_pool_address: Address,
     uniswap_pool_address: Address,
 ) -> U256 {
@@ -145,8 +147,8 @@ pub fn simulate_bundle_profit(
 }
 
 /// Example usage to print best route
-pub fn example_best_route(
-    calculator: &Calculator,
+pub fn ample_best_route<N, P>(
+    calculator: &Calculator<N, P>,
     initial_amt: U256,
     weth: Address,
     usdc: Address,
