@@ -1,4 +1,3 @@
-use alloy::sol;
 use alloy::sol_types::SolCall;
 use serde::{Serialize, Deserialize};
 use serde_json::json;
