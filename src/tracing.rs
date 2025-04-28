@@ -4,7 +4,7 @@ use serde_json::json;
 use alloy::alloy_sol_types::SolCall;
 use alloy::primitives::Address;
 use alloy::providers::Provider;
-use alloy_rpc_types::trace::{common::TraceResult, geth::*};
+use alloy_rpc_types::trace::{common::TraceResult, geth::GethDebugTracingOptions};
 use alloy_rpc_types::BlockNumberOrTag;
 use std::collections::BTreeMap;
 use std::sync::Arc;
