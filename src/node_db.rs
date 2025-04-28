@@ -19,7 +19,7 @@ impl NodeDB {
         Ok(Self { env })
     }
 
-    pub fn env(&self) -> &DatabaseEnv<WriteMap> {
+    pub fn env(&self) -> &DatabaseEnv<> {
         &self.env
     }
 }
