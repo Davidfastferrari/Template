@@ -1,8 +1,7 @@
 use tracing::{info, debug, warn};
 use serde::{Serialize, Deserialize};
 use serde_json::json;
-use alloy::sol;
-use alloy_sol_types::SolCall;
+use alloy::alloy_sol_types::SolCall;
 use alloy::primitives::Address;
 use alloy::providers::Provider;
 use alloy_rpc_types::trace::{common::TraceResult, geth::*};
